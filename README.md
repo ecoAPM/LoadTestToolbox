@@ -9,7 +9,7 @@ Obviously intended to be run on a different machine than the one being tested.
 
 Hammers on a specified site with a given range of simultaneous requests, and returns the average response time for each. Given:
 
-    hammer http://example.com/ 1 100
+    hammer http://example.com/ 1 100 chart.png
 
 Hammer will make 1 simultaneous request, then 2, then 3, and so forth, up to 100.
 
@@ -37,4 +37,4 @@ Hammer will give an output something like
     90: 71.7 ms
     100: 58.12 ms
 
-as it goes.
+as it does its thing, and will then produce a [nice-ish](https://github.com/stevedesmond-ca/LoadTestToolbox/issues/1) chart upon completion.
