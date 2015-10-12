@@ -19,7 +19,7 @@ namespace LoadTest.Hammer
                     list.Add(x);
             }
 
-            if(list.Last() < max)
+            if (list.Last() < max)
                 list.Add(max);
 
             return list;

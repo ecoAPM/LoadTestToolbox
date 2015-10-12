@@ -3,7 +3,6 @@ using System.Net;
 
 namespace LoadTest.Hammer
 {
-
     class Worker
     {
         private readonly Uri url;
