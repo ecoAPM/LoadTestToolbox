@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Net;
 using System.Threading;
 
-namespace LoadTest
+namespace LoadTest.Hammer
 {
     public class Runner
     {

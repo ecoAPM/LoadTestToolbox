@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace LoadTest
+namespace LoadTest.Hammer
 {
 
     class Worker

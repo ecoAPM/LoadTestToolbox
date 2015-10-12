@@ -7,8 +7,8 @@
     <ProjectGuid>{385E4814-EDC5-47E8-9067-68857F5CE8C4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LoadTest</RootNamespace>
-    <AssemblyName>LoadTest</AssemblyName>
+    <RootNamespace>LoadTest.Hammer</RootNamespace>
+    <AssemblyName>Hammer</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HardwareStore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runner.cs" />
