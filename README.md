@@ -3,13 +3,19 @@ Lightweight tools for load testing web applications, written in C#
 
 As with everything, these tools should be used only for good!
 
+Obviously intended to be run on a different machine than the one being tested.
+
 ## Hammer
 
-Hammers on a specified site with a given range of simultaneous requests, and returns the average response time for each
+Hammers on a specified site with a given range of simultaneous requests, and returns the average response time for each. Given:
 
     hammer http://example.com/ 1 100
 
-will give an output something like 
+Hammer will make 1 simultaneous request, then 2, then 3, and so forth, up to 100.
+
+Hammer is smart about orders of magnitude, so from 10 to 100, it will step up 10 requests at a time (10, 20, 30, etc.); step 100 for 100 to 1000 simultaneous requests (100, 200, ..., 1000); and so forth.
+
+Hammer will give an output something like 
 
     1: 31.24 ms
     2: 7.81 ms
@@ -30,3 +36,5 @@ will give an output something like
     80: 58.38 ms
     90: 71.7 ms
     100: 58.12 ms
+
+as it goes.
