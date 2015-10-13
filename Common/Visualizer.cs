@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace LoadTest.Visualizer
+namespace LoadTestToolbox.Common
 {
-    public static class Vizualizer
+    public static class Visualizer
     {
         public static void SaveChart(IDictionary<int, double> results, string filename)
         {
@@ -22,19 +21,7 @@ namespace LoadTest.Visualizer
             {
                 Size = new Size(800, 400),
                 Series = { series },
-                ChartAreas =
-                {
-                    new ChartArea
-                    {
-                        Name = "ResponseTimes",
-                        AxisX = new Axis
-                        {
-                            Minimum = 1,
-                            Maximum = results.Max(r => r.Key),
-                            IsLogarithmic = true
-                        }
-                    }
-                }
+                ChartAreas = { "ReponseTimes" }
             };
 
             chart.SaveImage(filename, ChartImageFormat.Png);

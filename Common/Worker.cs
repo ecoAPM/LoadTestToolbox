@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Net;
 
-namespace LoadTest.Hammer
+namespace LoadTestToolbox.Common
 {
-    class Worker
+    public class Worker
     {
         private readonly Uri url;
         public event EventHandler OnComplete;

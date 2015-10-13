@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using LoadTest.Visualizer;
+using LoadTestToolbox.Common;
 
-namespace LoadTest.Hammer
+namespace LoadTestToolbox.Hammer
 {
-    class Program
+    static class Program
     {
         private static Uri url;
 
@@ -28,13 +28,13 @@ namespace LoadTest.Hammer
                 var r = new Runner(url, Convert.ToInt32(x));
                 r.Run();
                 while (!r.Complete())
-                    Thread.Sleep(1);
+                    Thread.Sleep(10);
 
                 results.Add(x, r.Average);
                 Console.WriteLine(x + ": " + Math.Round(r.Average, 2) + " ms");
             }
 
-            Vizualizer.SaveChart(results, args[3]);
+            Visualizer.SaveChart(results, args[3]);
         }
     }
 }

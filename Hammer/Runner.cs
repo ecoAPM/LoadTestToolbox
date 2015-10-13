@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
+using LoadTestToolbox.Common;
 
-namespace LoadTest.Hammer
+namespace LoadTestToolbox.Hammer
 {
     public class Runner
     {
@@ -24,8 +25,7 @@ namespace LoadTest.Hammer
             {
                 var w = new Worker(url);
                 w.OnComplete += doMath;
-                var t = new Thread(w.Run);
-                t.Start();
+                new Thread(w.Run).Start();
             }
         }
 
