@@ -3,15 +3,17 @@ Lightweight tools for load testing web applications, written in C#
 
 As with everything, these tools should be used only for good!
 
-Obviously intended to be run on a different machine than the one being tested.
+Intended to be run on a different machine (ideally on the same LAN as) than the one being tested, these focus on server reponse time as the primary metric of performance.
 
 ## Hammer
 
-Hammers on a specified site with a given range of simultaneous requests, and returns the average response time for each. Given:
+Hammer helps measure load spikes by hammering on a specified site with a given range of simultaneous requests, and returns the average response time for each.
+
+Given:
 
     hammer http://example.com/ 1 100 chart.png
 
-Hammer will make 1 simultaneous request, then 2, then 3, and so forth, up to 100.
+hammer will make 1 simultaneous request, then 2, then 3, and so forth, up to 100.
 
 Hammer is smart about orders of magnitude, so from 10 to 100, it will step up 10 requests at a time (10, 20, 30, etc.); step 100 for 100 to 1000 simultaneous requests (100, 200, ..., 1000); and so forth.
 
@@ -38,3 +40,26 @@ Hammer will give an output something like
     100: 58.12 ms
 
 as it does its thing, and will then produce a [nice-ish](https://github.com/stevedesmond-ca/LoadTestToolbox/issues/1) chart upon completion.
+
+## Drill
+
+Drill helps measure long-term stability by constantly hitting a page at consistent intervals over a more extended period of time.
+
+Given:
+
+    drill http://example.com/ 500 10 chart.png
+    
+drill will make 500 requests per second (at consistent 20ms intervals) for 10 seconds, each second outputting the average response time for the last second
+
+    1: 77.91 ms
+    2: 51.02 ms
+    3: 9.37 ms
+    4: 11.78 ms
+    5: 9.76 ms
+    6: 10.61 ms
+    7: 115.06 ms
+    8: 126.69 ms
+    9: 96.69 ms
+    10: 71.15 ms
+    
+and creating a similar chart upon completion.
