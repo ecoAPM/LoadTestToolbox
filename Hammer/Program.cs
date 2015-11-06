@@ -13,7 +13,7 @@ namespace LoadTestToolbox.Hammer
         {
             if (args.Length != 4)
             {
-                Console.WriteLine("Usage: LoadTest {site} {min hammers} {max hammers} {graph output filename}");
+                Console.WriteLine("Usage: hammer {site} {min hammers} {max hammers} {graph output filename}");
                 return;
             }
 
@@ -25,13 +25,13 @@ namespace LoadTestToolbox.Hammer
             var results = new Dictionary<int, double>();
             foreach (var x in hammers)
             {
-                var r = new Runner(url, Convert.ToInt32(x));
-                r.Run();
-                while (!r.Complete())
-                    Thread.Sleep(10);
+                var runner = new Runner(url, x);
+                new Thread(runner.Run).Start();
+                while (!runner.Complete())
+                    Thread.Sleep(1);
 
-                results.Add(x, r.Average);
-                Console.WriteLine(x + ": " + Math.Round(r.Average, 2) + " ms");
+                results.Add(x, runner.Average);
+                Console.WriteLine(x + ": " + Math.Round(runner.Average, 2) + " ms");
             }
 
             Visualizer.SaveChart(results, args[3]);

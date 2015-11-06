@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 
 namespace LoadTestToolbox.Common
@@ -16,12 +17,14 @@ namespace LoadTestToolbox.Common
         public void Run()
         {
             var wc = new WebClient();
-            var start = DateTime.Now;
-            wc.DownloadString(url);
-            var end = DateTime.Now;
+            var timer = new Stopwatch();
 
-            var length = (end - start);
-            OnComplete?.Invoke(length.TotalMilliseconds, null);
+            timer.Start();
+            wc.DownloadString(url);
+            timer.Stop();
+
+            var ms = (double)timer.ElapsedTicks / TimeSpan.TicksPerMillisecond;
+            OnComplete?.Invoke(ms, null);
         }
     }
 }
