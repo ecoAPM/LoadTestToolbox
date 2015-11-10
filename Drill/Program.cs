@@ -33,16 +33,18 @@ namespace LoadTestToolbox.Drill
 
             while (!runner.Complete())
             {
-                if (DateTime.Now.Subtract(started).Seconds > previewed)
+                if (DateTime.Now.Subtract(started).Seconds > previewed && runner.Results.Any())
                 {
-                    var lastSecondOfResults = runner.Results.OrderByDescending(r => r.Key).Take(requestsPerSecond);
-                    var average = lastSecondOfResults.Average(r => r.Value);
+                    var lastSecondOfResults = runner.Results.Reverse().Take(requestsPerSecond);
+                    var average = lastSecondOfResults.Average();
                     Console.WriteLine(++previewed + ": " + Math.Round(average, 2) + " ms");
                 }
                 Thread.Sleep(1);
             }
 
-            Visualizer.SaveChart(runner.Results, args[3]);
+            var index = 0;
+            var results = runner.Results.ToDictionary(r => ++index, r => r);
+            results.SaveChart(args[3]);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace LoadTestToolbox.Drill
 {
     class Runner
     {
-        public readonly IDictionary<int, double> Results = new Dictionary<int, double>();
+        public readonly IList<double> Results = new List<double>();
 
         private readonly Uri url;
         private readonly int totalRequests;
@@ -47,7 +47,7 @@ namespace LoadTestToolbox.Drill
         private void addResult(object sender, EventArgs e)
         {
             var length = (double)sender;
-            Results.Add(Results.Count + 1, length);
+            Results.Add(length);
             Interlocked.Increment(ref done);
         }
 

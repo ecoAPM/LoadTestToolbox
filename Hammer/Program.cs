@@ -34,7 +34,7 @@ namespace LoadTestToolbox.Hammer
                 Console.WriteLine(x + ": " + Math.Round(runner.Average, 2) + " ms");
             }
 
-            Visualizer.SaveChart(results, args[3]);
+            results.SaveChart(args[3]);
         }
     }
 }
