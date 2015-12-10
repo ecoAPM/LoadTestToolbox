@@ -24,11 +24,11 @@ namespace LoadTestToolbox.Drill
 
         public void Run()
         {
-            var start = DateTime.Now;
+            var start = DateTime.UtcNow;
 
             while (WorkersStarted < totalRequests)
             {
-                if (start.Add(new TimeSpan((WorkersStarted + 1)*delay)) < DateTime.Now)
+                if (start.Add(new TimeSpan((WorkersStarted + 1)*delay)) < DateTime.UtcNow)
                     createWorker();
                 else
                     Thread.Sleep(1);

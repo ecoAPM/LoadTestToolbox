@@ -25,7 +25,7 @@ namespace LoadTestToolbox.Drill
             var delay = TimeSpan.TicksPerSecond / requestsPerSecond;
             var totalRequests = requestsPerSecond * duration;
 
-            var started = DateTime.Now;
+            var started = DateTime.UtcNow;
             var previewed = 0;
 
             var runner = new Runner(url, totalRequests, delay);
@@ -33,7 +33,7 @@ namespace LoadTestToolbox.Drill
 
             while (!runner.Complete())
             {
-                if (DateTime.Now.Subtract(started).Seconds > previewed && runner.Results.Any())
+                if (DateTime.UtcNow.Subtract(started).Seconds > previewed && runner.Results.Any())
                 {
                     var lastSecondOfResults = runner.Results.Reverse().Take(requestsPerSecond);
                     var average = lastSecondOfResults.Average();
