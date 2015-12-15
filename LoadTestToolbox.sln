@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hammer", "Hammer\Hammer.csproj", "{385E4814-EDC5-47E8-9067-68857F5CE8C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{2F81D866-7278-4305-A943-89DF628E609A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drill", "Drill\Drill.csproj", "{13453150-21DC-402A-8F79-532C13970B7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonTests", "CommonTests\CommonTests.csproj", "{0A96B76B-FC00-4CF3-A1A7-D3769A94453C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{13453150-21DC-402A-8F79-532C13970B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13453150-21DC-402A-8F79-532C13970B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13453150-21DC-402A-8F79-532C13970B7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A96B76B-FC00-4CF3-A1A7-D3769A94453C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A96B76B-FC00-4CF3-A1A7-D3769A94453C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A96B76B-FC00-4CF3-A1A7-D3769A94453C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A96B76B-FC00-4CF3-A1A7-D3769A94453C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
