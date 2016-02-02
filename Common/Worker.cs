@@ -16,15 +16,17 @@ namespace LoadTestToolbox.Common
 
         public void Run()
         {
-            var wc = new WebClient();
-            var timer = new Stopwatch();
+            using (var wc = new WebClient())
+            {
+                var timer = new Stopwatch();
 
-            timer.Start();
-            wc.DownloadString(url);
-            timer.Stop();
+                timer.Start();
+                wc.DownloadString(url);
+                timer.Stop();
 
-            var ms = (double)timer.ElapsedTicks / TimeSpan.TicksPerMillisecond;
-            OnComplete?.Invoke(ms, null);
+                var ms = (double)timer.ElapsedTicks / TimeSpan.TicksPerMillisecond;
+                OnComplete?.Invoke(ms, null);
+            }
         }
     }
 }
