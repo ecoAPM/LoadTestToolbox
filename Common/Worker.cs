@@ -21,7 +21,14 @@ namespace LoadTestToolbox.Common
                 var timer = new Stopwatch();
 
                 timer.Start();
-                wc.DownloadString(url);
+                try
+                {
+                    wc.DownloadString(url);
+                }
+                catch (WebException)
+                {
+                    // ignored
+                }
                 timer.Stop();
 
                 var ms = (double)timer.ElapsedTicks / TimeSpan.TicksPerMillisecond;
