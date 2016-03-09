@@ -31,8 +31,7 @@ namespace LoadTestToolbox.Common
                 }
                 timer.Stop();
 
-                var ms = (double)timer.ElapsedTicks / TimeSpan.TicksPerMillisecond;
-                OnComplete?.Invoke(ms, null);
+                OnComplete?.Invoke(timer.Elapsed.TotalMilliseconds, null);
             }
         }
     }
