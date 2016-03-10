@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net461": {
+      "wrappedProject": "../../Common/Common.csproj",
+      "bin": {
+        "assembly": "../../Common/obj/{configuration}/Common.dll",
+        "pdb": "../../Common/obj/{configuration}/Common.pdb"
+      }
+    }
+  }
+}
