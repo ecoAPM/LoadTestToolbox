@@ -6,11 +6,11 @@ using LoadTestToolbox.Common;
 
 namespace LoadTestToolbox.Drill
 {
-    static class Program
+    public static class Program
     {
         private static Uri url;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             if (args.Length != 4)
             {
