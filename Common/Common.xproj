@@ -6,8 +6,8 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>091935c1-cdbe-4d47-8d8a-9b377098178a</ProjectGuid>
-    <RootNamespace>LoadTestToolbox.Hammer</RootNamespace>
+    <ProjectGuid>7dc105d4-e86e-4438-a8c8-8f1c79248c38</ProjectGuid>
+    <RootNamespace>LoadTestToolbox.Common</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">..\artifacts\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">..\artifacts\bin\$(MSBuildProjectName)\</OutputPath>
   </PropertyGroup>
