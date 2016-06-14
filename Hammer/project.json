@@ -4,12 +4,15 @@
     "emitEntryPoint": true
   },
 
-  "dependencies": {
-    "Common": "1.0.0-*"
-  },
+  "dependencies": {  },
 
   "frameworks": {
     "net461": {
+      "dependencies": {
+        "LoadTestToolbox.Common": "1.0.0-*",
+        "LoadTestToolbox.Hammer": "1.0.0-*"
+      }
+
     }
   }
 }

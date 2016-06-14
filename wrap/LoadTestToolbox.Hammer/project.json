@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net452": {
+      "wrappedProject": "../../LoadTestToolbox.Hammer/LoadTestToolbox.Hammer.csproj",
+      "bin": {
+        "assembly": "../../LoadTestToolbox.Hammer/obj/{configuration}/LoadTestToolbox.Hammer.dll",
+        "pdb": "../../LoadTestToolbox.Hammer/obj/{configuration}/LoadTestToolbox.Hammer.pdb"
+      },
+      "dependencies": {
+        "LoadTestToolbox.Common": "1.0.0-*"
+      }
+    }
+  }
+}

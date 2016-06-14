@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using LoadTestToolbox.Common;
 
 namespace LoadTestToolbox.Drill
 {
-    public static class Program
+	public static class Program
     {
         private static Uri url;
 
@@ -28,7 +27,7 @@ namespace LoadTestToolbox.Drill
             var started = DateTime.UtcNow;
             var previewed = 0;
 
-            var runner = new Runner(url, totalRequests, delay);
+            var runner = new Drill(url, totalRequests, delay);
             new Thread(runner.Run).Start();
 
             while (!runner.Complete())

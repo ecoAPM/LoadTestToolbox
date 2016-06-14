@@ -25,7 +25,7 @@ namespace LoadTestToolbox.Hammer
             var results = new Dictionary<int, double>();
             foreach (var x in hammers)
             {
-                var runner = new Runner(url, x);
+                var runner = new Hammer(url, x);
                 new Thread(runner.Run).Start();
                 while (!runner.Complete())
                     Thread.Sleep(1);
@@ -33,8 +33,8 @@ namespace LoadTestToolbox.Hammer
                 results.Add(x, runner.Average);
                 Console.WriteLine(x + ": " + Math.Round(runner.Average, 2) + " ms");
             }
-
-            results.SaveChart(args[3]);
+			
+			results.SaveChart(args[3]);
         }
     }
 }

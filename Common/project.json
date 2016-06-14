@@ -13,6 +13,9 @@
           "System.Drawing": "4.0.0.0",
           "System.Windows.Forms": "4.0.0.0",
           "System.Windows.Forms.DataVisualization": "4.0.0.0"
+        },
+        "dependencies": {
+          "LoadTestToolbox.Common": "1.0.0-*"
         }
       }
     }
