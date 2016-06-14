@@ -10,6 +10,11 @@
 
   "frameworks": {
     "net461": {
+      "dependencies": {
+        "LoadTestToolbox.Common": "1.0.0-*",
+        "LoadTestToolbox.Drill": "1.0.0-*"
+      }
+
     }
   }
 }

@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net452": {
+      "wrappedProject": "../../LoadTestToolbox.Common/LoadTestToolbox.Common.csproj",
+      "bin": {
+        "assembly": "../../LoadTestToolbox.Common/obj/{configuration}/LoadTestToolbox.Common.dll",
+        "pdb": "../../LoadTestToolbox.Common/obj/{configuration}/LoadTestToolbox.Common.pdb"
+      }
+    }
+  }
+}

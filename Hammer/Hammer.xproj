@@ -14,5 +14,9 @@
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoadTestToolbox.Common\LoadTestToolbox.Common.csproj" />
+    <ProjectReference Include="..\LoadTestToolbox.Hammer\LoadTestToolbox.Hammer.csproj" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net452": {
+      "wrappedProject": "../../LoadTestToolbox.Drill/LoadTestToolbox.Drill.csproj",
+      "bin": {
+        "assembly": "../../LoadTestToolbox.Drill/obj/{configuration}/LoadTestToolbox.Drill.dll",
+        "pdb": "../../LoadTestToolbox.Drill/obj/{configuration}/LoadTestToolbox.Drill.pdb"
+      },
+      "dependencies": {
+        "LoadTestToolbox.Common": "1.0.0-*"
+      }
+    }
+  }
+}

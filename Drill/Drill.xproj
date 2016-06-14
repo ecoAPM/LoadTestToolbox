@@ -16,6 +16,8 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\LoadTestToolbox.Common\LoadTestToolbox.Common.csproj" />
+    <ProjectReference Include="..\LoadTestToolbox.Drill\LoadTestToolbox.Drill.csproj" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>
