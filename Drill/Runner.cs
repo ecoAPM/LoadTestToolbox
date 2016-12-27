@@ -28,7 +28,7 @@ namespace LoadTestToolbox.Drill
 
             while (WorkersStarted < totalRequests)
             {
-                if (start.Add(new TimeSpan((WorkersStarted + 1)*delay)) < DateTime.UtcNow)
+                if (start.Add(new TimeSpan((WorkersStarted + 1) * delay)) < DateTime.UtcNow)
                     createWorker();
                 else
                     Thread.Sleep(1);

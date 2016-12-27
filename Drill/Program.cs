@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using LoadTestToolbox.Common;
 
 namespace LoadTestToolbox.Drill
 {
@@ -12,9 +10,9 @@ namespace LoadTestToolbox.Drill
 
         public static void Main(string[] args)
         {
-            if (args.Length != 4)
+            if (args.Length != 3)
             {
-                Console.WriteLine("Usage: drill {site} {req/sec} {duration} {graph output filename}");
+                Console.WriteLine("Usage: drill {site} {req/sec} {duration}");
                 return;
             }
 
@@ -44,7 +42,6 @@ namespace LoadTestToolbox.Drill
 
             var index = 0;
             var results = runner.Results.ToDictionary(r => ++index, r => r);
-            results.SaveChart(args[3]);
         }
     }
 }
