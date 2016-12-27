@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using LoadTestToolbox.Common;
 
 namespace LoadTestToolbox.Hammer
 {
@@ -11,9 +10,9 @@ namespace LoadTestToolbox.Hammer
 
         static void Main(string[] args)
         {
-            if (args.Length != 4)
+            if (args.Length != 3)
             {
-                Console.WriteLine("Usage: hammer {site} {min hammers} {max hammers} {graph output filename}");
+                Console.WriteLine("Usage: hammer {site} {min hammers} {max hammers}");
                 return;
             }
 
@@ -34,7 +33,6 @@ namespace LoadTestToolbox.Hammer
                 Console.WriteLine(x + ": " + Math.Round(runner.Average, 2) + " ms");
             }
 
-            results.SaveChart(args[3]);
         }
     }
 }

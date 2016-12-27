@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Net;
+using System.Net.Http;
 
 namespace LoadTestToolbox.Common
 {
@@ -8,7 +8,6 @@ namespace LoadTestToolbox.Common
     {
         private readonly Uri url;
         public event EventHandler OnComplete;
-
         public Worker(Uri url)
         {
             this.url = url;
@@ -16,23 +15,24 @@ namespace LoadTestToolbox.Common
 
         public void Run()
         {
-            using (var wc = new WebClient())
-            {
-                var timer = new Stopwatch();
+            var timer = new Stopwatch();
 
-                timer.Start();
+            timer.Start();
+
+            using (HttpClient httpClient = new HttpClient())
+            {
                 try
                 {
-                    wc.DownloadString(url);
+                    httpClient.GetStringAsync(url).GetAwaiter().GetResult();
                 }
-                catch (WebException)
+                catch (Exception)
                 {
-                    // ignored
                 }
                 timer.Stop();
 
                 OnComplete?.Invoke(timer.Elapsed.TotalMilliseconds, null);
             }
+
         }
     }
 }
