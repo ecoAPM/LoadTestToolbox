@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Drill", "Drill\Drill.xproj", "{A0FB8CD1-A879-4440-8013-652B787FBBE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drill", "Drill\Drill.csproj", "{A0FB8CD1-A879-4440-8013-652B787FBBE2}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Hammer", "Hammer\Hammer.xproj", "{091935C1-CDBE-4D47-8D8A-9B377098178A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hammer", "Hammer\Hammer.csproj", "{091935C1-CDBE-4D47-8D8A-9B377098178A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Common", "Common\Common.xproj", "{7DC105D4-E86E-4438-A8C8-8F1C79248C38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{7DC105D4-E86E-4438-A8C8-8F1C79248C38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
