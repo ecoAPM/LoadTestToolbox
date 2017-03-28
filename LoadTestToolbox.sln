@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drill", "Drill\Drill.csproj", "{A0FB8CD1-A879-4440-8013-652B787FBBE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\Common\Common.csproj", "{F3B4D532-60D1-43CD-A193-B286ED4A8035}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hammer", "Hammer\Hammer.csproj", "{091935C1-CDBE-4D47-8D8A-9B377098178A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drill", "src\Drill\Drill.csproj", "{74173812-A061-4BC1-8196-E0F4A319EF95}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{7DC105D4-E86E-4438-A8C8-8F1C79248C38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hammer", "src\Hammer\Hammer.csproj", "{C557FE05-D66F-4D32-9C0A-CDEFB9BC33ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A0FB8CD1-A879-4440-8013-652B787FBBE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0FB8CD1-A879-4440-8013-652B787FBBE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0FB8CD1-A879-4440-8013-652B787FBBE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0FB8CD1-A879-4440-8013-652B787FBBE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{091935C1-CDBE-4D47-8D8A-9B377098178A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{091935C1-CDBE-4D47-8D8A-9B377098178A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{091935C1-CDBE-4D47-8D8A-9B377098178A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{091935C1-CDBE-4D47-8D8A-9B377098178A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DC105D4-E86E-4438-A8C8-8F1C79248C38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DC105D4-E86E-4438-A8C8-8F1C79248C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DC105D4-E86E-4438-A8C8-8F1C79248C38}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DC105D4-E86E-4438-A8C8-8F1C79248C38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3B4D532-60D1-43CD-A193-B286ED4A8035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3B4D532-60D1-43CD-A193-B286ED4A8035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3B4D532-60D1-43CD-A193-B286ED4A8035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3B4D532-60D1-43CD-A193-B286ED4A8035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74173812-A061-4BC1-8196-E0F4A319EF95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74173812-A061-4BC1-8196-E0F4A319EF95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74173812-A061-4BC1-8196-E0F4A319EF95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74173812-A061-4BC1-8196-E0F4A319EF95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C557FE05-D66F-4D32-9C0A-CDEFB9BC33ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C557FE05-D66F-4D32-9C0A-CDEFB9BC33ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C557FE05-D66F-4D32-9C0A-CDEFB9BC33ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C557FE05-D66F-4D32-9C0A-CDEFB9BC33ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
