@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LoadTestToolbox.Hammer
 {
-    static class HardwareStore
+    public static class HardwareStore
     {
         public static IEnumerable<int> GetHammers(int min, int max)
         {
