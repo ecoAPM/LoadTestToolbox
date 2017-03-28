@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drill", "src\Drill\Drill.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hammer", "src\Hammer\Hammer.csproj", "{C557FE05-D66F-4D32-9C0A-CDEFB9BC33ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hammer.Tests", "test\Hammer.Tests\Hammer.Tests.csproj", "{3F4784EE-FF9F-4968-8C46-54C409270792}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C557FE05-D66F-4D32-9C0A-CDEFB9BC33ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C557FE05-D66F-4D32-9C0A-CDEFB9BC33ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C557FE05-D66F-4D32-9C0A-CDEFB9BC33ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F4784EE-FF9F-4968-8C46-54C409270792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F4784EE-FF9F-4968-8C46-54C409270792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F4784EE-FF9F-4968-8C46-54C409270792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F4784EE-FF9F-4968-8C46-54C409270792}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
