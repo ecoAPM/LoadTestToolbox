@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Windows.Forms.DataVisualization.Charting;
 
 namespace LoadTestToolbox.Common
 {
@@ -20,7 +18,7 @@ namespace LoadTestToolbox.Common
             BorderWidth = 4,
             ChartType = SeriesChartType.Line,
             Name = "ResponseTime",
-            Points = { new DataPoint(0, 0) }
+            Points = new[] { new DataPoint(0, 0) }
         };
 
         private static Axis getXAxis(this IDictionary<int, double> results) => new Axis
@@ -71,8 +69,8 @@ namespace LoadTestToolbox.Common
         {
             var chart = new Chart
             {
-                ChartAreas = { results.getChartArea() },
-                Series = { results.getSeries() },
+                ChartAreas = new[] { results.getChartArea() },
+                Series = new[] { results.getSeries() },
                 Size = defaultSize
             };
             chart.Titles.Add(defaultTitle);
@@ -94,4 +92,125 @@ namespace LoadTestToolbox.Common
             chart.SaveImage(filename, ChartImageFormat.Png);
         }
     }
+
+    #region FullFXstubs
+    public class ChartImageFormat
+    {
+        public static object Png { get; set; }
+    }
+
+    internal class Chart
+    {
+        public ChartArea[] ChartAreas { get; set; }
+        public Series[] Series { get; set; }
+        public Size Size { get; set; }
+        public IList<Title> Titles { get; set; }
+
+        public void SaveImage(string filename, object png)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal class ChartArea
+    {
+        public ChartArea(string reponsetimes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Axis AxisX { get; set; }
+        public Axis AxisY { get; set; }
+    }
+
+    internal class TickMark
+    {
+        public Color LineColor { get; set; }
+    }
+
+    internal class Axis
+    {
+        public Grid MajorGrid { get; set; }
+        public TickMark MajorTickMark { get; set; }
+        public int Minimum { get; set; }
+        public double Maximum { get; set; }
+        public string Title { get; set; }
+        public Font TitleFont { get; set; }
+        public double Interval { get; set; }
+    }
+
+    internal class DataPoint
+    {
+        public DataPoint(int i, int i1)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal static class DataPointExtensions
+    {
+        internal static void AddXY(this DataPoint[] points, int x, double y)
+        {
+
+        }
+    }
+
+    internal class SeriesChartType
+    {
+        public static object Line { get; set; }
+    }
+
+    internal class Series
+    {
+        public int BorderWidth { get; set; }
+        public object ChartType { get; set; }
+        public string Name { get; set; }
+        public DataPoint[] Points { get; set; }
+    }
+
+    internal class Grid
+    {
+        public Color LineColor { get; set; }
+    }
+
+    internal class Title
+    {
+        public Title(string loadtesttoolbox, object top, Font defaultTitleFont, object black)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal class Color
+    {
+        public static object Black { get; set; }
+        public static Color LightGray { get; set; }
+    }
+
+    internal class Docking
+    {
+        public static object Top { get; set; }
+    }
+
+    internal class Font
+    {
+        public Font(string arial, int i, object bold)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal class FontStyle
+    {
+        public static object Bold { get; set; }
+    }
+
+    internal class Size
+    {
+        public Size(int i, int i1)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    #endregion
 }

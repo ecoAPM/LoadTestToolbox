@@ -1,38 +1,30 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace LoadTestToolbox.Common
 {
     public class Worker
     {
-        private readonly Uri url;
+        private readonly Uri _url;
+        private readonly HttpClient _httpClient;
+        private readonly Stopwatch _timer;
         public event EventHandler OnComplete;
 
-        public Worker(Uri url)
+        public Worker(HttpClient httpClient, Uri url)
         {
-            this.url = url;
+            _url = url;
+            _httpClient = httpClient;
+            _timer = new Stopwatch();
         }
 
-        public void Run()
+        public async Task Run()
         {
-            using (var wc = new WebClient())
-            {
-                var timer = new Stopwatch();
-
-                timer.Start();
-                try
-                {
-                    wc.DownloadString(url);
-                }
-                catch (WebException)
-                {
-                    // ignored
-                }
-                timer.Stop();
-
-                OnComplete?.Invoke(timer.Elapsed.TotalMilliseconds, null);
-            }
+            _timer.Start();
+            await _httpClient.GetAsync(_url);
+            _timer.Stop();
+            OnComplete?.Invoke(_timer.Elapsed.TotalMilliseconds, null);
         }
     }
 }

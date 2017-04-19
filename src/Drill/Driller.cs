@@ -1,46 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using LoadTestToolbox.Common;
 
 namespace LoadTestToolbox.Drill
 {
-    class Runner
+    public class Driller
     {
         public readonly IList<double> Results = new List<double>();
 
-        private readonly Uri url;
-        private readonly int totalRequests;
-        private readonly long delay;
+        private readonly Uri _url;
+        private readonly int _totalRequests;
+        private readonly long _delay;
         public int WorkersStarted;
         private int done;
+        private readonly HttpClient _httpClient;
 
-        public Runner(Uri url, int totalRequests, long delay)
+        public Driller(Uri url, int totalRequests, long delay, HttpClient httpClient)
         {
-            this.url = url;
-            this.totalRequests = totalRequests;
-            this.delay = delay;
+            _url = url;
+            _totalRequests = totalRequests;
+            _delay = delay;
+            _httpClient = httpClient;
         }
 
-        public void Run()
+        public async Task Run()
         {
+            //warmup
+            await _httpClient.GetAsync(_url);
+
             var start = DateTime.UtcNow;
 
-            while (WorkersStarted < totalRequests)
+            while (WorkersStarted < _totalRequests)
             {
-                if (start.Add(new TimeSpan((WorkersStarted + 1)*delay)) < DateTime.UtcNow)
+                if (start.Add(new TimeSpan((WorkersStarted + 1)*_delay)) < DateTime.UtcNow)
                     createWorker();
                 else
                     Thread.Sleep(1);
             }
         }
 
-
         private void createWorker()
         {
-            var w = new Worker(url);
+            var w = new Worker(_httpClient, _url);
             w.OnComplete += addResult;
-            new Thread(w.Run).Start();
+            new Thread(async () => await w.Run()).Start();
             Interlocked.Increment(ref WorkersStarted);
         }
 
@@ -53,7 +59,7 @@ namespace LoadTestToolbox.Drill
 
         public bool Complete()
         {
-            return done == totalRequests;
+            return done == _totalRequests;
         }
     }
 }

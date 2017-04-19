@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using LoadTestToolbox.Common;
 
 namespace LoadTestToolbox.Hammer
 {
-    static class Program
+    public class Program
     {
-        private static Uri url;
-
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             if (args.Length != 4)
             {
@@ -17,24 +16,26 @@ namespace LoadTestToolbox.Hammer
                 return;
             }
 
-            url = new Uri(args[0], UriKind.Absolute);
+            var url = new Uri(args[0], UriKind.Absolute);
             var min = Convert.ToInt32(args[1]);
             var max = Convert.ToInt32(args[2]);
+            var outputFileName = args[3];
+
             var hammers = HardwareStore.GetHammers(min, max);
 
             var results = new Dictionary<int, double>();
             foreach (var x in hammers)
             {
-                var runner = new Runner(url, x);
+                var runner = new Hammerer(url, x, new HttpClient());
                 new Thread(runner.Run).Start();
                 while (!runner.Complete())
-                    Thread.Sleep(1);
+                    Thread.Sleep(100);
 
                 results.Add(x, runner.Average);
                 Console.WriteLine(x + ": " + Math.Round(runner.Average, 2) + " ms");
             }
 
-            results.SaveChart(args[3]);
+            results.SaveChartImage(outputFileName);
         }
     }
 }
