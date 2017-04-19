@@ -63,3 +63,7 @@ drill will make 500 requests per second (at consistent 20ms intervals) for 10 se
     10: 71.15 ms
     
 and creating a similar chart upon completion.
+
+## Setup
+
+`sudo apt-get install libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++ pkg-config`

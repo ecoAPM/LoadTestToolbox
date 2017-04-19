@@ -1,31 +1,34 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading;
 using LoadTestToolbox.Common;
 
 namespace LoadTestToolbox.Hammer
 {
-    public class Runner
+    public class Hammerer
     {
         private readonly Uri url;
         private readonly int hammers;
+        private readonly HttpClient httpClient;
         private int done;
         private double total;
 
         public double Average => total / done;
 
-        public Runner(Uri url, int hammers)
+        public Hammerer(Uri url, int hammers, HttpClient httpClient)
         {
             this.url = url;
             this.hammers = hammers;
+            this.httpClient = httpClient;
         }
 
         public void Run()
         {
             for (var x = 0; x < hammers; x++)
             {
-                var w = new Worker(url);
+                var w = new Worker(httpClient, url);
                 w.OnComplete += doMath;
-                new Thread(w.Run).Start();
+                new Thread(async() => await w.Run()).Start();
             }
         }
 

@@ -1,0 +1,61 @@
+﻿{
+  "width": 1280,
+  "height": 720,
+  "type": "line",
+  "data": {
+    "datasets": [
+      {
+        "backgroundColor": "#fff",
+        "borderColor": "#000",
+        "fill": false,
+        "lineTension": 0,
+        "pointRadius": 0
+      }
+    ]
+  },
+  "options": {
+    "legend": {
+      "display": false
+    },
+    "title": {
+      "fontColor": "#000",
+      "display": true,
+      "text": "LoadTestToolbox"
+    },
+    "scales": {
+      "xAxes": [
+        {
+          "display": true,
+          "scaleLabel": {
+            "display": true,
+            "fontColor": "#000",
+            "labelString": "Request(s)"
+          },
+          "ticks": {
+            "autoSkipPadding": 1,
+            "beginAtZero": true,
+            "fontColor": "#000",
+            "maxRotation": 0,
+            "minRotation": 0
+          }
+
+        }
+      ],
+      "yAxes": [
+        {
+          "display": true,
+          "color": "#000",
+          "scaleLabel": {
+            "display": true,
+            "fontColor": "#000",
+            "labelString": "Response Time (ms)"
+          },
+          "ticks": {
+            "beginAtZero": true,
+            "fontColor": "#000"
+          }
+        }
+      ]
+    }
+  }
+}
