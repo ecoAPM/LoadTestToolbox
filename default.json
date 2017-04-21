@@ -5,8 +5,7 @@
   "data": {
     "datasets": [
       {
-        "backgroundColor": "#fff",
-        "borderColor": "#000",
+        "borderColor": "#48f",
         "fill": false,
         "lineTension": 0,
         "pointRadius": 0
@@ -17,6 +16,7 @@
     "legend": {
       "display": false
     },
+    "plugins": {},
     "title": {
       "fontColor": "#000",
       "display": true,
@@ -27,6 +27,7 @@
         {
           "display": true,
           "scaleLabel": {
+            "beginAtZero": true,
             "display": true,
             "fontColor": "#000",
             "labelString": "Request(s)"
