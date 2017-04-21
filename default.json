@@ -26,6 +26,7 @@
       "xAxes": [
         {
           "display": true,
+          "position": "bottom",
           "scaleLabel": {
             "beginAtZero": true,
             "display": true,
@@ -33,19 +34,21 @@
             "labelString": "Request(s)"
           },
           "ticks": {
+            "autoSkip": false,
             "autoSkipPadding": 1,
             "beginAtZero": true,
             "fontColor": "#000",
             "maxRotation": 0,
-            "minRotation": 0
-          }
-
+            "minRotation": 0,
+            "min": 0
+          },
+          "type": "linear"
         }
       ],
       "yAxes": [
         {
-          "display": true,
           "color": "#000",
+          "display": true,
           "scaleLabel": {
             "display": true,
             "fontColor": "#000",
@@ -53,8 +56,10 @@
           },
           "ticks": {
             "beginAtZero": true,
-            "fontColor": "#000"
-          }
+            "fontColor": "#000",
+            "min": 0
+          },
+          "type": "linear"
         }
       ]
     }

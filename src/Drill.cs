@@ -2,37 +2,26 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace LoadTestToolbox
 {
-    public class Driller
+    public class Drill : Tool
     {
         public readonly IList<double> Results = new List<double>();
 
-        private readonly Uri _url;
-        private readonly int _totalRequests;
         private readonly long _delay;
         public int WorkersStarted;
-        private int done;
-        private readonly HttpClient _httpClient;
 
-        public Driller(Uri url, int totalRequests, long delay, HttpClient httpClient)
+        public Drill(HttpClient httpClient, Uri url, int requests, long delay) : base(httpClient, url, requests)
         {
-            _url = url;
-            _totalRequests = totalRequests;
             _delay = delay;
-            _httpClient = httpClient;
         }
 
-        public async Task Run()
+        public override void Run()
         {
-            //warmup
-            await _httpClient.GetAsync(_url);
-
             var start = DateTime.UtcNow;
 
-            while (WorkersStarted < _totalRequests)
+            while (WorkersStarted < _requests)
             {
                 if (start.Add(new TimeSpan((WorkersStarted + 1)*_delay)) < DateTime.UtcNow)
                     createWorker();
@@ -49,16 +38,11 @@ namespace LoadTestToolbox
             Interlocked.Increment(ref WorkersStarted);
         }
 
-        private void addResult(object sender, EventArgs e)
+        protected override void addResult(object sender, EventArgs e)
         {
             var length = (double)sender;
             Results.Add(length);
             Interlocked.Increment(ref done);
-        }
-
-        public bool Complete()
-        {
-            return done == _totalRequests;
         }
     }
 }
