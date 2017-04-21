@@ -1,4 +1,3 @@
-console.log('strarting');
 var Chart = require('./get-chart');
 var config = {
     width: 1280,
