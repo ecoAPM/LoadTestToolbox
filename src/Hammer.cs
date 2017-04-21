@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace LoadTestToolbox
 {
@@ -25,9 +24,9 @@ namespace LoadTestToolbox
             }
         }
 
-        protected override void addResult(object returned, EventArgs e)
+        protected override void addResult(object ms, EventArgs e)
         {
-            var length = (double)returned;
+            var length = (double)ms;
             total += length;
             Interlocked.Increment(ref done);
         }

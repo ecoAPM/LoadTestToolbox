@@ -7,19 +7,28 @@ namespace LoadTestToolbox
 {
     public static class ChartHelpers
     {
-        public static void SaveChartImage(this IDictionary<int, double> results, string outputFileName)
+        public static void SaveChartFor(this Visualizer visualizer, IDictionary<int, double> results, string outputFileName)
         {
-            var v = new Visualizer(Environment.GetEnvironmentVariable("VISUALIZER_FILES") ?? ".");
-            var data = v.GetChart(results).GetAwaiter().GetResult();
-            var imageData = Convert.FromBase64String(data.Substring(22));
+            var imageData = visualizer.GetImageDataFor(results);
             var input = new MemoryStream(imageData);
             var output = new FileStream(outputFileName, FileMode.OpenOrCreate, FileAccess.Write);
             input.CopyTo(output);
         }
 
+        public static byte[] GetImageDataFor(this Visualizer visualizer, IDictionary<int, double> results)
+        {
+            var dataUrl = visualizer.GetChart(results).GetAwaiter().GetResult();
+            return Convert.FromBase64String(dataUrl.Substring(22));
+        }
+
         public static double GetYAxisMax(this IDictionary<int, double> results)
         {
             var max = results.Max(r => r.Value);
+            return GetYAxisMax(max);
+        }
+
+        public static double GetYAxisMax(this double max)
+        {
             var interval = GetYStepSize(max);
             return Math.Ceiling(max / interval) * interval;
         }
@@ -44,11 +53,14 @@ namespace LoadTestToolbox
             return Math.Pow(10, Math.Floor(Math.Log10(max)));
         }
 
-        public static double getXStepSize(this int max)
+        public static double GetXStepSize(this int max)
         {
             var magnitude = max.GetMagnitude();
-            var baseStep = magnitude / 10;
-            return max / baseStep < 50 ? baseStep : baseStep * 2;
+            var step = magnitude / 10;
+            var ratio = max / step;
+            return ratio < 50
+                ? step
+                : step * 2;
         }
     }
 }

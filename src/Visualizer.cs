@@ -35,7 +35,7 @@ namespace LoadTestToolbox
         private JObject getConfig(IDictionary<int, double> results)
         {
             var xMax = results.Max(r => r.Key);
-            var xStep = xMax.getXStepSize();
+            var xStep = xMax.GetXStepSize();
 
             var yMax = results.GetYAxisMax();
             var yStep = yMax.GetYStepSize();

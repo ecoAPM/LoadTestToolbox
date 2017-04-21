@@ -27,7 +27,8 @@ namespace LoadTestToolbox
                 return;
             }
 
-            results.SaveChartImage(outputFileName);
+            var visualizer = new Visualizer(Environment.GetEnvironmentVariable("VISUALIZER_FILES") ?? ".");
+            visualizer.SaveChartFor(results, outputFileName);
         }
 
         private static IDictionary<int, double> getResults(string tool, string[] args)

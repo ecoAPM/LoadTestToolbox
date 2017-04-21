@@ -26,7 +26,7 @@ namespace LoadTestToolbox
         }
 
         public abstract void Run();
-        protected abstract void addResult(object returned, EventArgs e);
+        protected abstract void addResult(object ms, EventArgs e);
 
     }
 }
