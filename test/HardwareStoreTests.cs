@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using LoadTestToolbox.Hammer;
 using Xunit;
 
-namespace Hammer.Tests
+namespace LoadTestToolbox.Tests
 {
     public class HardwareStoreTests
     {

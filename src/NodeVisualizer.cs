@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 
-namespace LoadTestToolbox.Common
+namespace LoadTestToolbox
 {
     public class NodeVisualizer
     {
