@@ -16,17 +16,41 @@ namespace LoadTestToolbox
                 return;
             }
 
-            switch (args[0].ToLower())
+            var tool = args[0].ToLower();
+            var outputFileName = args[4];
+
+            var results = getResults(tool, args);
+
+            if (results == null)
+            {
+                showUsage();
+                return;
+            }
+
+            results.SaveChartImage(outputFileName);
+        }
+
+        private static IDictionary<int, double> getResults(string tool, string[] args)
+        {
+            var url = new Uri(args[1], UriKind.Absolute);
+            switch (tool)
             {
                 case "hammer":
-                    hammer(args);
-                    return;
+                    {
+                        var min = Convert.ToInt32(args[2]);
+                        var max = Convert.ToInt32(args[3]);
+
+                        return getHammerResults(min, max, url);
+                    }
                 case "drill":
-                    drill(args);
-                    return;
+                    {
+                        var requestsPerSecond = Convert.ToInt32(args[2]);
+                        var duration = Convert.ToInt32(args[3]);
+
+                        return getDrillResults(requestsPerSecond, duration, url);
+                    }
                 default:
-                    showUsage();
-                    return;
+                    return null;
             }
         }
 
@@ -38,51 +62,40 @@ namespace LoadTestToolbox
             Console.WriteLine("Usage: dotnet run hammer {site} {min hammers} {max hammers} {graph output filename}");
         }
 
-        private static void hammer(string[] args)
+        private static IDictionary<int, double> getHammerResults(int min, int max, Uri url)
         {
-            var url = new Uri(args[1], UriKind.Absolute);
-            var min = Convert.ToInt32(args[2]);
-            var max = Convert.ToInt32(args[3]);
-            var outputFileName = args[4];
-
             var hammers = HardwareStore.GetHammers(min, max);
 
             var results = new Dictionary<int, double>();
             foreach (var x in hammers)
             {
-                var runner = new Hammerer(url, x, new HttpClient());
-                new Thread(runner.Run).Start();
-                while (!runner.Complete())
+                var hammer = new Hammer(new HttpClient(), url, x);
+                new Thread(hammer.Run).Start();
+                while (!hammer.Complete())
                     Thread.Sleep(100);
 
-                results.Add(x, runner.Average);
-                Console.WriteLine(x + ": " + Math.Round(runner.Average, 2) + " ms");
+                results.Add(x, hammer.Average);
+                Console.WriteLine(x + ": " + Math.Round(hammer.Average, 2) + " ms");
             }
-
-            results.SaveChartImage(outputFileName);
+            return results;
         }
 
-        private static void drill(string[] args)
+        private static IDictionary<int, double> getDrillResults(int requestsPerSecond, int duration, Uri url)
         {
-            var url = new Uri(args[1], UriKind.Absolute);
-            var requestsPerSecond = Convert.ToInt32(args[2]);
-            var duration = Convert.ToInt32(args[3]);
-            var outputFileName = args[4];
-
             var delay = TimeSpan.TicksPerSecond / requestsPerSecond;
             var totalRequests = requestsPerSecond * duration;
 
             var started = DateTime.UtcNow;
             var previewed = 0;
 
-            var runner = new Driller(url, totalRequests, delay, new HttpClient());
-            new Thread(runner.Run().GetAwaiter().GetResult).Start();
+            var drill = new Drill(new HttpClient(), url, totalRequests, delay);
+            new Thread(drill.Run).Start();
 
-            while (!runner.Complete())
+            while (!drill.Complete())
             {
-                if (DateTime.UtcNow.Subtract(started).Seconds > previewed && runner.Results.Any())
+                if (DateTime.UtcNow.Subtract(started).Seconds > previewed && drill.Results.Any())
                 {
-                    var lastSecondOfResults = runner.Results.Reverse().Take(requestsPerSecond);
+                    var lastSecondOfResults = drill.Results.Reverse().Take(requestsPerSecond);
                     var average = lastSecondOfResults.Average();
                     Console.WriteLine(++previewed + ": " + Math.Round(average, 2) + " ms");
                 }
@@ -90,8 +103,8 @@ namespace LoadTestToolbox
             }
 
             var index = 0;
-            var results = runner.Results.ToDictionary(r => ++index, r => r);
-            results.SaveChartImage(outputFileName);
+            var results = drill.Results.ToDictionary(r => ++index, r => r);
+            return results;
         }
     }
 }

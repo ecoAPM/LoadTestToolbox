@@ -1,216 +1,55 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.NodeServices;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 
 namespace LoadTestToolbox
 {
-    public static class Visualizer
+    public class Visualizer
     {
-        private static Size defaultSize => new Size(1280, 720);
-        private static Font defaultAxisFont => new Font("Arial", 12, FontStyle.Bold);
-        private static Font defaultTitleFont => new Font("Arial", 18, FontStyle.Bold);
-        private static Title defaultTitle => new Title("LoadTestToolbox", Docking.Top, defaultTitleFont, Color.Black);
-        private static Color defaultColor => Color.LightGray;
-        private static Grid defaultGrid => new Grid { LineColor = defaultColor };
+        private readonly string _baseDir;
+        private readonly INodeServices _node;
 
-        private static Series defaultSeries => new Series
+        public Visualizer(string baseDir)
         {
-            BorderWidth = 4,
-            ChartType = SeriesChartType.Line,
-            Name = "ResponseTime",
-            Points = new[] { new DataPoint(0, 0) }
-        };
-
-        private static Axis getXAxis(this IDictionary<int, double> results) => new Axis
-        {
-            MajorGrid = defaultGrid,
-            MajorTickMark = new TickMark { LineColor = defaultColor },
-            Minimum = 0,
-            Maximum = results.Max(r => r.Key),
-            Title = "Request(s)",
-            TitleFont = defaultAxisFont
-        };
-
-        private static Axis getYAxis(this IDictionary<int, double> results) => new Axis
-        {
-            Interval = results.getYAxisMax().getInterval(),
-            MajorGrid = defaultGrid,
-            MajorTickMark = new TickMark { LineColor = defaultColor },
-            Minimum = 0,
-            Maximum = results.getYAxisMax(),
-            Title = "Response Time (ms)",
-            TitleFont = defaultAxisFont
-        };
-
-        private static double getYAxisMax(this IDictionary<int, double> results)
-        {
-            var max = results.Max(r => r.Value);
-            var interval = max.getInterval();
-            return Math.Ceiling(max / interval) * interval;
-        }
-
-        private static double getInterval(this double max)
-        {
-            var family = Math.Pow(10, Math.Floor(Math.Log10(max)));
-            var ratio = max / family;
-            if (ratio < 2) return family / 5;
-            if (ratio < 4) return family / 2;
-            if (ratio > 8) return family * 2;
-            return family;
-        }
-
-        private static ChartArea getChartArea(this IDictionary<int, double> results) => new ChartArea("ReponseTimes")
-        {
-            AxisX = results.getXAxis(),
-            AxisY = results.getYAxis()
-        };
-
-        private static Chart getChart(this IDictionary<int, double> results)
-        {
-            var chart = new Chart
+            _baseDir = baseDir;
+            var services = new ServiceCollection();
+            services.AddNodeServices();
+            var options = new NodeServicesOptions(services.BuildServiceProvider())
             {
-                ChartAreas = new[] { results.getChartArea() },
-                Series = new[] { results.getSeries() },
-                Size = defaultSize
+                ProjectPath = Directory.GetCurrentDirectory()
+
             };
-            chart.Titles.Add(defaultTitle);
-            return chart;
+            _node = NodeServicesFactory.CreateNodeServices(options);
         }
 
-        private static Series getSeries(this IDictionary<int, double> results)
+        public async Task<string> GetChart(IDictionary<int, double> results)
         {
-            var series = defaultSeries;
-            foreach (var result in results)
-                series.Points.AddXY(result.Key, result.Value);
-
-            return series;
+            var config = getConfig(results);
+            return await _node.InvokeAsync<string>(Path.Combine(_baseDir, "get-chart"), config);
         }
 
-        public static void SaveChart(this IDictionary<int, double> results, string filename)
+        private JObject getConfig(IDictionary<int, double> results)
         {
-            var chart = results.getChart();
-            chart.SaveImage(filename, ChartImageFormat.Png);
+            var xMax = results.Max(r => r.Key);
+            var xStep = xMax.getXStepSize();
+
+            var yMax = results.GetYAxisMax();
+            var yStep = yMax.GetYStepSize();
+
+            var config = JObject.Parse(File.ReadAllText(Path.Combine(_baseDir, "default.json")));
+            config["data"]["labels"] = JArray.FromObject(results.Keys);
+            config["data"]["datasets"][0]["data"] = JArray.FromObject(results.Select(r => new {x = r.Key, y = r.Value}));
+            config["options"]["scales"]["xAxes"][0]["ticks"]["fixedStepSize"] = xStep;
+            config["options"]["scales"]["xAxes"][0]["ticks"]["stepSize"] = xStep;
+            config["options"]["scales"]["xAxes"][0]["ticks"]["max"] = xMax;
+            config["options"]["scales"]["yAxes"][0]["ticks"]["fixedStepSize"] = yStep;
+            config["options"]["scales"]["yAxes"][0]["ticks"]["max"] = yMax;
+
+            return config;
         }
     }
-
-    #region FullFXstubs
-    public class ChartImageFormat
-    {
-        public static object Png { get; set; }
-    }
-
-    internal class Chart
-    {
-        public ChartArea[] ChartAreas { get; set; }
-        public Series[] Series { get; set; }
-        public Size Size { get; set; }
-        public IList<Title> Titles { get; set; }
-
-        public void SaveImage(string filename, object png)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal class ChartArea
-    {
-        public ChartArea(string reponsetimes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Axis AxisX { get; set; }
-        public Axis AxisY { get; set; }
-    }
-
-    internal class TickMark
-    {
-        public Color LineColor { get; set; }
-    }
-
-    internal class Axis
-    {
-        public Grid MajorGrid { get; set; }
-        public TickMark MajorTickMark { get; set; }
-        public int Minimum { get; set; }
-        public double Maximum { get; set; }
-        public string Title { get; set; }
-        public Font TitleFont { get; set; }
-        public double Interval { get; set; }
-    }
-
-    internal class DataPoint
-    {
-        public DataPoint(int i, int i1)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal static class DataPointExtensions
-    {
-        internal static void AddXY(this DataPoint[] points, int x, double y)
-        {
-
-        }
-    }
-
-    internal class SeriesChartType
-    {
-        public static object Line { get; set; }
-    }
-
-    internal class Series
-    {
-        public int BorderWidth { get; set; }
-        public object ChartType { get; set; }
-        public string Name { get; set; }
-        public DataPoint[] Points { get; set; }
-    }
-
-    internal class Grid
-    {
-        public Color LineColor { get; set; }
-    }
-
-    internal class Title
-    {
-        public Title(string loadtesttoolbox, object top, Font defaultTitleFont, object black)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal class Color
-    {
-        public static object Black { get; set; }
-        public static Color LightGray { get; set; }
-    }
-
-    internal class Docking
-    {
-        public static object Top { get; set; }
-    }
-
-    internal class Font
-    {
-        public Font(string arial, int i, object bold)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    internal class FontStyle
-    {
-        public static object Bold { get; set; }
-    }
-
-    internal class Size
-    {
-        public Size(int i, int i1)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    #endregion
 }
