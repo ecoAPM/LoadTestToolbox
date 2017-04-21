@@ -38,9 +38,9 @@ namespace LoadTestToolbox
             Interlocked.Increment(ref WorkersStarted);
         }
 
-        protected override void addResult(object sender, EventArgs e)
+        protected override void addResult(object ms, EventArgs e)
         {
-            var length = (double)sender;
+            var length = (double)ms;
             Results.Add(length);
             Interlocked.Increment(ref done);
         }
