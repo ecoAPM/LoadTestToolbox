@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading;
-using LoadTestToolbox.Common;
 
-namespace LoadTestToolbox.Hammer
+namespace LoadTestToolbox
 {
     public class Hammerer
     {

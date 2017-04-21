@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using LoadTestToolbox.Common;
 
-namespace LoadTestToolbox.Drill
+namespace LoadTestToolbox
 {
     public class Driller
     {

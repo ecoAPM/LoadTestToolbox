@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace LoadTestToolbox.Common
+namespace LoadTestToolbox
 {
     public class Worker
     {

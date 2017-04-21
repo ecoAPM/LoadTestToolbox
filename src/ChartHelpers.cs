@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace LoadTestToolbox.Common
+namespace LoadTestToolbox
 {
     public static class ChartHelpers
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LoadTestToolbox.Hammer
+namespace LoadTestToolbox
 {
     public static class HardwareStore
     {
