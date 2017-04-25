@@ -7,15 +7,14 @@ namespace LoadTestToolbox
 {
     public static class ChartHelpers
     {
-        public static void SaveChartFor(this Visualizer visualizer, IDictionary<int, double> results, string outputFileName)
+        public static void SaveChart(this IVisualizer visualizer, IDictionary<int, double> results, Stream output)
         {
-            var imageData = visualizer.GetImageDataFor(results);
+            var imageData = visualizer.GetImageData(results);
             var input = new MemoryStream(imageData);
-            var output = new FileStream(outputFileName, FileMode.OpenOrCreate, FileAccess.Write);
             input.CopyTo(output);
         }
 
-        public static byte[] GetImageDataFor(this Visualizer visualizer, IDictionary<int, double> results)
+        public static byte[] GetImageData(this IVisualizer visualizer, IDictionary<int, double> results)
         {
             var dataUrl = visualizer.GetChart(results).GetAwaiter().GetResult();
             return Convert.FromBase64String(dataUrl.Substring(22));

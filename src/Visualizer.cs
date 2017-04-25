@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace LoadTestToolbox
 {
-    public class Visualizer
+    public class Visualizer : IVisualizer
     {
         private readonly string _baseDir;
         private readonly INodeServices _node;
