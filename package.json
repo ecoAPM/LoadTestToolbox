@@ -11,6 +11,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Steve Desmond",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stevedesmond-ca/LoadTestToolbox.git"
+  }
 }
