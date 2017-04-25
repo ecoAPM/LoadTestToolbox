@@ -5,13 +5,23 @@ As with everything, these tools should be used only for good!
 
 Intended to be run on a different machine (ideally on the same LAN as) than the one being tested, these focus on server reponse time as the primary metric of performance.
 
+## Setup
+
+1. install the .NET Core runtime and Node.JS
+1. follow [these instructions](https://github.com/Automattic/node-canvas#installation) to get Cairo + GTK installed for cross-platform image generation
+1. run `./build.sh` (or `build.cmd` on Windows) to compile
+
 ## Hammer
 
 Hammer helps measure load spikes by hammering on a specified site with a given range of simultaneous requests, and returns the average response time for each.
 
 Given:
 
-    hammer http://example.com/ 1 100 chart.png
+    ~$ ./hammer.sh http://example.com/ 1 100 chart.png
+    
+or on Windows:
+
+    D:\LoadTestToolbox> hammer.cmd http://example.com/ 1 100 chart.png
 
 hammer will make 1 simultaneous request, then 2, then 3, and so forth, up to 100.
 
@@ -47,7 +57,11 @@ Drill helps measure long-term stability by constantly hitting a page at consiste
 
 Given:
 
-    drill http://example.com/ 500 10 chart.png
+    ~$ ./drill.sh http://example.com/ 500 10 chart.png
+    
+or on Windows:
+
+    D:\LoadTestToolbox> drill.cmd http://example.com/ 500 10 chart.png
     
 drill will make 500 requests per second (at consistent 20ms intervals) for 10 seconds, each second outputting the average response time for the last second
 
@@ -63,7 +77,3 @@ drill will make 500 requests per second (at consistent 20ms intervals) for 10 se
     10: 71.15 ms
     
 and creating a similar chart upon completion.
-
-## Setup
-
-`sudo apt-get install libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++ pkg-config`
