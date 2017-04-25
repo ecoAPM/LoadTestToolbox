@@ -1,4 +1,9 @@
-﻿using Xunit;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using NSubstitute;
+using Xunit;
 
 namespace LoadTestToolbox.Tests
 {
@@ -8,10 +13,10 @@ namespace LoadTestToolbox.Tests
         public void CanGetMagnitudeForInt()
         {
             //arrange
-            var x = 200;
+            var max = 200;
 
             //act
-            var magnitude = x.GetMagnitude();
+            var magnitude = max.GetMagnitude();
 
             //assert
             Assert.Equal(100, magnitude);
@@ -21,10 +26,10 @@ namespace LoadTestToolbox.Tests
         public void CanGetMagnitudeForDouble()
         {
             //arrange
-            var x = 205.7;
+            var max = 205.7;
 
             //act
-            var magnitude = x.GetMagnitude();
+            var magnitude = max.GetMagnitude();
 
             //assert
             Assert.Equal(100, magnitude);
@@ -34,10 +39,10 @@ namespace LoadTestToolbox.Tests
         public void XStepSizeForSmallNumbersIsReturned()
         {
             //arrange
-            var x = 499;
+            var max = 499;
 
             //act
-            var stepSize = x.GetXStepSize();
+            var stepSize = max.GetXStepSize();
 
             //assert
             Assert.Equal(10, stepSize);
@@ -47,10 +52,10 @@ namespace LoadTestToolbox.Tests
         public void XStepSizeForBigNumbersIsDoubled()
         {
             //arrange
-            var x = 500;
+            var max = 500;
 
             //act
-            var stepSize = x.GetXStepSize();
+            var stepSize = max.GetXStepSize();
 
             //assert
             Assert.Equal(20, stepSize);
@@ -60,10 +65,10 @@ namespace LoadTestToolbox.Tests
         public void YStepSizeForReallySmallNumbersIsDivided()
         {
             //arrange
-            var x = 150.0;
+            var max = 150.0;
 
             //act
-            var stepSize = x.GetYStepSize();
+            var stepSize = max.GetYStepSize();
 
             //assert
             Assert.Equal(20, stepSize);
@@ -73,10 +78,10 @@ namespace LoadTestToolbox.Tests
         public void YStepSizeForSmallNumbersIsDivided()
         {
             //arrange
-            var x = 300.0;
+            var max = 300.0;
 
             //act
-            var stepSize = x.GetYStepSize();
+            var stepSize = max.GetYStepSize();
 
             //assert
             Assert.Equal(50, stepSize);
@@ -86,10 +91,10 @@ namespace LoadTestToolbox.Tests
         public void YStepSizeForNormalNumbersIsRetured()
         {
             //arrange
-            var x = 500.0;
+            var max = 500.0;
 
             //act
-            var stepSize = x.GetYStepSize();
+            var stepSize = max.GetYStepSize();
 
             //assert
             Assert.Equal(100, stepSize);
@@ -99,13 +104,68 @@ namespace LoadTestToolbox.Tests
         public void YStepSizeForBigNumbersIsMultiplied()
         {
             //arrange
-            var x = 900.0;
+            var max = 900.0;
 
             //act
-            var stepSize = x.GetYStepSize();
+            var stepSize = max.GetYStepSize();
 
             //assert
             Assert.Equal(200, stepSize);
+        }
+
+        [Fact]
+        public void CanGetYAxisMaxForMaxValue()
+        {
+            //arrange
+            var max = 900.0;
+
+            //act
+            var axisMax = max.GetYAxisMax();
+
+            //assert
+            Assert.Equal(1000, axisMax);
+        }
+
+        [Fact]
+        public void CanGetYAxisMaxForResults()
+        {
+            //arrange
+            var results = new Dictionary<int, double> { { 1, 750 }};
+
+            //act
+            var axisMax = results.GetYAxisMax();
+
+            //assert
+            Assert.Equal(800, axisMax);
+        }
+
+        [Fact]
+        public void CanGetImageData()
+        {
+            //arrange
+            var visualizer = Substitute.For<IVisualizer>();
+            visualizer.GetChart(Arg.Any<IDictionary<int,double>>()).Returns("data:image/png;base64," + Convert.ToBase64String(Encoding.UTF8.GetBytes("x123")));
+
+            //act
+            var imageData = visualizer.GetImageData(null);
+
+            //assert
+            Assert.Equal("x123", Encoding.UTF8.GetString(imageData));
+        }
+
+        [Fact]
+        public void CanSaveChartToStream()
+        {
+            //arrange
+            var outputStream = new MemoryStream();
+            var visualizer = Substitute.For<IVisualizer>();
+            visualizer.GetChart(Arg.Any<IDictionary<int,double>>()).Returns("data:image/png;base64," + Convert.ToBase64String(Encoding.UTF8.GetBytes("x123")));
+
+            //act
+            visualizer.SaveChart(null, outputStream);
+
+            //assert
+            Assert.Equal("x123", Encoding.UTF8.GetString(outputStream.ToArray()));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -28,7 +29,8 @@ namespace LoadTestToolbox
             }
 
             var visualizer = new Visualizer(Environment.GetEnvironmentVariable("VISUALIZER_FILES") ?? ".");
-            visualizer.SaveChartFor(results, outputFileName);
+            var output = new FileStream(outputFileName, FileMode.OpenOrCreate, FileAccess.Write);
+            visualizer.SaveChart(results, output);
         }
 
         private static IDictionary<int, double> getResults(string tool, string[] args)
