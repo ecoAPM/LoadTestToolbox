@@ -78,10 +78,29 @@ namespace LoadTestToolbox
                     Thread.Sleep(100);
 
                 results.Add(x, hammer.Average);
-                Console.WriteLine(x + ": " + Math.Round(hammer.Average, 2) + " ms");
+                FormatTimeAndPrintInConsole(x, hammer.Average);
+                //Console.WriteLine(x + ": " + Math.Round(hammer.Average, 2) + " ms");
             }
             return results;
         }
+
+        /// <summary>
+        /// This function checks if the value is less than 1 ms and if so outputs mu or ms in the console
+        /// </summary>
+        private static Action<int, double> FormatTimeAndPrintInConsole = (iteration, averageTime) =>
+        {
+            var roundedOff = Math.Round(averageTime, 2);
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
+
+            string response = $"{iteration} : ";
+
+            if (roundedOff < 1)
+                response += $"{roundedOff} \u03BC{"s"}";
+            else
+                response += $"{roundedOff} ms";
+
+            Console.WriteLine(response);
+        };
 
         private static IDictionary<int, double> getDrillResults(int requestsPerSecond, int duration, Uri url)
         {
@@ -100,7 +119,8 @@ namespace LoadTestToolbox
                 {
                     var lastSecondOfResults = drill.Results.Reverse().Take(requestsPerSecond);
                     var average = lastSecondOfResults.Average();
-                    Console.WriteLine(++previewed + ": " + Math.Round(average, 2) + " ms");
+                    FormatTimeAndPrintInConsole(++previewed, average);
+                    //Console.WriteLine(++previewed + ": " + Math.Round(average, 2) + " ms");
                 }
                 Thread.Sleep(100);
             }
