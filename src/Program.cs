@@ -7,33 +7,39 @@ using System.Threading;
 
 namespace LoadTestToolbox
 {
-    public class Program
+    public static class Program
     {
+        static Program()
+        {
+            Console.OutputEncoding = System.Text.Encoding.Unicode;
+        }
+
         public static void Main(string[] args)
         {
             if (args.Length != 5)
             {
-                showUsage();
+                ShowUsage();
                 return;
             }
 
             var tool = args[0].ToLower();
             var outputFileName = args[4];
 
-            var results = getResults(tool, args);
+            var results = GetResults(tool, args);
 
             if (results == null)
             {
-                showUsage();
+                ShowUsage();
                 return;
             }
 
-            var visualizer = new Visualizer(Environment.GetEnvironmentVariable("VISUALIZER_FILES") ?? ".");
+            var visualizerDir = Environment.GetEnvironmentVariable("VISUALIZER_FILES") ?? ".";
+            var visualizer = new Visualizer(visualizerDir);
             var output = new FileStream(outputFileName, FileMode.OpenOrCreate, FileAccess.Write);
             visualizer.SaveChart(results, output);
         }
 
-        private static IDictionary<int, double> getResults(string tool, string[] args)
+        private static IDictionary<int, double> GetResults(string tool, IReadOnlyList<string> args)
         {
             var url = new Uri(args[1], UriKind.Absolute);
             switch (tool)
@@ -43,21 +49,21 @@ namespace LoadTestToolbox
                         var min = Convert.ToInt32(args[2]);
                         var max = Convert.ToInt32(args[3]);
 
-                        return getHammerResults(min, max, url);
+                        return GetHammerResults(min, max, url);
                     }
                 case "drill":
                     {
                         var requestsPerSecond = Convert.ToInt32(args[2]);
                         var duration = Convert.ToInt32(args[3]);
 
-                        return getDrillResults(requestsPerSecond, duration, url);
+                        return GetDrillResults(requestsPerSecond, duration, url);
                     }
                 default:
                     return null;
             }
         }
 
-        private static void showUsage()
+        private static void ShowUsage()
         {
             Console.WriteLine("Usage:");
             Console.WriteLine("dotnet run drill {site} {req/sec} {duration} {graph output filename}");
@@ -65,7 +71,7 @@ namespace LoadTestToolbox
             Console.WriteLine("Usage: dotnet run hammer {site} {min hammers} {max hammers} {graph output filename}");
         }
 
-        private static IDictionary<int, double> getHammerResults(int min, int max, Uri url)
+        private static IDictionary<int, double> GetHammerResults(int min, int max, Uri url)
         {
             var hammers = HardwareStore.GetHammers(min, max);
 
@@ -78,31 +84,23 @@ namespace LoadTestToolbox
                     Thread.Sleep(100);
 
                 results.Add(x, hammer.Average);
-                FormatTimeAndPrintInConsole(x, hammer.Average);
-                //Console.WriteLine(x + ": " + Math.Round(hammer.Average, 2) + " ms");
+                Console.WriteLine(x + ": " + FormatTime(hammer.Average));
             }
             return results;
         }
 
-        /// <summary>
-        /// This function checks if the value is less than 1 ms and if so outputs mu or ms in the console
-        /// </summary>
-        private static Action<int, double> FormatTimeAndPrintInConsole = (iteration, averageTime) =>
+        private static string FormatTime(double ms)
         {
-            var roundedOff = Math.Round(averageTime, 2);
-            Console.OutputEncoding = System.Text.Encoding.Unicode;
+            return ms < 1
+                ? Math.Round(ms * 1000) + " μs"
+                : ms < 10
+                    ? Math.Round(ms, 2) + " ms"
+                    : ms < 100
+                        ? Math.Round(ms, 1) + " ms"
+                        : Math.Round(ms) + " ms";
+        }
 
-            string response = $"{iteration} : ";
-
-            if (roundedOff < 1)
-                response += $"{roundedOff} \u03BC{"s"}";
-            else
-                response += $"{roundedOff} ms";
-
-            Console.WriteLine(response);
-        };
-
-        private static IDictionary<int, double> getDrillResults(int requestsPerSecond, int duration, Uri url)
+        private static IDictionary<int, double> GetDrillResults(int requestsPerSecond, int duration, Uri url)
         {
             var delay = TimeSpan.TicksPerSecond / requestsPerSecond;
             var totalRequests = requestsPerSecond * duration;
@@ -119,8 +117,7 @@ namespace LoadTestToolbox
                 {
                     var lastSecondOfResults = drill.Results.Reverse().Take(requestsPerSecond);
                     var average = lastSecondOfResults.Average();
-                    FormatTimeAndPrintInConsole(++previewed, average);
-                    //Console.WriteLine(++previewed + ": " + Math.Round(average, 2) + " ms");
+                    Console.WriteLine(++previewed + ": " + FormatTime(average));
                 }
                 Thread.Sleep(100);
             }
