@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 
 namespace LoadTestToolbox
@@ -34,9 +35,28 @@ namespace LoadTestToolbox
             }
 
             var visualizerDir = Environment.GetEnvironmentVariable("VISUALIZER_FILES") ?? ".";
-            var visualizer = new Visualizer(visualizerDir);
+            var chartLabels = GetChartLabels(tool, args);
+            var visualizer = new Visualizer(visualizerDir, chartLabels);
             var output = new FileStream(outputFileName, FileMode.OpenOrCreate, FileAccess.Write);
             visualizer.SaveChart(results, output);
+        }
+
+        private static ChartLabels GetChartLabels(string tool, IReadOnlyList<string> args)
+        {
+            var url = new Uri(args[1], UriKind.Absolute);
+            switch (tool)
+            {
+                case "hammer":
+                {
+                    return new Hammer(new HttpClient(), url,  1).GetChartLabels();
+                }
+                case "drill":
+                {
+                    return new Drill(new HttpClient(), url, 1, 1).GetChartLabels();
+                }
+                default:
+                    return new ChartLabels();
+            }
         }
 
         private static IDictionary<int, double> GetResults(string tool, IReadOnlyList<string> args)
