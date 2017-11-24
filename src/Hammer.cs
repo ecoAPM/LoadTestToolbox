@@ -9,7 +9,7 @@ namespace LoadTestToolbox
         private double total;
 
         public double Average => total / done;
-        private readonly ChartLabels _chartLabels = new ChartLabels();
+        public static ChartLabels ChartLabels = new ChartLabels() { TitleLabel = "LoadTestToolbox", XAxisLabel = "Request(s)", YAxisLabel = "Response Time (ms)" };
 
         public Hammer(HttpClient httpClient, Uri url, int requests) : base(httpClient, url, requests)
         {
@@ -30,11 +30,6 @@ namespace LoadTestToolbox
             var length = (double)ms;
             total += length;
             Interlocked.Increment(ref done);
-        }
-
-        public override ChartLabels GetChartLabels()
-        {
-            return _chartLabels;
         }
     }
 }

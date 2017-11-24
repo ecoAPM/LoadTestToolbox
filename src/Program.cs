@@ -43,19 +43,18 @@ namespace LoadTestToolbox
 
         private static ChartLabels GetChartLabels(string tool, IReadOnlyList<string> args)
         {
-            var url = new Uri(args[1], UriKind.Absolute);
             switch (tool)
             {
                 case "hammer":
                 {
-                    return new Hammer(new HttpClient(), url,  1).GetChartLabels();
+                    return Hammer.ChartLabels;
                 }
                 case "drill":
                 {
-                    return new Drill(new HttpClient(), url, 1, 1).GetChartLabels();
+                    return Drill.ChartLabels;
                 }
                 default:
-                    return new ChartLabels();
+                    throw new Exception($"The tool called {tool} is currently not supported.");
             }
         }
 
