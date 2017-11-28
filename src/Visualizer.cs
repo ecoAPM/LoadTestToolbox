@@ -12,8 +12,9 @@ namespace LoadTestToolbox
     {
         private readonly string _baseDir;
         private readonly INodeServices _node;
+        private readonly ChartLabels _chartLabels;
 
-        public Visualizer(string baseDir)
+        public Visualizer(string baseDir, ChartLabels chartLabels)
         {
             _baseDir = baseDir;
             var services = new ServiceCollection();
@@ -24,6 +25,7 @@ namespace LoadTestToolbox
 
             };
             _node = NodeServicesFactory.CreateNodeServices(options);
+            _chartLabels = chartLabels;
         }
 
         public async Task<string> GetChart(IDictionary<int, double> results)
@@ -48,7 +50,9 @@ namespace LoadTestToolbox
             config["options"]["scales"]["xAxes"][0]["ticks"]["max"] = xMax;
             config["options"]["scales"]["yAxes"][0]["ticks"]["fixedStepSize"] = yStep;
             config["options"]["scales"]["yAxes"][0]["ticks"]["max"] = yMax;
-
+            config["title"]["text"] = _chartLabels.TitleLabel;
+            config["options"]["scales"]["xAxes"][0]["scaleLabel"]["labelString"] = _chartLabels.XAxisLabel;
+            config["options"]["scales"]["yAxes"][0]["scaleLabel"]["labelString"] = _chartLabels.YAxisLabel;
             return config;
         }
     }

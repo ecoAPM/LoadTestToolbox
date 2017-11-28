@@ -11,6 +11,8 @@ namespace LoadTestToolbox
 
         private readonly long _delay;
         public int WorkersStarted;
+        public static ChartLabels ChartLabels = new ChartLabels() { TitleLabel = "LoadTestToolbox", XAxisLabel = "Elapsed Time (secs)", YAxisLabel = "Response Time (ms)"};
+
 
         public Drill(HttpClient httpClient, Uri url, int requests, long delay) : base(httpClient, url, requests)
         {

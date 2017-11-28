@@ -9,6 +9,7 @@ namespace LoadTestToolbox
         private double total;
 
         public double Average => total / done;
+        public static ChartLabels ChartLabels = new ChartLabels() { TitleLabel = "LoadTestToolbox", XAxisLabel = "Request(s)", YAxisLabel = "Response Time (ms)" };
 
         public Hammer(HttpClient httpClient, Uri url, int requests) : base(httpClient, url, requests)
         {
