@@ -3,7 +3,7 @@ Lightweight tools for load testing web applications, written in C#
 
 As with everything, these tools should be used only for good!
 
-Intended to be run on a different machine (ideally on the same LAN as) than the one being tested, these focus on server reponse time as the primary metric of performance.
+Intended to be run on a different machine than the one being tested (but ideally on the same LAN), these focus on server reponse time as the primary metric of performance.
 
 ## Setup
 
