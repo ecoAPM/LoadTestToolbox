@@ -65,9 +65,8 @@ namespace LoadTestToolbox
         private static void ShowUsage()
         {
             Console.WriteLine("Usage:");
-            Console.WriteLine("dotnet run drill {site} {req/sec} {duration} {graph output filename}");
-            Console.WriteLine("or");
-            Console.WriteLine("Usage: dotnet run hammer {site} {min hammers} {max hammers} {graph output filename}");
+            Console.WriteLine("ltt drill {site} {req/sec} {duration} {chart output filename}");
+            Console.WriteLine("ltt hammer {site} {min hammers} {max hammers} {chart output filename}");
         }
 
         private static IDictionary<int, double> GetHammerResults(int min, int max, Uri url)

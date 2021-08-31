@@ -17,11 +17,7 @@ Hammer helps measure load spikes by hammering on a specified site with a given r
 
 Given:
 
-    ~$ ./hammer.sh http://example.com/ 1 100 chart.png
-    
-or on Windows:
-
-    D:\LoadTestToolbox> hammer.cmd http://example.com/ 1 100 chart.png
+   `~$ ltt hammer http://example.com/ 1 100 chart.png`
 
 hammer will make 1 simultaneous request, then 2, then 3, and so forth, up to 100.
 
@@ -57,11 +53,7 @@ Drill helps measure long-term stability by constantly hitting a page at consiste
 
 Given:
 
-    ~$ ./drill.sh http://example.com/ 500 10 chart.png
-    
-or on Windows:
-
-    D:\LoadTestToolbox> drill.cmd http://example.com/ 500 10 chart.png
+   `~$ ./drill.sh http://example.com/ 500 10 chart.png`
     
 drill will make 500 requests per second (at consistent 20ms intervals) for 10 seconds, each second outputting the average response time for the last second
 
