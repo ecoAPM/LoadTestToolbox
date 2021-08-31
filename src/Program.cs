@@ -33,10 +33,9 @@ namespace LoadTestToolbox
                 return;
             }
 
-            var visualizerDir = Environment.GetEnvironmentVariable("VISUALIZER_FILES") ?? ".";
-            var visualizer = new Visualizer(visualizerDir);
+            var chart = new SkiaChart(results);
             var output = new FileStream(outputFileName, FileMode.OpenOrCreate, FileAccess.Write);
-            visualizer.SaveChart(results, output);
+            chart.Save(output);
         }
 
         private static IDictionary<int, double> GetResults(string tool, IReadOnlyList<string> args)

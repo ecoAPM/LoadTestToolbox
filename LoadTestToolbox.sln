@@ -7,15 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoadTestToolbox", "src\Load
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoadTestToolbox.Tests", "test\LoadTestToolbox.Tests.csproj", "{3F4784EE-FF9F-4968-8C46-54C409270792}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "visualizer", "visualizer", "{C13F4C28-8BCE-472B-BC7E-194B130253AB}"
-	ProjectSection(SolutionItems) = preProject
-		default.json = default.json
-		get-chart.js = get-chart.js
-		index.js = index.js
-		package.json = package.json
-		setup = setup
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
