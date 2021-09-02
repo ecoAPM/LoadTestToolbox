@@ -196,8 +196,12 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
+.idea/
+.vscode/
+Properties/
+
+NDependOut/
 *.ndproj
-NDependOut
-Properties
+
 *.png
-.idea
+
