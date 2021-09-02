@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.CommandLine;
+using System.CommandLine.Invocation;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,61 +19,92 @@ namespace LoadTestToolbox
 		}
 
 		public static async Task Main(string[] args)
+			=> await App().InvokeAsync(args);
+
+		private static Command App()
 		{
-			if (args.Length != 5)
+			var rps = new Option(new[] { "-r", "--rps" }, "the number of requests per second to send", typeof(uint))
 			{
-				ShowUsage();
-				return;
-			}
-
-			var tool = HardwareStore.FindTool(args[0]);
-			var outputFileName = args[4];
-
-			var results = await GetResults(tool, args);
-
-			if (results == null)
+				ArgumentHelpName = "requests per second",
+				IsRequired = true
+			};
+			var duration = new Option(new[] { "-d", "--duration" }, "the duration (in seconds) to send requests for", typeof(byte))
 			{
-				ShowUsage();
-				return;
-			}
+				ArgumentHelpName = "seconds",
+				IsRequired = true
+			};
+			var min = new Option("--min", "the minimum number of simultaneous requests to send", typeof(uint))
+			{
+				ArgumentHelpName = "requests",
+				IsRequired = true
+			};
+			var max = new Option("--max", "the maximum number of simultaneous requests to send", typeof(uint))
+			{
+				ArgumentHelpName = "requests",
+				IsRequired = true
+			};
+			var url = new Option(new[] { "-u", "--url" }, "the URL to send requests to", typeof(string))
+			{
+				ArgumentHelpName = "URL",
+				IsRequired = true
+			};
+			var filename = new Option(new[] { "-f", "--filename" }, "the file to write the chart to", typeof(string))
+			{
+				ArgumentHelpName = "path",
+				IsRequired = true
+			};
 
+			var drill = new Command("drill", "sends requests at a consistent rate")
+			{
+				rps,
+				duration,
+				url,
+				filename
+			};
+			drill.Handler = CommandHandler.Create<string, uint, byte, string>(Drill);
+
+			var hammer = new Command("hammer", "sends increasing numbers of simultaneous requests")
+			{
+				min,
+				max,
+				url,
+				filename
+			};
+			hammer.Handler = CommandHandler.Create<string, uint, uint, string>(Hammer);
+
+			var cmd = new RootCommand
+			{
+				Name = "LoadTestToolbox",
+				Description = "lightweight tools for load testing web applications"
+			};
+			cmd.AddCommand(drill);
+			cmd.AddCommand(hammer);
+
+			return cmd;
+		}
+
+		private static async Task Drill(string url, uint rps, byte duration, string filename)
+		{
+			var uri = new Uri(url, UriKind.Absolute);
+			var results = await GetDrillResults(uri, rps, duration);
+			await results.SaveChart(filename);
+		}
+
+		private static async Task Hammer(string url, uint min, uint max, string filename)
+		{
+			var uri = new Uri(url, UriKind.Absolute);
+			var results = await GetHammerResults(uri, min, max);
+			await results.SaveChart(filename);
+		}
+
+		private static async Task SaveChart(this IDictionary<uint, double> results, string filename)
+		{
 			var chart = new SkiaChart(results);
-			var output = new FileStream(outputFileName, FileMode.OpenOrCreate, FileAccess.Write);
+			var output = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write);
 			await chart.Save(output);
 		}
 
-		private static async Task<IDictionary<uint, double>> GetResults(Tool tool, IReadOnlyList<string> args)
-		{
-			var url = new Uri(args[1], UriKind.Absolute);
-			switch (tool)
-			{
-				case Tool.Hammer:
-				{
-					var min = Convert.ToUInt32(args[2]);
-					var max = Convert.ToUInt32(args[3]);
-
-					return await GetHammerResults(min, max, url);
-				}
-				case Tool.Drill:
-				{
-					var requestsPerSecond = Convert.ToUInt32(args[2]);
-					var duration = Convert.ToByte(args[3]);
-
-					return await GetDrillResults(requestsPerSecond, duration, url);
-				}
-				default:
-					return null;
-			}
-		}
-
-		private static void ShowUsage()
-		{
-			Console.WriteLine("Usage:");
-			Console.WriteLine("ltt drill {site} {req/sec} {duration} {chart output filename}");
-			Console.WriteLine("ltt hammer {site} {min hammers} {max hammers} {chart output filename}");
-		}
-
-		private static async Task<IDictionary<uint, double>> GetHammerResults(uint min, uint max, Uri url)
+		private static async Task<IDictionary<uint, double>> GetHammerResults(Uri url, uint min, uint max)
 		{
 			var http = new HttpClient();
 			var hammers = HardwareStore.GetHammers(min, max);
@@ -101,7 +134,7 @@ namespace LoadTestToolbox
 						: Math.Round(ms) + " ms";
 		}
 
-		private static async Task<IDictionary<uint, double>> GetDrillResults(uint requestsPerSecond, byte duration, Uri url)
+		private static async Task<IDictionary<uint, double>> GetDrillResults(Uri url, uint requestsPerSecond, byte duration)
 		{
 			var http = new HttpClient();
 

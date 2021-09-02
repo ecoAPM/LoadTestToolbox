@@ -10,5 +10,6 @@
   <ItemGroup>
     <PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-beta.60" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.80.3" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
   </ItemGroup>
 </Project>
