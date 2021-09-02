@@ -5,26 +5,25 @@ using System.Threading.Tasks;
 
 namespace LoadTestToolbox
 {
-    public class Worker
-    {
-        private readonly Uri _url;
-        private readonly HttpClient _httpClient;
-        private readonly Stopwatch _timer;
-        public event EventHandler OnComplete;
+	public class Worker
+	{
+		private readonly Uri _url;
+		private readonly HttpClient _httpClient;
+		private readonly Action<uint, double> _report;
 
-        public Worker(HttpClient httpClient, Uri url)
-        {
-            _url = url;
-            _httpClient = httpClient;
-            _timer = new Stopwatch();
-        }
+		public Worker(HttpClient httpClient, Uri url, Action<uint, double> report)
+		{
+			_httpClient = httpClient;
+			_url = url;
+			_report = report;
+		}
 
-        public async Task Run()
-        {
-            _timer.Start();
-            await _httpClient.GetAsync(_url);
-            _timer.Stop();
-            OnComplete?.Invoke(_timer.Elapsed.TotalMilliseconds, null);
-        }
-    }
+		public async Task Run(uint request)
+		{
+			var timer = Stopwatch.StartNew();
+			await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Get, _url));
+			timer.Stop();
+			_report(request, timer.Elapsed.TotalMilliseconds);
+		}
+	}
 }

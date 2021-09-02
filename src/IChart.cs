@@ -1,9 +1,10 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace LoadTestToolbox
 {
     public interface IChart
     {
-        public void Save(Stream output);
+        public Task Save(Stream output);
     }
 }

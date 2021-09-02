@@ -1,48 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace LoadTestToolbox
 {
-    public class Drill : Tool
-    {
-        public readonly IList<double> Results = new List<double>();
+	public class Drill : ITool
+	{
+		private readonly long _delay;
 
-        private readonly long _delay;
-        public int WorkersStarted;
+		public Drill(HttpClient httpClient, Uri url, uint requests, long delay) : base(httpClient, url, requests)
+			=> _delay = delay;
 
-        public Drill(HttpClient httpClient, Uri url, int requests, long delay) : base(httpClient, url, requests)
-        {
-            _delay = delay;
-        }
+		public override Task Run()
+		{
+			uint started = 0;
+			var timer = Stopwatch.StartNew();
 
-        public override void Run()
-        {
-            var start = DateTime.UtcNow;
+			while (started < _requests)
+			{
+				var request = started;
+#pragma warning disable 4014
+				var thread = new Thread(() => _worker.Run(request))
+#pragma warning restore 4014
+				{
+					Priority = ThreadPriority.Highest
+				};
+				thread.Start();
 
-            while (WorkersStarted < _requests)
-            {
-                if (start.Add(new TimeSpan((WorkersStarted + 1)*_delay)) < DateTime.UtcNow)
-                    createWorker();
-                else
-                    Thread.Sleep(1);
-            }
-        }
+				var nextStart = ++started * _delay;
+				SpinWait.SpinUntil(() => timer.ElapsedTicks > nextStart);
+			}
 
-        private void createWorker()
-        {
-            var w = new Worker(_httpClient, _url);
-            w.OnComplete += addResult;
-            new Thread(async () => await w.Run()).Start();
-            Interlocked.Increment(ref WorkersStarted);
-        }
-
-        protected override void addResult(object ms, EventArgs e)
-        {
-            var length = (double)ms;
-            Results.Add(length);
-            Interlocked.Increment(ref done);
-        }
-    }
+			SpinWait.SpinUntil(Complete);
+			return Task.CompletedTask;
+		}
+	}
 }
