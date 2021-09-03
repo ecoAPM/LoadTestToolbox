@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.CommandLine;
+using System.CommandLine.Invocation;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.CommandLine;
-using System.CommandLine.Invocation;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,85 +19,69 @@ namespace LoadTestToolbox
 		}
 
 		public static async Task Main(string[] args)
-			=> await App().InvokeAsync(args);
+			=> await Command.InvokeAsync(args);
 
-		private static Command App()
+		private static Command Command
 		{
-			var rps = new Option(new[] { "-r", "--rps" }, "the number of requests per second to send", typeof(uint))
+			get
 			{
-				ArgumentHelpName = "requests per second",
-				IsRequired = true
-			};
-			var duration = new Option(new[] { "-d", "--duration" }, "the duration (in seconds) to send requests for", typeof(byte))
-			{
-				ArgumentHelpName = "seconds",
-				IsRequired = true
-			};
-			var min = new Option("--min", "the minimum number of simultaneous requests to send", typeof(uint))
-			{
-				ArgumentHelpName = "requests",
-				IsRequired = true
-			};
-			var max = new Option("--max", "the maximum number of simultaneous requests to send", typeof(uint))
-			{
-				ArgumentHelpName = "requests",
-				IsRequired = true
-			};
-			var url = new Option(new[] { "-u", "--url" }, "the URL to send requests to", typeof(string))
-			{
-				ArgumentHelpName = "URL",
-				IsRequired = true
-			};
-			var filename = new Option(new[] { "-f", "--filename" }, "the file to write the chart to", typeof(string))
-			{
-				ArgumentHelpName = "path",
-				IsRequired = true
-			};
+				var cmd = new Command("LoadTestToolbox", "lightweight tools for load testing web applications");
+				cmd.AddCommand(Drill);
+				cmd.AddCommand(Hammer);
 
-			var drill = new Command("drill", "sends requests at a consistent rate")
-			{
-				rps,
-				duration,
-				url,
-				filename
-			};
-			drill.Handler = CommandHandler.Create<string, uint, byte, string>(Drill);
-
-			var hammer = new Command("hammer", "sends increasing numbers of simultaneous requests")
-			{
-				min,
-				max,
-				url,
-				filename
-			};
-			hammer.Handler = CommandHandler.Create<string, uint, uint, string>(Hammer);
-
-			var cmd = new RootCommand
-			{
-				Name = "LoadTestToolbox",
-				Description = "lightweight tools for load testing web applications"
-			};
-			cmd.AddCommand(drill);
-			cmd.AddCommand(hammer);
-
-			return cmd;
+				return cmd;
+			}
 		}
 
-		private static async Task Drill(string url, uint rps, byte duration, string filename)
+        private static Command Drill
+		{
+			get
+			{
+				var drill = new Command("drill", "sends requests at a consistent rate")
+				{
+					Options.URL,
+					Options.RPS,
+					Options.Duration,
+					Options.Filename
+				};
+				drill.Handler = CommandHandler.Create<string, uint, byte, string>(RunDrill);
+
+				return drill;
+			}
+		}
+
+		private static Command Hammer
+		{
+			get
+			{
+				var hammer = new Command("hammer", "sends increasing numbers of simultaneous requests")
+				{
+					Options.URL,
+					Options.Min,
+					Options.Max,
+					Options.Filename
+				};
+				hammer.Handler = CommandHandler.Create<string, uint, uint, string>(RunHammer);
+
+				return hammer;
+			}
+		}
+
+        private static async Task RunDrill(string url, uint rps, byte duration, string filename)
 		{
 			var uri = new Uri(url, UriKind.Absolute);
 			var results = await GetDrillResults(uri, rps, duration);
-			await results.SaveChart(filename);
+			await SaveChart(results, filename);
 		}
 
-		private static async Task Hammer(string url, uint min, uint max, string filename)
+		private static async Task RunHammer(string url, uint min, uint max, string filename)
 		{
 			var uri = new Uri(url, UriKind.Absolute);
 			var results = await GetHammerResults(uri, min, max);
-			await results.SaveChart(filename);
+			await SaveChart(results, filename);
 		}
 
-		private static async Task SaveChart(this IDictionary<uint, double> results, string filename)
+		private static async Task SaveChart(IDictionary<uint, double> results, string filename)
 		{
 			var chart = new SkiaChart(results);
 			var output = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write);
