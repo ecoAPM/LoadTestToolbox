@@ -50,14 +50,14 @@ namespace LoadTestToolbox.Tests
 		}
 
 		[Fact]
-		public void XAxisBoundByValues()
+		public void XAxisIsSortedAndBoundByValues()
 		{
 			//arrange
 			var results = new Dictionary<uint, double>
 			{
-				{ 2, 1.23 },
 				{ 3, 2.34 },
-				{ 5, 3.45 }
+				{ 5, 3.45 },
+				{ 2, 1.23 }
 			};
 			var skia = new SkiaChart(results);
 

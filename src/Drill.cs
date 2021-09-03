@@ -6,19 +6,23 @@ using System.Threading.Tasks;
 
 namespace LoadTestToolbox
 {
-	public class Drill : ITool
+	public class Drill : Tool
 	{
+		private readonly uint _totalRequests;
 		private readonly long _delay;
 
-		public Drill(HttpClient httpClient, Uri url, uint requests, long delay) : base(httpClient, url, requests)
-			=> _delay = delay;
+		public Drill(HttpClient http, Uri url, uint requests, long delay) : base(http, url)
+		{
+			_totalRequests = requests;
+			_delay = delay;
+		}
 
 		public override Task Run()
 		{
 			uint started = 0;
 			var timer = Stopwatch.StartNew();
 
-			while (started < _requests)
+			while (started < _totalRequests)
 			{
 				var request = started;
 #pragma warning disable 4014
@@ -36,5 +40,7 @@ namespace LoadTestToolbox
 			SpinWait.SpinUntil(Complete);
 			return Task.CompletedTask;
 		}
+
+		public override bool Complete() => Results.Count == _totalRequests;
 	}
 }

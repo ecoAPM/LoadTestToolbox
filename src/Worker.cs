@@ -7,9 +7,9 @@ namespace LoadTestToolbox
 {
 	public class Worker
 	{
-		private readonly Uri _url;
 		private readonly HttpClient _httpClient;
 		private readonly Action<uint, double> _report;
+		private readonly Uri _url;
 
 		public Worker(HttpClient httpClient, Uri url, Action<uint, double> report)
 		{

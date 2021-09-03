@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <OutputType>Exe</OutputType>
-    <Version>0.1.1</Version>
-    <PackAsTool>true</PackAsTool>
-    <ToolCommandName>ltt</ToolCommandName>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<Version>0.1.1</Version>
+		<PackAsTool>true</PackAsTool>
+		<ToolCommandName>ltt</ToolCommandName>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-beta.60" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.80.3" />
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-beta.60"/>
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.80.3"/>
+		<PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1"/>
+	</ItemGroup>
 </Project>

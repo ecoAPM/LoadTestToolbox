@@ -5,14 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.Measure;
-using LiveChartsCore.SkiaSharpView.SKCharts;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
+using LiveChartsCore.SkiaSharpView.SKCharts;
 using SkiaSharp;
 
 namespace LoadTestToolbox
 {
-	public class SkiaChart : IChart
+	public class SkiaChart
 	{
 		private readonly IDictionary<uint, double> _results;
 
@@ -59,12 +59,12 @@ namespace LoadTestToolbox
 		private LineSeries<ObservablePoint> Series
 			=> new()
 			{
-				Values = _results.Select(r => new ObservablePoint(r.Key, r.Value)),
+				Values = _results.OrderBy(r => r.Key).Select(r => new ObservablePoint(r.Key, r.Value)),
 				Stroke = new SolidColorPaint(SKColors.DodgerBlue, 2),
 				LineSmoothness = 0,
 				GeometrySize = 0,
 				GeometryStroke = null,
-				GeometryFill = null,
+				GeometryFill = null
 			};
 
 		private uint MinXAxis

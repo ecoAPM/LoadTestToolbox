@@ -12,8 +12,7 @@ namespace LoadTestToolbox.Tests
 		{
 			//arrange
 			var http = new HttpClient(new MockHttpMessageHandler());
-			var url = new Uri("http://localhost");
-			var drill = new Drill(http, url, 5, 0);
+			var drill = new Drill(http, new Uri("http://localhost"), 5, 0);
 
 			//act
 			await drill.Run();
