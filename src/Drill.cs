@@ -41,6 +41,6 @@ namespace LoadTestToolbox
 			return Task.CompletedTask;
 		}
 
-		public override bool Complete() => Results.Count == _totalRequests;
+		public override bool Complete() => _results.Count == _totalRequests;
 	}
 }

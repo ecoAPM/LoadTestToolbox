@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -8,7 +9,8 @@ namespace LoadTestToolbox
 {
 	public abstract class Tool : ITool
 	{
-		public readonly IDictionary<uint, double> Results = new ConcurrentDictionary<uint, double>();
+		public IDictionary<uint, double> Results => _results.ToImmutableDictionary();
+		protected readonly IDictionary<uint, double> _results = new ConcurrentDictionary<uint, double>();
 
 		protected readonly Worker _worker;
 
@@ -26,6 +28,6 @@ namespace LoadTestToolbox
 			=> await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
 
 		protected virtual void addResult(uint request, double ms)
-			=> Results.Add(request, ms);
+			=> _results.Add(request, ms);
 	}
 }
