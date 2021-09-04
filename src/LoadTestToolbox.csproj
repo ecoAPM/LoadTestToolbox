@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<OutputType>Exe</OutputType>
-		<Version>0.1.1</Version>
+		<Version>0.2.0</Version>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>ltt</ToolCommandName>
 	</PropertyGroup>
