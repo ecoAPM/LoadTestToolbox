@@ -1,4 +1,13 @@
 # LoadTestToolbox
+
+[![NuGet version](https://badge.fury.io/nu/LoadTestToolbox.svg)](https://badge.fury.io/nu/LoadTestToolbox)
+[![CI](https://github.com/ecoAPM/LoadTestToolbox/actions/workflows/CI.yml/badge.svg)](https://github.com/ecoAPM/LoadTestToolbox/actions/workflows/CI.yml)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_LoadTestToolbox&metric=coverage)](https://sonarcloud.io/dashboard?id=ecoAPM_LoadTestToolbox)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_LoadTestToolbox&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ecoAPM_LoadTestToolbox)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_LoadTestToolbox&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=ecoAPM_LoadTestToolbox)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_LoadTestToolbox&metric=security_rating)](https://sonarcloud.io/dashboard?id=ecoAPM_LoadTestToolbox)
+
 Lightweight tools for load testing web applications, written in C#
 
 As with everything, these tools should be used only for good!
