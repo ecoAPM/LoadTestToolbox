@@ -1,4 +1,4 @@
-name: nuget
+name: NuGet
 on:
   push:
     tags:
