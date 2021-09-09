@@ -2,7 +2,7 @@
 
 Lightweight tools for load testing web applications, written in C#
 
-[![NuGet version](https://badge.fury.io/nu/LoadTestToolbox.svg)](https://badge.fury.io/nu/LoadTestToolbox)
+[![NuGet version](https://img.shields.io/nuget/v/LoadTestToolbox?logo=nuget&label=Install)](https://nuget.org/packages/LoadTestToolbox)
 [![CI](https://github.com/ecoAPM/LoadTestToolbox/actions/workflows/CI.yml/badge.svg)](https://github.com/ecoAPM/LoadTestToolbox/actions/workflows/CI.yml)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ecoAPM_LoadTestToolbox&metric=coverage)](https://sonarcloud.io/dashboard?id=ecoAPM_LoadTestToolbox)
 
