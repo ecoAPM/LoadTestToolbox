@@ -1,15 +1,29 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net5.0</TargetFramework>
+		<Version>0.3.0</Version>
 		<OutputType>Exe</OutputType>
-		<Version>0.2.0</Version>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>ltt</ToolCommandName>
+		<TargetFramework>net5.0</TargetFramework>
+		<Description>Lightweight tools for load testing web applications</Description>
+		<Authors>ecoAPM LLC</Authors>
+		<Company>ecoAPM LLC</Company>
+		<Copyright>ecoAPM LLC</Copyright>
+		<Product>LoadTestToolbox</Product>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/ecoAPM/LoadTestToolbox</PackageProjectUrl>
+		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/ecoAPM/LoadTestToolbox</RepositoryUrl>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<IncludeSymbols>true</IncludeSymbols>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all"/>
 		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-beta.60"/>
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.80.3"/>
 		<PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1"/>
+		<None Include="../README.md" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="."/>
 	</ItemGroup>
 </Project>

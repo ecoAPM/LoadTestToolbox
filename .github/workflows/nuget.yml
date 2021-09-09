@@ -17,10 +17,10 @@ jobs:
         dotnet-version: 5.0.x
 
     - name: Run tests
-      run: dotnet test -c Release
+      run: dotnet test
 
     - name: Package
-      run: dotnet pack -c Release
+      run: dotnet pack -c Release -p:ContinuousIntegrationBuild=true
 
     - name: Publish
       run: dotnet nuget push src/bin/Release/LoadTestToolbox.$(echo ${{ github.ref }} | sed 's/refs\/tags\///').nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
