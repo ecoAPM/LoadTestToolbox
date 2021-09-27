@@ -28,7 +28,7 @@ namespace LoadTestToolbox
 		{
 			get
 			{
-				var cmd = new Command("LoadTestToolbox", "lightweight tools for load testing web applications");
+				var cmd = new Command("LoadTestToolbox", "Lightweight tools for load testing web applications");
 				cmd.AddCommand(Drill);
 				cmd.AddCommand(Hammer);
 
@@ -40,7 +40,7 @@ namespace LoadTestToolbox
 		{
 			get
 			{
-				var drill = new Command("drill", "sends requests at a consistent rate")
+				var drill = new Command("drill", "Sends requests at a consistent rate")
 				{
 					AppOptions.URL,
 					AppOptions.RPS,
@@ -57,7 +57,7 @@ namespace LoadTestToolbox
 		{
 			get
 			{
-				var hammer = new Command("hammer", "sends increasing numbers of simultaneous requests")
+				var hammer = new Command("hammer", "Sends increasing numbers of simultaneous requests")
 				{
 					AppOptions.URL,
 					AppOptions.Min,
