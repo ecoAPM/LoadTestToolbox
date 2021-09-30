@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.IO;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -16,7 +17,7 @@ namespace LoadTestToolbox
 		public Driller(HttpClient http, IConsole console, DrillOptions options) : base(http, console)
 		{
 			var requests = options.RPS * options.Duration;
-			var delay = TimeSpan.TicksPerSecond / options.RPS;
+			var delay = Stopwatch.Frequency / options.RPS;
 			_tool = new Drill(_http, options.URL, requests, delay);
 			_rps = options.RPS;
 		}
