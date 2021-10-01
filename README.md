@@ -16,7 +16,10 @@ Lightweight tools for load testing web applications, written in C#
 
 - .NET SDK 5.0
 
-## Setup
+Linux:
+- `libgdiplus`
+
+## Installation
 
 `~$ dotnet tool install --global LoadTestToolbox`
 
@@ -39,7 +42,7 @@ Drill helps measure long-term stability by constantly requesting a page at consi
 Example:
 
    `~$ ltt drill -url http://example.com/ --rps 500 --duration 10 --filename chart.png`
-    
+
 In the above command, LoadTestToolbox will make 500 requests per second (at consistent 20ms intervals) for 10 seconds. After each second, the average response time for the last second is output to the console:
 ```
 1: 77.91 ms
@@ -52,7 +55,7 @@ In the above command, LoadTestToolbox will make 500 requests per second (at cons
 8: 126.69 ms
 9: 96.69 ms
 10: 71.15 ms
-```    
+```
 
 Upon completion, a Cartesian chart is output to the specified file, showing each request and its response time.
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,10 @@ namespace LoadTestToolbox
 	public class SkiaChart
 	{
 		private readonly IDictionary<uint, double> _results;
+
+		private static readonly InstalledFontCollection Font = new();
+		private static readonly IEnumerable<string> DefaultFontOrder = new[] { "Noto Sans", "Open Sans", "Roboto", "Segoe UI", "Arial", "San Francisco", "Helvetica Neue", "Helvetica" };
+		private static readonly string DefaultFont = DefaultFontOrder.FirstOrDefault(name => Font.Families.Any(f => f.Name == name));
 
 		public SkiaChart(IDictionary<uint, double> results)
 			=> _results = results;
@@ -41,6 +46,8 @@ namespace LoadTestToolbox
 			{
 				Name = "Requests",
 				Position = AxisPosition.Start,
+				NamePaint = new SolidColorPaint(SKColors.Black) { FontFamily = DefaultFont },
+				LabelsPaint = new SolidColorPaint(SKColors.Black) { FontFamily = DefaultFont },
 				SeparatorsPaint = new SolidColorPaint(new SKColor(0, 0, 0, 24), 1),
 				MinLimit = MinXAxis,
 				MaxLimit = MaxXAxis
@@ -51,6 +58,8 @@ namespace LoadTestToolbox
 			{
 				Name = "Response Time (ms)",
 				Position = AxisPosition.Start,
+				NamePaint = new SolidColorPaint(SKColors.Black) { FontFamily = DefaultFont },
+				LabelsPaint = new SolidColorPaint(SKColors.Black) { FontFamily = DefaultFont },
 				SeparatorsPaint = new SolidColorPaint(new SKColor(0, 0, 0, 24), 1),
 				MinLimit = 0,
 				MaxLimit = YAxisMax
