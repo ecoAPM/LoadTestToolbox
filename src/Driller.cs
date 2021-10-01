@@ -43,14 +43,17 @@ namespace LoadTestToolbox
 			while (!_tool.Complete())
 			{
 				var secondsSinceStart = DateTime.UtcNow.Subtract(started).Seconds;
-				if (_tool.Results.Any() && secondsSinceStart > previewed)
-				{
-					var alreadyPreviewed = (secondsSinceStart - 1) * _rps;
-					var lastSecondOfResults = _tool.Results.Skip((int)alreadyPreviewed);
-					var average = lastSecondOfResults.Average(r => r.Value);
-					_console.Out.WriteLine(secondsSinceStart + ": " + FormatTime(average));
-					previewed = secondsSinceStart;
-				}
+				if (!_tool.Results.Any() || secondsSinceStart <= previewed)
+					continue;
+
+				var alreadyPreviewed = (secondsSinceStart - 1) * _rps;
+				var lastSecondOfResults = _tool.Results.Skip((int)alreadyPreviewed).ToArray();
+				if (!lastSecondOfResults.Any())
+					continue;
+
+				var average = lastSecondOfResults.Average(r => r.Value);
+				_console.Out.WriteLine(secondsSinceStart + ": " + FormatTime(average));
+				previewed = secondsSinceStart;
 
 				await Task.Delay(1);
 			}
