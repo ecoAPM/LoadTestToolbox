@@ -16,21 +16,20 @@ namespace LoadTestToolbox
 		public Hammer(HttpClient http, Uri url, IEnumerable<uint> strengths) : base(http, url)
 			=> _strengths = strengths;
 
-		public override Task Run()
+		public override async Task Run()
 		{
 			var totals = new ConcurrentDictionary<uint, double>();
 			foreach (var x in _strengths)
 			{
-				var results = RunOnce(x).GetAwaiter().GetResult();
+				var results = await RunOnce(x);
 				totals[x] = results.Average(r => r.Value);
 				_results.Add(x, totals[x]);
 			}
 
-			SpinWait.SpinUntil(Complete);
-			return Task.CompletedTask;
+			await True(Complete);
 		}
 
-		private Task<IDictionary<uint, double>> RunOnce(uint requests)
+		private async Task<IDictionary<uint, double>> RunOnce(uint requests)
 		{
 			_singleResults.Clear();
 			for (uint request = 0; request < requests; request++)
@@ -45,14 +44,14 @@ namespace LoadTestToolbox
 				thread.Start();
 			}
 
-			SpinWait.SpinUntil(() => _singleResults.Count == requests);
-			return Task.FromResult(_singleResults);
+			await True(() => _singleResults.Count == requests);
+			return _singleResults;
 		}
 
-		public override bool Complete() => _results.Count == _strengths.Count();
+		public override bool Complete()
+			=> _results.Count == _strengths.Count();
 
 		protected override void addResult(uint request, double ms)
 			=> _singleResults.Add(request, ms);
-
 	}
 }

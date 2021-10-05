@@ -41,7 +41,9 @@ namespace LoadTestToolbox
 
 		public override async Task<IDictionary<uint, double>> Run()
 		{
+#pragma warning disable 4014
 			var thread = new Thread(() => _tool.Run())
+#pragma warning restore 4014
 			{
 				Priority = ThreadPriority.Highest
 			};

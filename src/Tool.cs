@@ -29,5 +29,13 @@ namespace LoadTestToolbox
 
 		protected virtual void addResult(uint request, double ms)
 			=> _results.Add(request, ms);
+
+		protected static async Task True(Func<bool> expression)
+		{
+			while (!expression())
+			{
+				await Task.Delay(1);
+			}
+		}
 	}
 }

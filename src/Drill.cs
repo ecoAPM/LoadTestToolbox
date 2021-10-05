@@ -17,7 +17,7 @@ namespace LoadTestToolbox
 			_delay = delay;
 		}
 
-		public override Task Run()
+		public override async Task Run()
 		{
 			uint started = 0;
 			var timer = Stopwatch.StartNew();
@@ -37,10 +37,10 @@ namespace LoadTestToolbox
 				SpinWait.SpinUntil(() => timer.ElapsedTicks > nextStart);
 			}
 
-			SpinWait.SpinUntil(Complete);
-			return Task.CompletedTask;
+			await True(Complete);
 		}
 
-		public override bool Complete() => _results.Count == _totalRequests;
+		public override bool Complete()
+			=> _results.Count == _totalRequests;
 	}
 }

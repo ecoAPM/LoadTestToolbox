@@ -24,7 +24,9 @@ namespace LoadTestToolbox
 
 		public override async Task<IDictionary<uint, double>> Run()
 		{
+#pragma warning disable 4014
 			var thread = new Thread(() => _tool.Run())
+#pragma warning restore 4014
 			{
 				Priority = ThreadPriority.Highest
 			};
@@ -42,6 +44,8 @@ namespace LoadTestToolbox
 
 			while (!_tool.Complete())
 			{
+				await Task.Delay(1);
+
 				var secondsSinceStart = DateTime.UtcNow.Subtract(started).Seconds;
 				if (!_tool.Results.Any() || secondsSinceStart <= previewed)
 					continue;
@@ -54,8 +58,6 @@ namespace LoadTestToolbox
 				var average = lastSecondOfResults.Average(r => r.Value);
 				_console.Out.WriteLine(secondsSinceStart + ": " + FormatTime(average));
 				previewed = secondsSinceStart;
-
-				await Task.Delay(1);
 			}
 		}
 	}
