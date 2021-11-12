@@ -17,9 +17,9 @@ namespace LoadTestToolbox
 	{
 		private readonly IDictionary<uint, double> _results;
 
-		private static readonly InstalledFontCollection Font = new();
-		private static readonly IEnumerable<string> DefaultFontOrder = new[] { "Noto Sans", "Open Sans", "Roboto", "Segoe UI", "Arial", "San Francisco", "Helvetica Neue", "Helvetica" };
-		private static readonly string DefaultFont = DefaultFontOrder.FirstOrDefault(name => Font.Families.Any(f => f.Name == name));
+		private static readonly IEnumerable<string> _fonts = SKFontManager.Default.FontFamilies;
+		private static readonly IEnumerable<string> _defaultOrder = new[] { "Noto Sans", "Open Sans", "Roboto", "Segoe UI", "Arial", "San Francisco", "Helvetica Neue", "Helvetica" };
+		private static readonly string DefaultFont = _defaultOrder.FirstOrDefault(name => _fonts.Any(f => f == name));
 
 		public SkiaChart(IDictionary<uint, double> results)
 			=> _results = results;

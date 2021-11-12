@@ -14,7 +14,7 @@ Lightweight tools for load testing web applications, written in C#
 
 ## Requirements
 
-- .NET SDK 5.0
+- .NET SDK 6.0
 
 Linux:
 - `libgdiplus`

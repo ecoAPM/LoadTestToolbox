@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>0.3.2</Version>
+		<Version>0.4.0</Version>
 		<OutputType>Exe</OutputType>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>ltt</ToolCommandName>
-		<TargetFramework>net5.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<Description>Lightweight tools for load testing web applications</Description>
 		<Authors>ecoAPM LLC</Authors>
 		<Company>ecoAPM LLC</Company>
@@ -24,7 +24,6 @@
 		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-beta.60" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.80.3" />
 		<PackageReference Include="System.CommandLine" Version="2.0.0-beta1.21308.1" />
-		<PackageReference Include="System.Drawing.Common" Version="5.0.2" />
 		<None Include="../README.md" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="." />
 	</ItemGroup>
 </Project>
