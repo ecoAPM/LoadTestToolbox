@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 
-namespace LoadTestToolbox
+namespace LoadTestToolbox;
+
+public interface IToolOptions<out T> where T : ITool
 {
-	public interface IToolOptions<out T> where T : ITool
-	{
-		Uri URL { get; init; }
-	}
+	Uri URL { get; init; }
 }

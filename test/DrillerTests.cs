@@ -1,32 +1,31 @@
-﻿using System;
+using System;
 using System.CommandLine.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace LoadTestToolbox.Tests
+namespace LoadTestToolbox.Tests;
+
+public class DrillerTests
 {
-	public class DrillerTests
+	[Fact]
+	public async Task CanDrill()
 	{
-		[Fact]
-		public async Task CanDrill()
+		//arrange
+		var http = new HttpClient(new MockHttpMessageHandler());
+		var console = new TestConsole();
+		var options = new DrillOptions
 		{
-			//arrange
-			var http = new HttpClient(new MockHttpMessageHandler());
-			var console = new TestConsole();
-			var options = new DrillOptions
-			{
-				URL = new Uri("http://localhost"),
-				RPS = 1,
-				Duration = 1
-			};
-			var driller = new Driller(http, console, options);
+			URL = new Uri("http://localhost"),
+			RPS = 1,
+			Duration = 1
+		};
+		var driller = new Driller(http, console, options);
 
-			//act
-			var results = await driller.Run();
+		//act
+		var results = await driller.Run();
 
-			//assert
-			Assert.Equal(1, results.Count);
-		}
+		//assert
+		Assert.Equal(1, results.Count);
 	}
 }

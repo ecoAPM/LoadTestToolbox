@@ -1,8 +1,7 @@
-﻿namespace LoadTestToolbox
+namespace LoadTestToolbox;
+
+public class DrillOptions : ToolOptions<Drill>
 {
-	public class DrillOptions : ToolOptions<Drill>
-	{
-		public uint RPS { get; init; }
-		public byte Duration { get; init; }
-	}
+	public uint RPS { get; init; }
+	public byte Duration { get; init; }
 }

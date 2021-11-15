@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LoadTestToolbox
+namespace LoadTestToolbox;
+
+public interface ITool
 {
-	public interface ITool
-	{
-		IDictionary<uint, double> Results { get; }
-		Task Run();
-		bool Complete();
-	}
+	IDictionary<uint, double> Results { get; }
+	Task Run();
+	bool Complete();
 }

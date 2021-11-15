@@ -1,17 +1,16 @@
-﻿using Xunit;
+using Xunit;
 
-namespace LoadTestToolbox.Tests
+namespace LoadTestToolbox.Tests;
+
+public class ProgramTests
 {
-	public class ProgramTests
+	[Fact]
+	public void CanCreateApp()
 	{
-		[Fact]
-		public void CanCreateApp()
-		{
-			//act
-			var app = Program.AppFactory;
+		//act
+		var app = Program.AppFactory;
 
-			//assert
-			Assert.IsType<App>(app);
-		}
+		//assert
+		Assert.IsType<App>(app);
 	}
 }
