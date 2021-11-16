@@ -21,3 +21,4 @@ csharp_style_expression_bodied_accessors = true
 csharp_style_expression_bodied_lambdas = true
 csharp_style_expression_bodied_local_functions = true
 csharp_style_namespace_declarations = file_scoped:warning
+dotnet_diagnostic.S101.severity = suggestion
