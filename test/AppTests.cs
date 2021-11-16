@@ -1,8 +1,5 @@
 using System.CommandLine.IO;
-using System.IO;
-using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace LoadTestToolbox.Tests;
@@ -20,7 +17,7 @@ public class AppTests
 		var app = new App(http, console, writer);
 
 		//act
-		await app.Run(System.Array.Empty<string>());
+		await app.Run(Array.Empty<string>());
 
 		//assert
 		var output = console.Out.ToString() ?? "";

@@ -1,18 +1,17 @@
-using System;
-using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace LoadTestToolbox;
 
 public class Carpenter : Wielder<Hammer>
 {
-	public Carpenter(HttpClient http, IConsole console, HammerOptions options) : base(http, console)
+	public Carpenter(HttpClient http, IConsole console, HammerOptions options) : base(console)
 	{
+		if (options.URL is null)
+		{
+			throw new ArgumentException("URL not set");
+		}
+
 		var strengths = GetStrengths(options.Min, options.Max);
 		_tool = new Hammer(http, options.URL, strengths);
 	}

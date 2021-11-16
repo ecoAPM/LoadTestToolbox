@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
 using System.CommandLine;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace LoadTestToolbox;
 
-public abstract class Wielder<T> where T : ITool
+public abstract class Wielder<T> where T : Tool
 {
-	protected readonly HttpClient _http;
 	protected readonly IConsole _console;
-	protected T _tool;
+	protected T _tool = null!;
 
-	protected Wielder(HttpClient http, IConsole console)
+	protected Wielder(IConsole console)
 	{
-		_http = http;
 		_console = console;
 	}
 

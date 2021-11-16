@@ -1,13 +1,9 @@
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace LoadTestToolbox;
 
-public abstract class Tool : ITool
+public abstract class Tool
 {
 	public IDictionary<uint, double> Results => _results.ToImmutableDictionary();
 	protected readonly IDictionary<uint, double> _results = new ConcurrentDictionary<uint, double>();

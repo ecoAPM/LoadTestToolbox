@@ -1,7 +1,4 @@
-using System;
 using System.CommandLine.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace LoadTestToolbox.Tests;

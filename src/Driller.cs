@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.CommandLine;
 using System.CommandLine.IO;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace LoadTestToolbox;
 
@@ -14,11 +8,16 @@ public class Driller : Wielder<Drill>
 {
 	private readonly uint _rps;
 
-	public Driller(HttpClient http, IConsole console, DrillOptions options) : base(http, console)
+	public Driller(HttpClient http, IConsole console, DrillOptions options) : base(console)
 	{
+		if (options.URL is null)
+		{
+			throw new ArgumentException("URL not set");
+		}
+
 		var requests = options.RPS * options.Duration;
 		var delay = Stopwatch.Frequency / options.RPS;
-		_tool = new Drill(_http, options.URL, requests, delay);
+		_tool = new Drill(http, options.URL, requests, delay);
 		_rps = options.RPS;
 	}
 

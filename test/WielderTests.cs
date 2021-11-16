@@ -13,7 +13,7 @@ public class WielderTests
 	public void FormatsTimeCorrectly(double ms, string expected)
 	{
 		//act
-		var output = Wielder<ITool>.FormatTime(ms);
+		var output = Wielder<Tool>.FormatTime(ms);
 
 		//assert
 		Assert.Equal(expected, output);

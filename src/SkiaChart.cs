@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing.Text;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
@@ -19,7 +13,7 @@ public class SkiaChart
 
 	private static readonly IEnumerable<string> _fonts = SKFontManager.Default.FontFamilies;
 	private static readonly IEnumerable<string> _defaultOrder = new[] { "Noto Sans", "Open Sans", "Roboto", "Segoe UI", "Arial", "San Francisco", "Helvetica Neue", "Helvetica" };
-	private static readonly string DefaultFont = _defaultOrder.FirstOrDefault(name => _fonts.Any(f => f == name));
+	private static readonly string DefaultFont = _defaultOrder.FirstOrDefault(name => _fonts.Any(f => f == name)) ?? _fonts.First();
 
 	public SkiaChart(IDictionary<uint, double> results)
 		=> _results = results;

@@ -1,6 +1,3 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace LoadTestToolbox.Tests;
@@ -15,7 +12,7 @@ public class WorkerTests
 		var url = new Uri("http://localhost");
 
 		double result = 0;
-		var worker = new Worker(http, url, (request, ms) => result = ms);
+		var worker = new Worker(http, url, (_, ms) => result = ms);
 
 		//act
 		await worker.Run(0);
