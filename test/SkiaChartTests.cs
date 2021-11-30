@@ -4,7 +4,7 @@ using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public class SkiaChartTests
+public sealed class SkiaChartTests
 {
 	[Fact]
 	public void ChartContainsAllResults()

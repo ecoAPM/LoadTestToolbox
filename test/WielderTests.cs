@@ -2,7 +2,7 @@ using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public class WielderTests
+public sealed class WielderTests
 {
 	[Theory]
 	[InlineData(0.1234, "123 μs")]

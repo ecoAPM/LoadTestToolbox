@@ -2,7 +2,7 @@ using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public class WorkerTests
+public sealed class WorkerTests
 {
 	[Fact]
 	public async Task ReportsDurationFromTimer()

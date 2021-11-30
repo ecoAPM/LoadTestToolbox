@@ -1,24 +1,18 @@
-using System.CommandLine;
-using System.CommandLine.IO;
 using System.Diagnostics;
+using Spectre.Console;
 
 namespace LoadTestToolbox;
 
-public class Driller : Wielder<Drill>
+public sealed class Driller : Wielder<Drill>
 {
 	private readonly uint _rps;
 
-	public Driller(HttpClient http, IConsole console, DrillOptions options) : base(console)
+	public Driller(HttpClient http, IAnsiConsole console, DrillSettings settings) : base(console)
 	{
-		if (options.URL is null)
-		{
-			throw new ArgumentException("URL not set");
-		}
-
-		var requests = options.RPS * options.Duration;
-		var delay = Stopwatch.Frequency / options.RPS;
-		_tool = new Drill(http, options.URL, requests, delay);
-		_rps = options.RPS;
+		var requests = settings.RPS * settings.Duration;
+		var delay = Stopwatch.Frequency / settings.RPS;
+		_tool = new Drill(http, settings.URL, requests, delay);
+		_rps = settings.RPS;
 	}
 
 	public override async Task<IDictionary<uint, double>> Run()
@@ -55,7 +49,7 @@ public class Driller : Wielder<Drill>
 				continue;
 
 			var average = lastSecondOfResults.Average(r => r.Value);
-			_console.Out.WriteLine(secondsSinceStart + ": " + FormatTime(average));
+			_console.WriteLine(secondsSinceStart + ": " + FormatTime(average));
 			previewed = secondsSinceStart;
 		}
 	}

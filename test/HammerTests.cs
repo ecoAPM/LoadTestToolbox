@@ -2,7 +2,7 @@ using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public class HammerTests
+public sealed class HammerTests
 {
 	[Fact]
 	public async Task NumberOfResultsMatchRequests()

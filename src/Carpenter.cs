@@ -1,19 +1,13 @@
-using System.CommandLine;
-using System.CommandLine.IO;
+using Spectre.Console;
 
 namespace LoadTestToolbox;
 
-public class Carpenter : Wielder<Hammer>
+public sealed class Carpenter : Wielder<Hammer>
 {
-	public Carpenter(HttpClient http, IConsole console, HammerOptions options) : base(console)
+	public Carpenter(HttpClient http, IAnsiConsole console, HammerSettings settings) : base(console)
 	{
-		if (options.URL is null)
-		{
-			throw new ArgumentException("URL not set");
-		}
-
-		var strengths = GetStrengths(options.Min, options.Max);
-		_tool = new Hammer(http, options.URL, strengths);
+		var strengths = GetStrengths(settings.Min, settings.Max);
+		_tool = new Hammer(http, settings.URL, strengths);
 	}
 
 	public static IEnumerable<uint> GetStrengths(uint min, uint max)
@@ -61,7 +55,7 @@ public class Carpenter : Wielder<Hammer>
 			var (key, value) = _tool.Results.OrderBy(r => r.Key).FirstOrDefault(r => r.Key > previewed);
 			if (_tool.Results.ContainsKey(key))
 			{
-				_console.Out.WriteLine(key + ": " + FormatTime(value));
+				_console.WriteLine(key + ": " + FormatTime(value));
 				previewed = key;
 			}
 

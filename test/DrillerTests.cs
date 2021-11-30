@@ -1,9 +1,9 @@
-using System.CommandLine.IO;
+using Spectre.Console.Testing;
 using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public class DrillerTests
+public sealed class DrillerTests
 {
 	[Fact]
 	public async Task CanDrill()
@@ -11,7 +11,7 @@ public class DrillerTests
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
 		var console = new TestConsole();
-		var options = new DrillOptions
+		var options = new DrillSettings
 		{
 			URL = new Uri("http://localhost"),
 			RPS = 1,

@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace LoadTestToolbox;
 
-public class Worker
+public sealed class Worker
 {
 	private readonly HttpClient _httpClient;
 	private readonly Action<uint, double> _report;

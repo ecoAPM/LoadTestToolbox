@@ -1,9 +1,9 @@
-using System.CommandLine.IO;
+using Spectre.Console.Testing;
 using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public class CarpenterTests
+public sealed class CarpenterTests
 {
 	[Theory]
 	[InlineData(1, 1, new uint[] { 1 })]
@@ -27,7 +27,7 @@ public class CarpenterTests
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
 		var console = new TestConsole();
-		var options = new HammerOptions
+		var options = new HammerSettings
 		{
 			URL = new Uri("http://localhost"),
 			Min = 1,
@@ -39,11 +39,10 @@ public class CarpenterTests
 		await carpenter.Run();
 
 		//assert
-		var output = console.Out.ToString() ?? "";
-		Assert.Contains("1: ", output);
-		Assert.Contains("2: ", output);
-		Assert.Contains("3: ", output);
-		Assert.Contains("4: ", output);
-		Assert.Contains("5: ", output);
+		Assert.Contains("1: ", console.Output);
+		Assert.Contains("2: ", console.Output);
+		Assert.Contains("3: ", console.Output);
+		Assert.Contains("4: ", console.Output);
+		Assert.Contains("5: ", console.Output);
 	}
 }

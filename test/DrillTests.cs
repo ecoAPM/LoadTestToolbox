@@ -2,7 +2,7 @@ using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public class DrillTests
+public sealed class DrillTests
 {
 	[Fact]
 	public async Task NumberOfResultsMatchRequests()

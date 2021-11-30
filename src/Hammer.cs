@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 
 namespace LoadTestToolbox;
 
-public class Hammer : Tool
+public sealed class Hammer : Tool
 {
 	private readonly IEnumerable<uint> _strengths;
 	private readonly IDictionary<uint, double> _singleResults = new ConcurrentDictionary<uint, double>();

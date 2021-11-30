@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace LoadTestToolbox;
 
-public class Drill : Tool
+public sealed class Drill : Tool
 {
 	private readonly uint _totalRequests;
 	private readonly long _delay;

@@ -1,16 +1,14 @@
-using System.CommandLine;
+using Spectre.Console;
 
 namespace LoadTestToolbox;
 
 public abstract class Wielder<T> where T : Tool
 {
-	protected readonly IConsole _console;
+	protected readonly IAnsiConsole _console;
 	protected T _tool = null!;
 
-	protected Wielder(IConsole console)
-	{
-		_console = console;
-	}
+	protected Wielder(IAnsiConsole console)
+		=> _console = console;
 
 	public abstract Task<IDictionary<uint, double>> Run();
 
