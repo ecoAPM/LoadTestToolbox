@@ -9,7 +9,8 @@ public sealed class HammerTests
 	{
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
-		var hammer = new Hammer(http, new Uri("http://localhost"), new uint[] { 1, 2, 3, 4, 5 });
+		HttpRequestMessage NewMessage() => new(HttpMethod.Get, new Uri("http://localhost"));
+		var hammer = new Hammer(http, NewMessage, new uint[] { 1, 2, 3, 4, 5 });
 
 		//act
 		await hammer.Run();

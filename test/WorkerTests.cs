@@ -9,10 +9,10 @@ public sealed class WorkerTests
 	{
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
-		var url = new Uri("http://localhost");
+		HttpRequestMessage NewMessage() => new(HttpMethod.Get, new Uri("http://localhost"));
 
 		double result = 0;
-		var worker = new Worker(http, url, (_, ms) => result = ms);
+		var worker = new Worker(http, NewMessage, (_, ms) => result = ms);
 
 		//act
 		await worker.Run(0);

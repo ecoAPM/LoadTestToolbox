@@ -7,7 +7,7 @@ public sealed class Drill : Tool<double>
 	private readonly uint _totalRequests;
 	private readonly long _delay;
 
-	public Drill(HttpClient http, Uri url, uint requests, long delay) : base(http, url)
+	public Drill(HttpClient http, Func<HttpRequestMessage> newMessage, uint requests, long delay) : base(http, newMessage)
 	{
 		_totalRequests = requests;
 		_delay = delay;
@@ -15,22 +15,25 @@ public sealed class Drill : Tool<double>
 
 	public override async Task Run()
 	{
+		var threads = CreateThreads(_totalRequests);
+
 		uint started = 0;
 		var timer = Stopwatch.StartNew();
 
 		while (started < _totalRequests)
 		{
-			var request = started;
-#pragma warning disable 4014
-			var thread = new Thread(() => _worker.Run(request))
-#pragma warning restore 4014
-			{
-				Priority = ThreadPriority.Highest
-			};
-			thread.Start();
-
+			threads[started].Start();
 			var nextStart = ++started * _delay;
-			SpinWait.SpinUntil(() => timer.ElapsedTicks > nextStart);
+
+			if (started < _totalRequests)
+			{
+				SpinWait.SpinUntil(() => timer.ElapsedTicks > nextStart);
+			}
+		}
+
+		foreach (var thread in threads)
+		{
+			thread.Join();
 		}
 
 		await True(Complete);

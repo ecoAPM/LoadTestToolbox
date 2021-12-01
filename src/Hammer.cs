@@ -7,7 +7,7 @@ public sealed class Hammer : Tool<Stats>
 	private readonly IEnumerable<uint> _strengths;
 	private readonly IDictionary<uint, double> _singleResults = new ConcurrentDictionary<uint, double>();
 
-	public Hammer(HttpClient http, Uri url, IEnumerable<uint> strengths) : base(http, url)
+	public Hammer(HttpClient http, Func<HttpRequestMessage> newMessage, IEnumerable<uint> strengths) : base(http, newMessage)
 		=> _strengths = strengths;
 
 	public override async Task Run()
@@ -31,17 +31,16 @@ public sealed class Hammer : Tool<Stats>
 
 	private async Task<IDictionary<uint, double>> RunOnce(uint requests)
 	{
+		var threads = CreateThreads(requests);
 		_singleResults.Clear();
-		for (uint request = 0; request < requests; request++)
+		foreach (var thread in threads)
 		{
-			var r = request;
-#pragma warning disable 4014
-			var thread = new Thread(() => _worker.Run(r))
-#pragma warning restore 4014
-			{
-				Priority = ThreadPriority.Highest
-			};
 			thread.Start();
+		}
+
+		foreach (var thread in threads)
+		{
+			thread.Join();
 		}
 
 		await True(() => _singleResults.Count == requests);

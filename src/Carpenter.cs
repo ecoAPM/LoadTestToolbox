@@ -7,7 +7,7 @@ public sealed class Carpenter : Wielder<Hammer, Stats>
 	public Carpenter(HttpClient http, IAnsiConsole console, HammerSettings settings) : base(console)
 	{
 		var strengths = GetStrengths(settings.Min, settings.Max);
-		_tool = new Hammer(http, settings.URL, strengths);
+		_tool = new Hammer(http, () => Factory.Message(settings), strengths);
 	}
 
 	public static IEnumerable<uint> GetStrengths(uint min, uint max)
@@ -32,22 +32,7 @@ public sealed class Carpenter : Wielder<Hammer, Stats>
 		return list;
 	}
 
-	public override async Task<IDictionary<uint, Stats>> Run()
-	{
-#pragma warning disable 4014
-		var thread = new Thread(() => _tool.Run())
-#pragma warning restore 4014
-		{
-			Priority = ThreadPriority.Highest
-		};
-		thread.Start();
-
-		await OutputProgress();
-
-		return _tool.Results;
-	}
-
-	private async Task OutputProgress()
+	protected override async Task OutputProgress()
 	{
 		uint previewed = 0;
 		while (!_tool.Complete() || previewed < _tool.Results.Max(r => r.Key))

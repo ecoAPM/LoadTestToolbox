@@ -25,4 +25,10 @@ public static class Factory
 		config.AddCommand<DrillCommand>("drill").WithDescription("Sends requests at a consistent rate");
 		config.AddCommand<HammerCommand>("hammer").WithDescription("Sends increasing numbers of simultaneous requests");
 	}
+
+	public static HttpRequestMessage Message(ToolSettings settings)
+		=> new(HttpMethod(settings.Method), settings.URL);
+
+	private static HttpMethod HttpMethod(string method)
+		=> new(method.ToUpperInvariant());
 }
