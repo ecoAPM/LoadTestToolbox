@@ -28,7 +28,11 @@ public static class Factory
 
 	public static HttpRequestMessage Message(ToolSettings settings)
 	{
-		var message = new HttpRequestMessage(HttpMethod(settings.Method), settings.URL);
+		var message = new HttpRequestMessage(HttpMethod(settings.Method), settings.URL)
+		{
+			Content = new StringContent(settings.Body)
+		};
+
 		foreach (var header in settings.Headers)
 		{
 			var split = header.Split(':');

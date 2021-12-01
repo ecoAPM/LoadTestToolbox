@@ -22,6 +22,10 @@ public abstract class ToolSettings : CommandSettings
 	[Description("the HTTP header(s) to add to the request")]
 	public string[] Headers { get; init; } = Array.Empty<string>();
 
+	[CommandOption("-b|--body")]
+	[Description("the body of the HTTP request")]
+	public string Body { get; init; } = string.Empty;
+
 	public override ValidationResult Validate()
 	{
 		if (URL == null || !URL.IsAbsoluteUri)

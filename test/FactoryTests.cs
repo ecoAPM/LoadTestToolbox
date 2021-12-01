@@ -1,4 +1,5 @@
-﻿using Spectre.Console.Cli;
+﻿using System.Text.Json;
+using Spectre.Console.Cli;
 using Xunit;
 
 namespace LoadTestToolbox.Tests;
@@ -16,14 +17,15 @@ public sealed class FactoryTests
 	}
 
 	[Fact]
-	public void CanCreateMessage()
+	public async Task CanCreateComplexMessage()
 	{
 		//arrange
 		var settings = new DrillSettings
 		{
 			URL = new Uri("http://localhost"),
 			Method = HttpMethod.Post.Method,
-			Headers = new[] { "Authorization: Basic a1b2c3d4e5f6" }
+			Headers = new[] { "Authorization: Basic a1b2c3d4e5f6" },
+			Body = $@"{{""key123"":""value456""}}"
 		};
 
 		//act
@@ -33,5 +35,8 @@ public sealed class FactoryTests
 		Assert.Equal(HttpMethod.Post, message.Method);
 		Assert.Contains("Authorization", message.Headers.Select(h => h.Key));
 		Assert.Contains("Basic a1b2c3d4e5f6", message.Headers.Select(h => h.Value.FirstOrDefault()));
+
+		var json = await JsonSerializer.DeserializeAsync<JsonElement>(await message.Content!.ReadAsStreamAsync());
+		Assert.Equal("value456", json.GetProperty("key123").GetString());
 	}
 }
