@@ -4,7 +4,7 @@ using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public class DrillCommandTests
+public sealed class DrillCommandTests
 {
 	[Fact]
 	public async Task WritesFileOnSuccess()

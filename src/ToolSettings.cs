@@ -18,6 +18,10 @@ public abstract class ToolSettings : CommandSettings
 	[Description("the HTTP method to use")]
 	public string Method { get; init; } = HttpMethod.Get.Method;
 
+	[CommandOption("-H|--header")]
+	[Description("the HTTP header(s) to add to the request")]
+	public string[] Headers { get; init; } = Array.Empty<string>();
+
 	public override ValidationResult Validate()
 	{
 		if (URL == null || !URL.IsAbsoluteUri)

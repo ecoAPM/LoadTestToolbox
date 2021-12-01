@@ -4,7 +4,7 @@ using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public class HammerCommandTests
+public sealed class HammerCommandTests
 {
 	[Fact]
 	public async Task WritesFileOnSuccess()

@@ -1,6 +1,6 @@
 ﻿namespace LoadTestToolbox;
 
-public class Stats
+public sealed record Stats
 {
 	public double Min { get; init; }
 	public double Mean { get; init; }

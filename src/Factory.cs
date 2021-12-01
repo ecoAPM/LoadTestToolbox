@@ -27,7 +27,17 @@ public static class Factory
 	}
 
 	public static HttpRequestMessage Message(ToolSettings settings)
-		=> new(HttpMethod(settings.Method), settings.URL);
+	{
+		var message = new HttpRequestMessage(HttpMethod(settings.Method), settings.URL);
+		foreach (var header in settings.Headers)
+		{
+			var split = header.Split(':');
+			var name = split[0].Trim();
+			var value = split[1].Trim();
+			message.Headers.Add(name, value);
+		}
+		return message;
+	}
 
 	private static HttpMethod HttpMethod(string method)
 		=> new(method.ToUpperInvariant());
