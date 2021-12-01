@@ -96,6 +96,29 @@ The average response time for each set of requests is output to the console:
 
 A Cartesian chart with the above data is output to the specified file upon completion.
 
+## Options
+
+### Required for all requests
+
+- `-u`/`--url`: the URL to send to
+- `-f`/`--filename`: the file to output the chart to
+
+### Optional for any request
+
+- `-m`/`--method`: the HTTP method to send (default: `GET`)
+- `-H`/`--header`: the HTTP header(s) to send (default: none)
+- `-b`/`--body`: the HTTP body to send (default: none)
+
+### Required for `drill`
+
+- `-r`/`--rps`: the number of requests per second to send
+- `-d`/`--duration`: the number of seconds to send requests for
+
+### Required for `hammer`
+
+- `--min`: the minimum number of requests to send
+- `--max`: the maximum number of requests to send
+
 ## Contributing
 
 Please be sure to read and follow ecoAPM's [Contribution Guidelines](CONTRIBUTING.md) when submitting issues or pull requests.
