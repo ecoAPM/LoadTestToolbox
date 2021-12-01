@@ -4,7 +4,7 @@ using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public sealed class SkiaChartTests
+public sealed class LineChartTests
 {
 	[Fact]
 	public void ChartContainsAllResults()
@@ -16,7 +16,7 @@ public sealed class SkiaChartTests
 				{ 2, 2.34 },
 				{ 3, 3.45 }
 			};
-		var skia = new SkiaChart(results);
+		var skia = new LineChart(results);
 
 		//act
 		var chart = skia.Chart;
@@ -36,7 +36,7 @@ public sealed class SkiaChartTests
 			{
 				{ 1, max }
 			};
-		var skia = new SkiaChart(results);
+		var skia = new LineChart(results);
 
 		//act
 		var chart = skia.Chart;
@@ -55,7 +55,7 @@ public sealed class SkiaChartTests
 				{ 5, 3.45 },
 				{ 2, 1.23 }
 			};
-		var skia = new SkiaChart(results);
+		var skia = new LineChart(results);
 
 		//act
 		var chart = skia.Chart;
@@ -75,7 +75,7 @@ public sealed class SkiaChartTests
 				{ 3, 2.34 },
 				{ 5, 3.45 }
 			};
-		var chart = new SkiaChart(results);
+		var chart = new LineChart(results);
 		var data = new byte[ushort.MaxValue];
 		var stream = new MemoryStream(data);
 

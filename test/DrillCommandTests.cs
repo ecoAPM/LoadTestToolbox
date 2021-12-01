@@ -49,6 +49,5 @@ public class DrillCommandTests
 		//assert
 		Assert.Equal(1, result);
 		Assert.Contains("exception", console.Output, StringComparison.InvariantCultureIgnoreCase);
-
 	}
 }

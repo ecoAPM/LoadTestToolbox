@@ -18,7 +18,8 @@ public sealed class DrillCommand : ToolCommand<DrillSettings>
 		{
 			var driller = new Driller(_httpClient, _console, settings);
 			var results = await driller.Run();
-			await SaveChart(results, settings.Filename);
+			var chart = new LineChart(results);
+			await SaveChart(chart, settings.Filename);
 			return 0;
 		}
 		catch (Exception e)

@@ -7,16 +7,11 @@ using SkiaSharp;
 
 namespace LoadTestToolbox;
 
-public sealed class SkiaChart
+public abstract class SkiaChart
 {
-	private readonly IDictionary<uint, double> _results;
-
 	private static readonly IEnumerable<string> _fonts = SKFontManager.Default.FontFamilies;
 	private static readonly IEnumerable<string> _defaultOrder = new[] { "Noto Sans", "Open Sans", "Roboto", "Segoe UI", "Arial", "San Francisco", "Helvetica Neue", "Helvetica" };
 	private static readonly string DefaultFont = _defaultOrder.FirstOrDefault(name => _fonts.Any(f => f == name)) ?? _fonts.First();
-
-	public SkiaChart(IDictionary<uint, double> results)
-		=> _results = results;
 
 	public async Task Save(Stream output)
 	{
@@ -32,8 +27,10 @@ public sealed class SkiaChart
 			Height = 720,
 			XAxes = new[] { XAxis },
 			YAxes = new[] { YAxis },
-			Series = new[] { Series }
+			Series = Series
 		};
+
+	protected abstract IEnumerable<LineSeries<ObservablePoint>> Series { get; }
 
 	private Axis XAxis
 		=> new()
@@ -59,27 +56,26 @@ public sealed class SkiaChart
 			MaxLimit = YAxisMax
 		};
 
-	private LineSeries<ObservablePoint> Series
+	protected static LineSeries<ObservablePoint> LineSeries(string name, IEnumerable<ObservablePoint> values, SKColor color)
 		=> new()
 		{
-			Values = _results.OrderBy(r => r.Key).Select(r => new ObservablePoint(r.Key, r.Value)),
-			Stroke = new SolidColorPaint(SKColors.DodgerBlue, 2),
+			Name = name,
+			Values = values,
+			Stroke = new SolidColorPaint(color, 2),
+			Fill = new SolidColorPaint(color.WithAlpha(32)),
 			LineSmoothness = 0,
 			GeometrySize = 0,
 			GeometryStroke = null,
 			GeometryFill = null
 		};
 
-	private uint MinXAxis
-		=> _results.Min(r => r.Key);
+	protected abstract uint MinXAxis { get; }
 
-	private uint MaxXAxis
-		=> _results.Max(r => r.Key);
+	protected abstract uint MaxXAxis { get; }
 
-	private double YAxisMax
-		=> GetYAxisMax(_results.Max(r => r.Value));
+	protected abstract double YAxisMax { get; }
 
-	private static double GetYAxisMax(double max)
+	protected static double GetYAxisMax(double max)
 	{
 		var interval = GetYStepSize(max);
 		return Math.Ceiling(max / interval) * interval;

@@ -2,7 +2,7 @@ using Spectre.Console;
 
 namespace LoadTestToolbox;
 
-public sealed class Carpenter : Wielder<Hammer>
+public sealed class Carpenter : Wielder<Hammer, Stats>
 {
 	public Carpenter(HttpClient http, IAnsiConsole console, HammerSettings settings) : base(console)
 	{
@@ -32,7 +32,7 @@ public sealed class Carpenter : Wielder<Hammer>
 		return list;
 	}
 
-	public override async Task<IDictionary<uint, double>> Run()
+	public override async Task<IDictionary<uint, Stats>> Run()
 	{
 #pragma warning disable 4014
 		var thread = new Thread(() => _tool.Run())
@@ -55,7 +55,7 @@ public sealed class Carpenter : Wielder<Hammer>
 			var (key, value) = _tool.Results.OrderBy(r => r.Key).FirstOrDefault(r => r.Key > previewed);
 			if (_tool.Results.ContainsKey(key))
 			{
-				_console.WriteLine(key + ": " + FormatTime(value));
+				_console.WriteLine($"{key}: {FormatTime(value.Min)}/{FormatTime(value.Mean)}/{FormatTime(value.Median)}/{FormatTime(value.Max)}");
 				previewed = key;
 			}
 

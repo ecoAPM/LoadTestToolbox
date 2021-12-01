@@ -3,7 +3,7 @@ using Spectre.Console;
 
 namespace LoadTestToolbox;
 
-public sealed class Driller : Wielder<Drill>
+public sealed class Driller : Wielder<Drill, double>
 {
 	private readonly uint _rps;
 

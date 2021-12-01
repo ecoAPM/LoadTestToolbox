@@ -18,7 +18,8 @@ public sealed class HammerCommand : ToolCommand<HammerSettings>
 		{
 			var carpenter = new Carpenter(_httpClient, _console, settings);
 			var results = await carpenter.Run();
-			await SaveChart(results, settings.Filename);
+			var chart = new LineChart(results.ToDictionary(r => r.Key, r => r.Value.Mean));
+			await SaveChart(chart, settings.Filename);
 			return 0;
 		}
 		catch (Exception e)

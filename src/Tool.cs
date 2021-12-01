@@ -3,10 +3,10 @@ using System.Collections.Immutable;
 
 namespace LoadTestToolbox;
 
-public abstract class Tool
+public abstract class Tool<T>
 {
-	public IDictionary<uint, double> Results => _results.ToImmutableDictionary();
-	protected readonly IDictionary<uint, double> _results = new ConcurrentDictionary<uint, double>();
+	public IDictionary<uint, T> Results => _results.ToImmutableDictionary();
+	protected readonly IDictionary<uint, T> _results = new ConcurrentDictionary<uint, T>();
 
 	protected readonly Worker _worker;
 
@@ -23,8 +23,7 @@ public abstract class Tool
 	private static async Task Prime(HttpClient httpClient, Uri url)
 		=> await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
 
-	protected virtual void addResult(uint request, double ms)
-		=> _results.Add(request, ms);
+	protected abstract void addResult(uint request, double ms);
 
 	protected static async Task True(Func<bool> expression)
 	{

@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace LoadTestToolbox;
 
-public sealed class Drill : Tool
+public sealed class Drill : Tool<double>
 {
 	private readonly uint _totalRequests;
 	private readonly long _delay;
@@ -38,4 +38,7 @@ public sealed class Drill : Tool
 
 	public override bool Complete()
 		=> _results.Count == _totalRequests;
+
+	protected override void addResult(uint request, double ms)
+		=> _results.Add(request, ms);
 }

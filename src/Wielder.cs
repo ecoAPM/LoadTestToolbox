@@ -2,7 +2,7 @@ using Spectre.Console;
 
 namespace LoadTestToolbox;
 
-public abstract class Wielder<T> where T : Tool
+public abstract class Wielder<T,R> where T : Tool<R>
 {
 	protected readonly IAnsiConsole _console;
 	protected T _tool = null!;
@@ -10,7 +10,7 @@ public abstract class Wielder<T> where T : Tool
 	protected Wielder(IAnsiConsole console)
 		=> _console = console;
 
-	public abstract Task<IDictionary<uint, double>> Run();
+	public abstract Task<IDictionary<uint, R>> Run();
 
 	public static string FormatTime(double ms)
 	{

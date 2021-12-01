@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 
 namespace LoadTestToolbox;
 
-public sealed class Hammer : Tool
+public sealed class Hammer : Tool<Stats>
 {
 	private readonly IEnumerable<uint> _strengths;
 	private readonly IDictionary<uint, double> _singleResults = new ConcurrentDictionary<uint, double>();
@@ -12,11 +12,17 @@ public sealed class Hammer : Tool
 
 	public override async Task Run()
 	{
-		var totals = new ConcurrentDictionary<uint, double>();
+		var totals = new ConcurrentDictionary<uint, Stats>();
 		foreach (var x in _strengths)
 		{
 			var results = await RunOnce(x);
-			totals[x] = results.Average(r => r.Value);
+			totals[x] = new Stats
+			{
+				Min = results.Min(r => r.Value),
+				Mean = results.Average(r => r.Value),
+				Median = results.OrderBy(r => r.Key).Skip(results.Count/2).First().Value,
+				Max = results.Max(r => r.Value)
+			};
 			_results.Add(x, totals[x]);
 		}
 

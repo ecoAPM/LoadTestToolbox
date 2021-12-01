@@ -16,10 +16,9 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : CommandSettings
 		_console = console;
 	}
 
-	protected async Task SaveChart(IDictionary<uint, double> results, string filename)
+	protected async Task SaveChart(SkiaChart chart, string filename)
 	{
 		await using var output = _fileWriter(filename);
-		var chart = new SkiaChart(results);
 		await chart.Save(output);
 	}
 }
