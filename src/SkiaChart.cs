@@ -19,20 +19,28 @@ public abstract class SkiaChart
 
 	public async Task Save(Stream output)
 	{
-		var imageData = Chart.GetImage().Encode(SKEncodedImageFormat.Png, 100).ToArray();
+		var imageData = GetChart().GetImage().Encode(SKEncodedImageFormat.Png, 100).ToArray();
 		var stream = new MemoryStream(imageData);
 		await stream.CopyToAsync(output);
 	}
 
-	public SKCartesianChart Chart
-		=> new()
+	public SKCartesianChart GetChart()
+		{
+		var chart = new SKCartesianChart
 		{
 			Width = 1280,
 			Height = 720,
+			Background = SKColors.White,
 			XAxes = new[] { XAxis },
 			YAxes = new[] { YAxis },
-			Series = Series
+			Series = Series,
+			LegendPosition = Series.Count > 1 ? LegendPosition.Bottom : LegendPosition.Hidden
 		};
+
+		chart.LegendFontPaint!.FontFamily = DefaultFont;
+
+		return chart;
+	}
 
 	protected abstract IReadOnlyCollection<LineSeries<ObservablePoint>> Series { get; }
 

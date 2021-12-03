@@ -13,7 +13,6 @@ public sealed class HammerCommand : ToolCommand<HammerSettings>
 		var carpenter = new Carpenter(_httpClient, task, settings);
 		var results = carpenter.Run();
 
-		var averages = results.ToDictionary(r => r.Key, r => r.Value.Mean);
-		return new LineChart(averages);
+		return new MultilineChart(results);
 	}
 }

@@ -1,22 +1,22 @@
-using System.Text;
+﻿using System.Text;
 using LiveChartsCore.Defaults;
 using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public sealed class LineChartTests
+public sealed class MultilineChartTests
 {
 	[Fact]
 	public void ChartContainsAllResults()
 	{
 		//arrange
-		var results = new Dictionary<uint, double>
-			{
-				{ 1, 1.23 },
-				{ 2, 2.34 },
-				{ 3, 3.45 }
-			};
-		var skia = new LineChart(results);
+		var results = new Dictionary<uint, Stats>
+		{
+			{ 1, new Stats(new Dictionary<uint, double>()) },
+			{ 2, new Stats(new Dictionary<uint, double>()) },
+			{ 3, new Stats(new Dictionary<uint, double>()) }
+		};
+		var skia = new MultilineChart(results);
 
 		//act
 		var chart = skia.GetChart();
@@ -32,11 +32,11 @@ public sealed class LineChartTests
 	public void YAxisRangeIsRounded(double max, double expected)
 	{
 		//arrange
-		var results = new Dictionary<uint, double>
-			{
-				{ 1, max }
-			};
-		var skia = new LineChart(results);
+		var results = new Dictionary<uint, Stats>
+		{
+			{ 1, new Stats(new Dictionary<uint, double> { { 1, max}}) }
+		};
+		var skia = new MultilineChart(results);
 
 		//act
 		var chart = skia.GetChart();
@@ -49,13 +49,13 @@ public sealed class LineChartTests
 	public void XAxisIsSortedAndBoundByValues()
 	{
 		//arrange
-		var results = new Dictionary<uint, double>
-			{
-				{ 3, 2.34 },
-				{ 5, 3.45 },
-				{ 2, 1.23 }
-			};
-		var skia = new LineChart(results);
+		var results = new Dictionary<uint, Stats>
+		{
+			{ 3, new Stats(new Dictionary<uint, double>()) },
+			{ 5, new Stats(new Dictionary<uint, double>()) },
+			{ 2, new Stats(new Dictionary<uint, double>()) }
+		};
+		var skia = new MultilineChart(results);
 
 		//act
 		var chart = skia.GetChart();
@@ -69,13 +69,13 @@ public sealed class LineChartTests
 	public async Task CanSaveChartToStream()
 	{
 		//arrange
-		var results = new Dictionary<uint, double>
-			{
-				{ 2, 1.23 },
-				{ 3, 2.34 },
-				{ 5, 3.45 }
-			};
-		var chart = new LineChart(results);
+		var results = new Dictionary<uint, Stats>
+		{
+			{ 2, new Stats(new Dictionary<uint, double>()) },
+			{ 3, new Stats(new Dictionary<uint, double>()) },
+			{ 5, new Stats(new Dictionary<uint, double>()) }
+		};
+		var chart = new MultilineChart(results);
 		var data = new byte[ushort.MaxValue];
 		var stream = new MemoryStream(data);
 
