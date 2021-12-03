@@ -4,7 +4,7 @@ using SkiaSharp;
 
 namespace LoadTestToolbox;
 
-public class LineChart : SkiaChart
+public sealed class LineChart : SkiaChart
 {
 	private readonly IDictionary<uint, double> _results;
 

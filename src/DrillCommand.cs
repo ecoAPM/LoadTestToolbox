@@ -1,5 +1,4 @@
 ﻿using Spectre.Console;
-using Spectre.Console.Cli;
 
 namespace LoadTestToolbox;
 
@@ -9,23 +8,11 @@ public sealed class DrillCommand : ToolCommand<DrillSettings>
 	{
 	}
 
-	public override async Task<int> ExecuteAsync(CommandContext context, DrillSettings settings)
-		=> await _console.Status().StartAsync("Running...", _ => Run(settings));
-
-	private async Task<int> Run(DrillSettings settings)
+	protected override SkiaChart WieldTool(ProgressTask task, DrillSettings settings)
 	{
-		try
-		{
-			var driller = new Driller(_httpClient, _console, settings);
-			var results = await driller.Run();
-			var chart = new LineChart(results);
-			await SaveChart(chart, settings.Filename);
-			return 0;
-		}
-		catch (Exception e)
-		{
-			_console.WriteException(e, ExceptionFormats.ShortenEverything);
-			return 1;
-		}
+		var driller = new Driller(_httpClient, task, settings);
+		var results = driller.Run();
+
+		return new LineChart(results);
 	}
 }

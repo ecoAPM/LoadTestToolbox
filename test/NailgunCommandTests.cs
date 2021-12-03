@@ -4,7 +4,7 @@ using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public sealed class DrillCommandTests
+public sealed class NailgunCommandTests
 {
 	[Fact]
 	public async Task WritesFileOnSuccess()
@@ -14,12 +14,11 @@ public sealed class DrillCommandTests
 		var console = new TestConsole();
 		var file = new byte[ushort.MaxValue];
 		Stream writer(string s) => new MemoryStream(file);
-		var command = new DrillCommand(http, writer, console);
-		var settings = new DrillSettings
+		var command = new NailgunCommand(http, writer, console);
+		var settings = new NailgunSettings
 		{
 			URL = new Uri("http://localhost"),
-			RPS = 1,
-			Duration = 1,
+			Requests = 1,
 			Filename = "test.png"
 		};
 
@@ -39,8 +38,8 @@ public sealed class DrillCommandTests
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
 		var console = new TestConsole();
-		var command = new DrillCommand(http, null!, console);
-		var settings = new DrillSettings();
+		var command = new NailgunCommand(http, null!, console);
+		var settings = new NailgunSettings();
 
 		//act
 		var result = await command.ExecuteAsync(null!, settings);

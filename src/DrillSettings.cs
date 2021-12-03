@@ -8,7 +8,7 @@ public sealed class DrillSettings : ToolSettings
 {
 	[CommandOption("-r|--rps")]
 	[Description("The number of requests per second to send")]
-	public uint RPS { get; init; }
+	public ushort RPS { get; init; }
 
 	[CommandOption("-d|--duration")]
 	[Description("The duration (in seconds) to send requests for")]
@@ -18,7 +18,7 @@ public sealed class DrillSettings : ToolSettings
 	{
 		if (RPS == 0)
 		{
-			return ValidationResult.Error("Requests per second value is required");
+			return ValidationResult.Error("Value for requests per second is required");
 		}
 
 		if (Duration == 0)

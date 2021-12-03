@@ -28,6 +28,7 @@ public sealed class HammerCommandTests
 
 		//assert
 		var contents = Encoding.UTF8.GetString(file);
+		Assert.Empty(console.Output);
 		Assert.Equal(0, result);
 		Assert.NotEmpty(contents);
 	}
@@ -38,9 +39,7 @@ public sealed class HammerCommandTests
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
 		var console = new TestConsole();
-		var file = new byte[ushort.MaxValue];
-		Stream writer(string s) => new MemoryStream(file);
-		var command = new HammerCommand(http, writer, console);
+		var command = new HammerCommand(http, null!, console);
 		var settings = new HammerSettings();
 
 		//act

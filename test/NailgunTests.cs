@@ -1,8 +1,8 @@
-using Xunit;
+﻿using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public sealed class DrillTests
+public sealed class NailgunTests
 {
 	[Fact]
 	public void NumberOfResultsMatchRequests()
@@ -10,10 +10,10 @@ public sealed class DrillTests
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
 		HttpRequestMessage newMessage() => new(HttpMethod.Get, new Uri("http://localhost"));
-		var drill = new Drill(http, newMessage, () => { }, 5, 0);
+		var nailgun = new Nailgun(http, newMessage, () => { }, 5);
 
 		//act
-		var results = drill.Run();
+		var results = nailgun.Run();
 
 		//assert
 		Assert.Equal(5, results.Count);

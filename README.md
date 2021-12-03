@@ -34,6 +34,7 @@ For the most accurate results, run LoadTestToolbox on a different machine (ideal
 LoadTestToolbox currently consists of two tools:
 - `drill`
 - `hammer`
+- `nailgun`
 
 ### Drill
 

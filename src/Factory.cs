@@ -22,8 +22,9 @@ public static class Factory
 
 	private static void AddCommands(IConfigurator config)
 	{
-		config.AddCommand<DrillCommand>("drill").WithDescription("Sends requests at a consistent rate");
-		config.AddCommand<HammerCommand>("hammer").WithDescription("Sends increasing numbers of simultaneous requests");
+		config.AddCommand<DrillCommand>("drill").WithDescription("Send requests at a consistent rate");
+		config.AddCommand<HammerCommand>("hammer").WithDescription("Send increasing numbers of simultaneous requests");
+		config.AddCommand<NailgunCommand>("nailgun").WithDescription("Send a large number of requests all at once");
 	}
 
 	public static HttpRequestMessage Message(ToolSettings settings)

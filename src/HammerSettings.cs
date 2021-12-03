@@ -8,11 +8,11 @@ public sealed class HammerSettings : ToolSettings
 {
 	[CommandOption("--min")]
 	[Description("The minimum number of simultaneous requests to send")]
-	public uint Min { get; init; }
+	public ushort Min { get; init; }
 
 	[CommandOption("--max")]
 	[Description("The maximum number of simultaneous requests to send")]
-	public uint Max { get; init; }
+	public ushort Max { get; init; }
 
 	public override ValidationResult Validate()
 	{

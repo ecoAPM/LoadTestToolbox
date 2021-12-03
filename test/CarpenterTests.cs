@@ -1,4 +1,4 @@
-using Spectre.Console.Testing;
+using Spectre.Console;
 using Xunit;
 
 namespace LoadTestToolbox.Tests;
@@ -22,27 +22,23 @@ public sealed class CarpenterTests
 	}
 
 	[Fact]
-	public async Task OutputsCorrectStrengths()
+	public void CanHammer()
 	{
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
-		var console = new TestConsole();
+		var task = new ProgressTask(123, "test", 0, false);
 		var options = new HammerSettings
 		{
 			URL = new Uri("http://localhost"),
 			Min = 1,
-			Max = 5
+			Max = 100
 		};
-		var carpenter = new Carpenter(http, console, options);
+		var carpenter = new Carpenter(http, task, options);
 
 		//act
-		await carpenter.Run();
+		var results = carpenter.Run();
 
 		//assert
-		Assert.Contains("1: ", console.Output);
-		Assert.Contains("2: ", console.Output);
-		Assert.Contains("3: ", console.Output);
-		Assert.Contains("4: ", console.Output);
-		Assert.Contains("5: ", console.Output);
+		Assert.Equal(19, results.Count);
 	}
 }

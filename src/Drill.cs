@@ -7,13 +7,13 @@ public sealed class Drill : Tool<double>
 	private readonly uint _totalRequests;
 	private readonly long _delay;
 
-	public Drill(HttpClient http, Func<HttpRequestMessage> newMessage, uint requests, long delay) : base(http, newMessage)
+	public Drill(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint requests, long delay) : base(http, newMessage, notify)
 	{
 		_totalRequests = requests;
 		_delay = delay;
 	}
 
-	public override async Task Run()
+	public override IDictionary<uint, double> Run()
 	{
 		var threads = CreateThreads(_totalRequests);
 
@@ -31,17 +31,13 @@ public sealed class Drill : Tool<double>
 			}
 		}
 
-		foreach (var thread in threads)
-		{
-			thread.Join();
-		}
-
-		await True(Complete);
+		WaitFor(threads);
+		return _results;
 	}
 
-	public override bool Complete()
-		=> _results.Count == _totalRequests;
-
 	protected override void addResult(uint request, double ms)
-		=> _results.Add(request, ms);
+	{
+		_results.Add(request, ms);
+		_notify();
+	}
 }

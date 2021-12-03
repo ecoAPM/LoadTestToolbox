@@ -30,4 +30,18 @@ public sealed class ProgramTests
 		await task;
 		Assert.True(task.IsCompletedSuccessfully);
 	}
+
+	[Fact]
+	public async Task CanInvokeNailgun()
+	{
+		//arrange
+		var args = new[] { "nailgun" };
+
+		//act
+		var task = Program.Main(args);
+
+		//assert
+		await task;
+		Assert.True(task.IsCompletedSuccessfully);
+	}
 }

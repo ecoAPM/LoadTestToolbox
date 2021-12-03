@@ -4,13 +4,14 @@ namespace LoadTestToolbox;
 
 public sealed class Carpenter : Wielder<Hammer, Stats>
 {
-	public Carpenter(HttpClient http, IAnsiConsole console, HammerSettings settings) : base(console)
+	public Carpenter(HttpClient http, ProgressTask task, HammerSettings settings)
 	{
 		var strengths = GetStrengths(settings.Min, settings.Max);
-		_tool = new Hammer(http, () => Factory.Message(settings), strengths);
+		task.MaxValue(strengths.Sum(s => s));
+		_tool = new Hammer(http, () => Factory.Message(settings), () => task.Increment(1), strengths);
 	}
 
-	public static IEnumerable<uint> GetStrengths(uint min, uint max)
+	public static IReadOnlyList<uint> GetStrengths(uint min, uint max)
 	{
 		var list = new List<uint>();
 		var minOrder = (uint)Math.Log10(min);
@@ -30,21 +31,5 @@ public sealed class Carpenter : Wielder<Hammer, Stats>
 			list.Add(max);
 
 		return list;
-	}
-
-	protected override async Task OutputProgress()
-	{
-		uint previewed = 0;
-		while (!_tool.Complete() || previewed < _tool.Results.Max(r => r.Key))
-		{
-			var (key, value) = _tool.Results.OrderBy(r => r.Key).FirstOrDefault(r => r.Key > previewed);
-			if (_tool.Results.ContainsKey(key))
-			{
-				_console.WriteLine($"{key}: {FormatTime(value.Min)}/{FormatTime(value.Mean)}/{FormatTime(value.Median)}/{FormatTime(value.Max)}");
-				previewed = key;
-			}
-
-			await Task.Delay(1);
-		}
 	}
 }
