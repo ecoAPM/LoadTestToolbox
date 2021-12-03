@@ -95,6 +95,10 @@ A cartesion chart showing how the URL responded to each of the requests is outpu
 - `--min`: the minimum number of requests to send
 - `--max`: the maximum number of requests to send
 
+### Required for `nailgun`
+
+- `-r`/`--requests` the number of requests to send
+
 ## Contributing
 
 Please be sure to read and follow ecoAPM's [Contribution Guidelines](CONTRIBUTING.md) when submitting issues or pull requests.
