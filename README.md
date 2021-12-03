@@ -31,7 +31,7 @@ For the most accurate results, run LoadTestToolbox on a different machine (ideal
 
 ## Tools
 
-LoadTestToolbox currently consists of two tools:
+LoadTestToolbox currently consists of three tools:
 - `drill`
 - `hammer`
 - `nailgun`
