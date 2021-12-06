@@ -1,0 +1,48 @@
+name: Sonar
+on: push
+
+jobs:
+  Code-Quality:
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET 5
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Setup .NET 6
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Install Sonar Scanner
+      run: dotnet tool install --global dotnet-sonarscanner
+
+    - name: Install dependencies
+      run: dotnet restore
+
+    - name: Start Sonar Analysis
+      run: dotnet-sonarscanner begin /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /o:"ecoapm" /k:"ecoAPM_LoadTestToolbox" /d:sonar.cs.vstest.reportsPaths="test/TestResults/results.trx" /d:sonar.cs.opencover.reportsPaths="test/TestResults/coverage.opencover.xml"
+
+    - name: Build
+      run: dotnet build --no-restore
+      env:
+        SONAR_DOTNET_ENABLE_CONCURRENT_EXECUTION: true
+
+    - name: Test
+      run: dotnet test --no-build --logger "trx;LogFileName=results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+    - name: Move Code Coverage
+      run: mv test/TestResults/**/*.xml test/TestResults
+
+    - name: Finish Sonar Analysis
+      run: dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
