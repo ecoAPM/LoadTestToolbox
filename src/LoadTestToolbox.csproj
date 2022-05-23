@@ -24,7 +24,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
-		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-beta.80" />
+		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-beta.101" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.0" />
 		<PackageReference Include="Spectre.Console" Version="0.44.0" />
 		<None Include="../README.md" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="." />
