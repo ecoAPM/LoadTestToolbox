@@ -11,11 +11,11 @@ public sealed class LineChart : SkiaChart
 	public LineChart(IDictionary<uint, double> results)
 		=> _results = results;
 
-	protected override IEnumerable<LineSeries<ObservablePoint>> Series
+	protected override IReadOnlyCollection<LineSeries<ObservablePoint>> Series
 		=> new[] { SingleLine };
 
 	private LineSeries<ObservablePoint> SingleLine
-		=> LineSeries("Response Time (ms)", _results.OrderBy(r => r.Key).Select(r => new ObservablePoint(r.Key, r.Value)), SKColors.DodgerBlue);
+		=> LineSeries("Response Time (ms)", _results.OrderBy(r => r.Key).Select(r => new ObservablePoint(r.Key, r.Value)).ToArray(), SKColors.DodgerBlue);
 
 	protected override uint MinXAxis
 		=> _results.Count > 1

@@ -9,8 +9,8 @@ namespace LoadTestToolbox;
 
 public abstract class SkiaChart
 {
-	private static readonly IEnumerable<string> _fonts = SKFontManager.Default.FontFamilies;
-	private static readonly IEnumerable<string> _defaultOrder = new[] { "Noto Sans", "Open Sans", "Roboto", "Segoe UI", "Arial", "San Francisco", "Helvetica Neue", "Helvetica" };
+	private static readonly IReadOnlyCollection<string> _fonts = SKFontManager.Default.FontFamilies.ToArray();
+	private static readonly IReadOnlyCollection<string> _defaultOrder = new[] { "Noto Sans", "Open Sans", "Roboto", "Segoe UI", "Arial", "San Francisco", "Helvetica Neue", "Helvetica" };
 
 	private static readonly string DefaultFont
 		= _defaultOrder.FirstOrDefault(name => _fonts.Any(f => f == name))
@@ -34,7 +34,7 @@ public abstract class SkiaChart
 			Series = Series
 		};
 
-	protected abstract IEnumerable<LineSeries<ObservablePoint>> Series { get; }
+	protected abstract IReadOnlyCollection<LineSeries<ObservablePoint>> Series { get; }
 
 	private Axis XAxis
 		=> new()
@@ -60,7 +60,7 @@ public abstract class SkiaChart
 			MaxLimit = YAxisMax
 		};
 
-	protected static LineSeries<ObservablePoint> LineSeries(string name, IEnumerable<ObservablePoint> values, SKColor color)
+	protected static LineSeries<ObservablePoint> LineSeries(string name, IReadOnlyCollection<ObservablePoint> values, SKColor color)
 		=> new()
 		{
 			Name = name,
