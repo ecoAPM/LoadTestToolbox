@@ -11,7 +11,11 @@ public abstract class SkiaChart
 {
 	private static readonly IEnumerable<string> _fonts = SKFontManager.Default.FontFamilies;
 	private static readonly IEnumerable<string> _defaultOrder = new[] { "Noto Sans", "Open Sans", "Roboto", "Segoe UI", "Arial", "San Francisco", "Helvetica Neue", "Helvetica" };
-	private static readonly string DefaultFont = _defaultOrder.FirstOrDefault(name => _fonts.Any(f => f == name)) ?? _fonts.First();
+
+	private static readonly string DefaultFont
+		= _defaultOrder.FirstOrDefault(name => _fonts.Any(f => f == name))
+		  ?? _fonts.FirstOrDefault(name => name.Contains("Sans") && !name.Contains("Fallback"))
+		  ?? _fonts.First();
 
 	public async Task Save(Stream output)
 	{

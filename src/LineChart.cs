@@ -18,10 +18,14 @@ public sealed class LineChart : SkiaChart
 		=> LineSeries("Response Time (ms)", _results.OrderBy(r => r.Key).Select(r => new ObservablePoint(r.Key, r.Value)), SKColors.DodgerBlue);
 
 	protected override uint MinXAxis
-		=> _results.Min(r => r.Key);
+		=> _results.Count > 1
+			? _results.Min(r => r.Key)
+			: 0;
 
 	protected override uint MaxXAxis
-		=> _results.Max(r => r.Key);
+		=> _results.Count > 1
+			? _results.Max(r => r.Key)
+			: _results.Max(r => r.Key) + 1;
 
 	protected override double YAxisMax
 		=> GetYAxisMax(_results.Max(r => r.Value));
