@@ -5,7 +5,7 @@ namespace LoadTestToolbox;
 public abstract class Tool<T>
 {
 	protected readonly Action _notify;
-	protected readonly IDictionary<uint, T> _results = new ConcurrentDictionary<uint, T>();
+	protected readonly ConcurrentDictionary<uint, T> _results = new ConcurrentDictionary<uint, T>();
 
 	private readonly Worker _worker;
 
@@ -16,7 +16,7 @@ public abstract class Tool<T>
 		Prime(http, newMessage().RequestUri!).GetAwaiter().GetResult();
 	}
 
-	public abstract IDictionary<uint, T> Run();
+	public abstract ConcurrentDictionary<uint, T> Run();
 
 	private static async Task Prime(HttpClient httpClient, Uri url)
 		=> await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));

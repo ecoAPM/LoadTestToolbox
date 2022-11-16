@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Collections.Concurrent;
+using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
@@ -15,7 +16,7 @@ public class StatsTests
 			{ 3, 0.9 },
 			{ 4, 0.7 },
 			{ 5, 0.8 }
-		};
+		}.AsConcurrent();
 
 		//act
 		var stats = new Stats(results);
@@ -39,7 +40,7 @@ public class StatsTests
 			{ 4, 0.7 },
 			{ 5, 0.6 },
 			{ 6, 0.2 }
-		};
+		}.AsConcurrent();
 
 		//act
 		var stats = new Stats(results);
@@ -55,7 +56,7 @@ public class StatsTests
 	public void CanHandleEmptyList()
 	{
 		//arrange
-		var results = new Dictionary<uint, double>();
+		var results = new ConcurrentDictionary<uint, double>();
 
 		//act
 		var stats = new Stats(results);

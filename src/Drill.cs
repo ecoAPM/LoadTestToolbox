@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 
 namespace LoadTestToolbox;
@@ -13,7 +14,7 @@ public sealed class Drill : Tool<double>
 		_delay = delay;
 	}
 
-	public override IDictionary<uint, double> Run()
+	public override ConcurrentDictionary<uint, double> Run()
 	{
 		var threads = CreateThreads(_totalRequests);
 
@@ -37,7 +38,7 @@ public sealed class Drill : Tool<double>
 
 	protected override void addResult(uint request, double ms)
 	{
-		_results.Add(request, ms);
+		_results.TryAdd(request, ms);
 		_notify();
 	}
 }

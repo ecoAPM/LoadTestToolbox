@@ -1,8 +1,10 @@
-﻿namespace LoadTestToolbox;
+﻿using System.Collections.Concurrent;
+
+namespace LoadTestToolbox;
 
 public sealed record Stats
 {
-	public Stats(IDictionary<uint, double> results)
+	public Stats(ConcurrentDictionary<uint, double> results)
 	{
 		if (!results.Any())
 		{

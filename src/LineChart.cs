@@ -1,10 +1,12 @@
-﻿namespace LoadTestToolbox;
+﻿using System.Collections.Concurrent;
+
+namespace LoadTestToolbox;
 
 public abstract class LineChart<T> : SkiaChart
 {
-	protected readonly IDictionary<uint, T> _results;
+	protected readonly ConcurrentDictionary<uint, T> _results;
 
-	protected LineChart(IDictionary<uint, T> results)
+	protected LineChart(ConcurrentDictionary<uint, T> results)
 		=> _results = results;
 
 	protected override uint MinXAxis

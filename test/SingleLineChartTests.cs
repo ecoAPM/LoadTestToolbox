@@ -11,11 +11,12 @@ public sealed class SingleLineChartTests
 	{
 		//arrange
 		var results = new Dictionary<uint, double>
-			{
-				{ 1, 1.23 },
-				{ 2, 2.34 },
-				{ 3, 3.45 }
-			};
+		{
+			{ 1, 1.23 },
+			{ 2, 2.34 },
+			{ 3, 3.45 }
+		}.AsConcurrent();
+
 		var skia = new SingleLineChart(results);
 
 		//act
@@ -33,9 +34,10 @@ public sealed class SingleLineChartTests
 	{
 		//arrange
 		var results = new Dictionary<uint, double>
-			{
-				{ 1, max }
-			};
+		{
+			{ 1, max }
+		}.AsConcurrent();
+
 		var skia = new SingleLineChart(results);
 
 		//act
@@ -50,11 +52,12 @@ public sealed class SingleLineChartTests
 	{
 		//arrange
 		var results = new Dictionary<uint, double>
-			{
-				{ 3, 2.34 },
-				{ 5, 3.45 },
-				{ 2, 1.23 }
-			};
+		{
+			{ 3, 2.34 },
+			{ 5, 3.45 },
+			{ 2, 1.23 }
+		}.AsConcurrent();
+
 		var skia = new SingleLineChart(results);
 
 		//act
@@ -70,9 +73,10 @@ public sealed class SingleLineChartTests
 	{
 		//arrange
 		var results = new Dictionary<uint, double>
-			{
-				{ 3, 2.34 }
-			};
+		{
+			{ 3, 2.34 }
+		}.AsConcurrent();
+
 		var skia = new SingleLineChart(results);
 
 		//act
@@ -88,11 +92,12 @@ public sealed class SingleLineChartTests
 	{
 		//arrange
 		var results = new Dictionary<uint, double>
-			{
-				{ 2, 1.23 },
-				{ 3, 2.34 },
-				{ 5, 3.45 }
-			};
+		{
+			{ 2, 1.23 },
+			{ 3, 2.34 },
+			{ 5, 3.45 }
+		}.AsConcurrent();
+
 		var chart = new SingleLineChart(results);
 		var data = new byte[ushort.MaxValue];
 		var stream = new MemoryStream(data);

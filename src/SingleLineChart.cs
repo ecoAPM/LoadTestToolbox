@@ -1,4 +1,5 @@
-﻿using LiveChartsCore.Defaults;
+﻿using System.Collections.Concurrent;
+using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
 using SkiaSharp;
 
@@ -6,7 +7,7 @@ namespace LoadTestToolbox;
 
 public sealed class SingleLineChart : LineChart<double>
 {
-	public SingleLineChart(IDictionary<uint, double> results) : base(results)
+	public SingleLineChart(ConcurrentDictionary<uint, double> results) : base(results)
 	{
 	}
 

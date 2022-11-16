@@ -23,6 +23,6 @@ public sealed class DrillerTests
 		var results = driller.Run();
 
 		//assert
-		Assert.Equal(1, results.Count);
+		Assert.Single(results);
 	}
 }

@@ -1,4 +1,6 @@
-﻿namespace LoadTestToolbox;
+﻿using System.Collections.Concurrent;
+
+namespace LoadTestToolbox;
 
 public sealed class Nailgun : Tool<double>
 {
@@ -7,7 +9,7 @@ public sealed class Nailgun : Tool<double>
 	public Nailgun(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint totalRequests) : base(http, newMessage, notify)
 		=> _totalRequests = totalRequests;
 
-	public override IDictionary<uint, double> Run()
+	public override ConcurrentDictionary<uint, double> Run()
 	{
 		var threads = CreateThreads(_totalRequests);
 
@@ -22,7 +24,7 @@ public sealed class Nailgun : Tool<double>
 
 	protected override void addResult(uint request, double ms)
 	{
-		_results.Add(request, ms);
+		_results.TryAdd(request, ms);
 		_notify();
 	}
 }

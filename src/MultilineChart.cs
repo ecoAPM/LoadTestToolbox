@@ -1,4 +1,5 @@
-﻿using LiveChartsCore.Defaults;
+﻿using System.Collections.Concurrent;
+using LiveChartsCore.Defaults;
 using LiveChartsCore.SkiaSharpView;
 using SkiaSharp;
 
@@ -6,7 +7,7 @@ namespace LoadTestToolbox;
 
 public sealed class MultilineChart : LineChart<Stats>
 {
-	public MultilineChart(IDictionary<uint, Stats> results) : base(results)
+	public MultilineChart(ConcurrentDictionary<uint, Stats> results) : base(results)
 	{
 	}
 
