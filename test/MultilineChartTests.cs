@@ -66,6 +66,24 @@ public sealed class MultilineChartTests
 	}
 
 	[Fact]
+	public void XAxisCanHandleSingleValue()
+	{
+		//arrange
+		var results = new Dictionary<uint, Stats>
+		{
+			{ 3, new Stats(new Dictionary<uint, double>()) }
+		};
+		var skia = new MultilineChart(results);
+
+		//act
+		var chart = skia.GetChart();
+
+		//assert
+		Assert.Equal(0, chart.XAxes.First().MinLimit);
+		Assert.Equal(4, chart.XAxes.First().MaxLimit);
+	}
+
+	[Fact]
 	public async Task CanSaveChartToStream()
 	{
 		//arrange

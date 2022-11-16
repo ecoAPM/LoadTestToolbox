@@ -13,6 +13,6 @@ public sealed class NailgunCommand : ToolCommand<NailgunSettings>
 		var nailer = new Nailer(_httpClient, task, settings);
 		var results = nailer.Run();
 
-		return new LineChart(results);
+		return new SingleLineChart(results);
 	}
 }

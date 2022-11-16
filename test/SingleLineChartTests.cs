@@ -4,7 +4,7 @@ using Xunit;
 
 namespace LoadTestToolbox.Tests;
 
-public sealed class LineChartTests
+public sealed class SingleLineChartTests
 {
 	[Fact]
 	public void ChartContainsAllResults()
@@ -16,7 +16,7 @@ public sealed class LineChartTests
 				{ 2, 2.34 },
 				{ 3, 3.45 }
 			};
-		var skia = new LineChart(results);
+		var skia = new SingleLineChart(results);
 
 		//act
 		var chart = skia.GetChart();
@@ -36,7 +36,7 @@ public sealed class LineChartTests
 			{
 				{ 1, max }
 			};
-		var skia = new LineChart(results);
+		var skia = new SingleLineChart(results);
 
 		//act
 		var chart = skia.GetChart();
@@ -55,7 +55,7 @@ public sealed class LineChartTests
 				{ 5, 3.45 },
 				{ 2, 1.23 }
 			};
-		var skia = new LineChart(results);
+		var skia = new SingleLineChart(results);
 
 		//act
 		var chart = skia.GetChart();
@@ -63,6 +63,24 @@ public sealed class LineChartTests
 		//assert
 		Assert.Equal(2, chart.XAxes.First().MinLimit);
 		Assert.Equal(5, chart.XAxes.First().MaxLimit);
+	}
+
+	[Fact]
+	public void XAxisCanHandleSingleValues()
+	{
+		//arrange
+		var results = new Dictionary<uint, double>
+			{
+				{ 3, 2.34 }
+			};
+		var skia = new SingleLineChart(results);
+
+		//act
+		var chart = skia.GetChart();
+
+		//assert
+		Assert.Equal(0, chart.XAxes.First().MinLimit);
+		Assert.Equal(4, chart.XAxes.First().MaxLimit);
 	}
 
 	[Fact]
@@ -75,7 +93,7 @@ public sealed class LineChartTests
 				{ 3, 2.34 },
 				{ 5, 3.45 }
 			};
-		var chart = new LineChart(results);
+		var chart = new SingleLineChart(results);
 		var data = new byte[ushort.MaxValue];
 		var stream = new MemoryStream(data);
 
