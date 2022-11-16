@@ -48,6 +48,25 @@ public sealed class HammerCommandTests
 		//assert
 		Assert.Equal(1, result);
 		Assert.Contains("exception", console.Output, StringComparison.InvariantCultureIgnoreCase);
+	}
 
+	[Fact]
+	public void CannotHammerInReverse()
+	{
+		//arrange
+		var http = new HttpClient(new MockHttpMessageHandler());
+		var console = new TestConsole();
+		var settings = new HammerSettings
+		{
+			URL = new Uri("http://localhost"),
+			Min = 2,
+			Max = 1
+		};
+
+		//act
+		var command = new HammerCommand(http, null!, console);
+
+		//assert
+		Assert.ThrowsAsync<ArgumentException>(async () => await command.ExecuteAsync(null!, settings));
 	}
 }

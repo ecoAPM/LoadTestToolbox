@@ -10,6 +10,11 @@ public sealed class HammerCommand : ToolCommand<HammerSettings>
 
 	protected override SkiaChart WieldTool(ProgressTask task, HammerSettings settings)
 	{
+		if (settings.Min > settings.Max)
+		{
+			throw new ArgumentException("Minimum cannot be greater than maximum", nameof(settings));
+		}
+
 		var carpenter = new Carpenter(_httpClient, task, settings);
 		var results = carpenter.Run();
 
