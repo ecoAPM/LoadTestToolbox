@@ -70,7 +70,7 @@ Nailgun shows how a specified URL handles a single large influx of requests.
 
 The above command sends 1000 requests all at once, and records the response times for each.
 
-A cartesion chart showing how the URL responded to each of the requests is output to the specified file upon completion.
+A Cartesian chart showing how the URL responded to each of the requests is output to the specified file upon completion.
 
 ## Options
 
