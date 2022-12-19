@@ -34,11 +34,9 @@ public abstract class SkiaChart
 			XAxes = new[] { XAxis },
 			YAxes = new[] { YAxis },
 			Series = Series,
-			LegendPosition = Series.Count > 1 ? LegendPosition.Bottom : LegendPosition.Hidden
+			LegendPosition = Series.Count > 1 ? LegendPosition.Bottom : LegendPosition.Hidden,
+			LegendTextPaint = new SolidColorPaint { FontFamily = DefaultFont, Color = SKColors.Black },
 		};
-
-		chart.LegendFontPaint!.FontFamily = DefaultFont;
-
 		return chart;
 	}
 
