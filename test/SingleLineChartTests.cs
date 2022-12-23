@@ -99,13 +99,13 @@ public sealed class SingleLineChartTests
 		}.AsConcurrent();
 
 		var chart = new SingleLineChart(results, string.Empty);
-		var data = new byte[ushort.MaxValue];
-		var stream = new MemoryStream(data);
+		var stream = new MemoryStream();
 
 		//act
 		await chart.Save(stream);
 
 		//assert
-		Assert.NotEmpty(Encoding.UTF8.GetString(data));
+		var data = Encoding.UTF8.GetString(stream.GetBuffer());
+		Assert.NotEmpty(data);
 	}
 }

@@ -12,8 +12,8 @@ public sealed class NailgunCommandTests
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
 		var console = new TestConsole();
-		var file = new byte[ushort.MaxValue];
-		Stream writer(string s) => new MemoryStream(file);
+		var stream = new MemoryStream();
+		Stream writer(string s) => stream;
 		var command = new NailgunCommand(http, writer, console);
 		var settings = new NailgunSettings
 		{
@@ -26,7 +26,7 @@ public sealed class NailgunCommandTests
 		var result = await command.ExecuteAsync(null!, settings);
 
 		//assert
-		var contents = Encoding.UTF8.GetString(file);
+		var contents = Encoding.UTF8.GetString(stream.GetBuffer());
 		Assert.Empty(console.Output);
 		Assert.Equal(0, result);
 		Assert.NotEmpty(contents);
