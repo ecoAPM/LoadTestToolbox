@@ -4,10 +4,14 @@ namespace LoadTestToolbox;
 
 public abstract class LineChart<T> : SkiaChart
 {
+	protected override string Description { get; }
 	protected readonly ConcurrentDictionary<uint, T> _results;
 
-	protected LineChart(ConcurrentDictionary<uint, T> results)
-		=> _results = results;
+	protected LineChart(ConcurrentDictionary<uint, T> results, string description)
+	{
+		Description = description;
+		_results = results;
+	}
 
 	protected override uint MinXAxis
 		=> _results.Count > 1

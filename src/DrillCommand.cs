@@ -13,6 +13,7 @@ public sealed class DrillCommand : ToolCommand<DrillSettings>
 		var driller = new Driller(_httpClient, task, settings);
 		var results = driller.Run();
 
-		return new SingleLineChart(results);
+		var description = $"Drill {settings.URL} @ {settings.RPS} req/sec for {settings.Duration} sec";
+		return new SingleLineChart(results, description);
 	}
 }

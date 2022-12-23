@@ -17,7 +17,7 @@ public sealed class SingleLineChartTests
 			{ 3, 3.45 }
 		}.AsConcurrent();
 
-		var skia = new SingleLineChart(results);
+		var skia = new SingleLineChart(results, string.Empty);
 
 		//act
 		var chart = skia.GetChart();
@@ -38,7 +38,7 @@ public sealed class SingleLineChartTests
 			{ 1, max }
 		}.AsConcurrent();
 
-		var skia = new SingleLineChart(results);
+		var skia = new SingleLineChart(results, string.Empty);
 
 		//act
 		var chart = skia.GetChart();
@@ -58,7 +58,7 @@ public sealed class SingleLineChartTests
 			{ 2, 1.23 }
 		}.AsConcurrent();
 
-		var skia = new SingleLineChart(results);
+		var skia = new SingleLineChart(results, string.Empty);
 
 		//act
 		var chart = skia.GetChart();
@@ -77,7 +77,7 @@ public sealed class SingleLineChartTests
 			{ 3, 2.34 }
 		}.AsConcurrent();
 
-		var skia = new SingleLineChart(results);
+		var skia = new SingleLineChart(results, string.Empty);
 
 		//act
 		var chart = skia.GetChart();
@@ -98,7 +98,7 @@ public sealed class SingleLineChartTests
 			{ 5, 3.45 }
 		}.AsConcurrent();
 
-		var chart = new SingleLineChart(results);
+		var chart = new SingleLineChart(results, string.Empty);
 		var data = new byte[ushort.MaxValue];
 		var stream = new MemoryStream(data);
 

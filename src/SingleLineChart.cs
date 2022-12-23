@@ -7,7 +7,8 @@ namespace LoadTestToolbox;
 
 public sealed class SingleLineChart : LineChart<double>
 {
-	public SingleLineChart(ConcurrentDictionary<uint, double> results) : base(results)
+	public SingleLineChart(ConcurrentDictionary<uint, double> results, string description)
+		: base(results, description)
 	{
 	}
 

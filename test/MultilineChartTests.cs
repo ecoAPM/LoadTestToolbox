@@ -18,7 +18,7 @@ public sealed class MultilineChartTests
 			{ 3, new Stats(new ConcurrentDictionary<uint, double>()) }
 		}.AsConcurrent();
 
-		var skia = new MultilineChart(results);
+		var skia = new MultilineChart(results, string.Empty);
 
 		//act
 		var chart = skia.GetChart();
@@ -39,7 +39,7 @@ public sealed class MultilineChartTests
 			{ 1, new Stats(new Dictionary<uint, double> { { 1, max } }.AsConcurrent()) }
 		}.AsConcurrent();
 
-		var skia = new MultilineChart(results);
+		var skia = new MultilineChart(results, string.Empty);
 
 		//act
 		var chart = skia.GetChart();
@@ -59,7 +59,7 @@ public sealed class MultilineChartTests
 			{ 2, new Stats(new ConcurrentDictionary<uint, double>()) }
 		}.AsConcurrent();
 
-		var skia = new MultilineChart(results);
+		var skia = new MultilineChart(results, string.Empty);
 
 		//act
 		var chart = skia.GetChart();
@@ -78,7 +78,7 @@ public sealed class MultilineChartTests
 			{ 3, new Stats(new ConcurrentDictionary<uint, double>()) }
 		}.AsConcurrent();
 
-		var skia = new MultilineChart(results);
+		var skia = new MultilineChart(results, string.Empty);
 
 		//act
 		var chart = skia.GetChart();
@@ -99,7 +99,7 @@ public sealed class MultilineChartTests
 			{ 5, new Stats(new ConcurrentDictionary<uint, double>()) }
 		}.AsConcurrent();
 
-		var chart = new MultilineChart(results);
+		var chart = new MultilineChart(results, string.Empty);
 		var data = new byte[ushort.MaxValue];
 		var stream = new MemoryStream(data);
 

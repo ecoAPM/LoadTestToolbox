@@ -9,6 +9,8 @@ namespace LoadTestToolbox;
 
 public abstract class SkiaChart
 {
+	protected abstract string Description { get; }
+
 	private static readonly IReadOnlyCollection<string> _fonts = SKFontManager.Default.FontFamilies.ToArray();
 	private static readonly IReadOnlyCollection<string> _defaultOrder = new[] { "Noto Sans", "Open Sans", "Roboto", "Segoe UI", "Arial", "San Francisco", "Helvetica Neue", "Helvetica" };
 
@@ -25,7 +27,7 @@ public abstract class SkiaChart
 	}
 
 	public SKCartesianChart GetChart()
-		{
+	{
 		var chart = new SKCartesianChart
 		{
 			Width = 1280,

@@ -7,7 +7,8 @@ namespace LoadTestToolbox;
 
 public sealed class MultilineChart : LineChart<Stats>
 {
-	public MultilineChart(ConcurrentDictionary<uint, Stats> results) : base(results)
+	public MultilineChart(ConcurrentDictionary<uint, Stats> results, string description)
+		: base(results, description)
 	{
 	}
 
