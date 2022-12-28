@@ -18,20 +18,24 @@ public abstract class SkiaChart
 		await stream.CopyToAsync(output);
 	}
 
+	private static readonly object chartLock = new();
+
 	public SKCartesianChart GetChart()
 	{
-		var chart = new SKCartesianChart
+		lock (chartLock)
 		{
-			Width = 1280,
-			Height = 720,
-			Background = SKColors.White,
-			XAxes = new[] { XAxis },
-			YAxes = new[] { YAxis },
-			Series = Series,
-			LegendPosition = Series.Count > 1 ? LegendPosition.Bottom : LegendPosition.Hidden,
-			LegendTextPaint = new SolidColorPaint { FontFamily = FontManager.DefaultFont, Color = SKColors.Black },
-		};
-		return chart;
+			return new SKCartesianChart
+			{
+				Width = 1280,
+				Height = 720,
+				Background = SKColors.White,
+				XAxes = new[] { XAxis },
+				YAxes = new[] { YAxis },
+				Series = Series,
+				LegendPosition = Series.Count > 1 ? LegendPosition.Bottom : LegendPosition.Hidden,
+				LegendTextPaint = new SolidColorPaint { FontFamily = FontManager.DefaultFont, Color = SKColors.Black },
+			};
+		}
 	}
 
 	protected abstract IReadOnlyCollection<LineSeries<ObservablePoint>> Series { get; }
