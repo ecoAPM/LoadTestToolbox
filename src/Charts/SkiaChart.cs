@@ -16,6 +16,9 @@ public abstract class SkiaChart
 
 	protected abstract string Description { get; }
 
+	private static readonly SolidColorPaint DefaultText = new(SKColors.Black) { FontFamily = FontManager.DefaultFont };
+	private static readonly SolidColorPaint PaleGreyLine = new(SKColors.Black.WithAlpha(24), 1);
+
 	private static readonly object chartLock = new();
 
 	public SKCartesianChart GetChart()
@@ -31,7 +34,7 @@ public abstract class SkiaChart
 				YAxes = new[] { YAxis },
 				Series = Series,
 				LegendPosition = Series.Count > 1 ? LegendPosition.Bottom : LegendPosition.Hidden,
-				LegendTextPaint = new SolidColorPaint { FontFamily = FontManager.DefaultFont, Color = SKColors.Black },
+				LegendTextPaint = DefaultText,
 			};
 		}
 	}
@@ -41,9 +44,9 @@ public abstract class SkiaChart
 		{
 			Name = "Requests",
 			Position = AxisPosition.Start,
-			NamePaint = new SolidColorPaint(SKColors.Black) { FontFamily = FontManager.DefaultFont },
-			LabelsPaint = new SolidColorPaint(SKColors.Black) { FontFamily = FontManager.DefaultFont },
-			SeparatorsPaint = new SolidColorPaint(new SKColor(0, 0, 0, 24), 1),
+			NamePaint = DefaultText,
+			LabelsPaint = DefaultText,
+			SeparatorsPaint = PaleGreyLine,
 			MinLimit = MinXAxis,
 			MaxLimit = MaxXAxis,
 			MinStep = 1
@@ -54,9 +57,9 @@ public abstract class SkiaChart
 		{
 			Name = "Response Time (ms)",
 			Position = AxisPosition.Start,
-			NamePaint = new SolidColorPaint(SKColors.Black) { FontFamily = FontManager.DefaultFont },
-			LabelsPaint = new SolidColorPaint(SKColors.Black) { FontFamily = FontManager.DefaultFont },
-			SeparatorsPaint = new SolidColorPaint(new SKColor(0, 0, 0, 24), 1),
+			NamePaint = DefaultText,
+			LabelsPaint = DefaultText,
+			SeparatorsPaint = PaleGreyLine,
 			MinLimit = 0,
 			MaxLimit = YAxisMax
 		};
