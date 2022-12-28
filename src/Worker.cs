@@ -5,24 +5,34 @@ namespace LoadTestToolbox;
 public sealed class Worker
 {
 	private readonly HttpClient _httpClient;
-	private readonly Action<uint, double> _report;
 	private readonly Func<HttpRequestMessage> _newMessage;
+	private readonly Action<uint, double> _report;
+	private readonly Action<string> _warn;
 
-	public Worker(HttpClient httpClient, Func<HttpRequestMessage> newMessage, Action<uint, double> report)
+	public Worker(HttpClient httpClient, Func<HttpRequestMessage> newMessage, Action<uint, double> report, Action<string> warn)
 	{
 		_httpClient = httpClient;
 		_newMessage = newMessage;
 		_report = report;
+		_warn = warn;
 	}
 
 	public async Task Run(uint request)
 	{
-		using var message = _newMessage();
-
 		var timer = Stopwatch.StartNew();
-		await _httpClient.SendAsync(message);
-		timer.Stop();
-
-		_report(request, timer.Elapsed.TotalMilliseconds);
+		try
+		{
+			using var message = _newMessage();
+			await _httpClient.SendAsync(message);
+		}
+		catch(Exception e)
+		{
+			_warn(e.Message);
+		}
+		finally
+		{
+			timer.Stop();
+			_report(request, timer.Elapsed.TotalMilliseconds);
+		}
 	}
 }
