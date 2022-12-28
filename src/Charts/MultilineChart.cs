@@ -12,7 +12,7 @@ public sealed class MultilineChart : LineChart<Stats>
 	{
 	}
 
-	protected override IReadOnlyCollection<LineSeries<ObservablePoint>> Series
+	protected override LineSeries<ObservablePoint>[] Series
 		=> new[]
 		{
 			LineSeries(nameof(Stats.Max), _results.OrderBy(r => r.Key).Select(r => new ObservablePoint(r.Key, r.Value.Max)).ToArray(), SKColors.DarkRed),

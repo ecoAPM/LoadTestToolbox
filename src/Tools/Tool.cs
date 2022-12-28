@@ -45,7 +45,7 @@ public abstract class Tool<T>
 
 	protected abstract void addResult(uint request, double ms);
 
-	protected static void WaitFor(IReadOnlyCollection<Thread> threads)
+	protected static void WaitFor(IEnumerable<Thread> threads)
 	{
 		foreach (var thread in threads)
 		{

@@ -4,10 +4,10 @@ namespace LoadTestToolbox.Tools.Hammer;
 
 public sealed class Hammer : Tool<Stats>
 {
-	private readonly IReadOnlyCollection<uint> _strengths;
+	private readonly uint[] _strengths;
 	private readonly ConcurrentDictionary<uint, double> _singleResults = new();
 
-	public Hammer(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, IReadOnlyCollection<uint> strengths) : base(http, newMessage, notify)
+	public Hammer(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint[] strengths) : base(http, newMessage, notify)
 		=> _strengths = strengths;
 
 	public override ConcurrentDictionary<uint, Stats> Run()

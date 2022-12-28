@@ -12,7 +12,7 @@ public sealed class SingleLineChart : LineChart<double>
 	{
 	}
 
-	protected override IReadOnlyCollection<LineSeries<ObservablePoint>> Series
+	protected override LineSeries<ObservablePoint>[] Series
 		=> new[] { SingleLine };
 
 	private LineSeries<ObservablePoint> SingleLine

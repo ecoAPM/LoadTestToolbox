@@ -13,7 +13,7 @@ public sealed class CarpenterTests
 	[InlineData(10, 100, new uint[] { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 })]
 	[InlineData(10, 95, new uint[] { 10, 20, 30, 40, 50, 60, 70, 80, 90, 95 })]
 	[InlineData(5, 500, new uint[] { 5, 6, 7, 8, 9, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 200, 300, 400, 500 })]
-	public void GetsCorrectStrengths(uint min, uint max, IReadOnlyCollection<uint> expected)
+	public void GetsCorrectStrengths(uint min, uint max, uint[] expected)
 	{
 		//act
 		var strengths = Carpenter.GetStrengths(min, max);

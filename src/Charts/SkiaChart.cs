@@ -15,7 +15,7 @@ namespace LoadTestToolbox.Charts;
 public abstract class SkiaChart
 {
 	protected abstract string Description { get; }
-	protected abstract IReadOnlyCollection<LineSeries<ObservablePoint>> Series { get; }
+	protected abstract LineSeries<ObservablePoint>[] Series { get; }
 	protected abstract uint MinXAxis { get; }
 	protected abstract uint MaxXAxis { get; }
 	protected abstract double YAxisMax { get; }
@@ -41,7 +41,7 @@ public abstract class SkiaChart
 			XAxes = new[] { XAxis },
 			YAxes = new[] { YAxis },
 			Series = Series,
-			LegendPosition = Series.Count > 1 ? LegendPosition.Bottom : LegendPosition.Hidden,
+			LegendPosition = Series.Length > 1 ? LegendPosition.Bottom : LegendPosition.Hidden,
 			LegendTextPaint = DefaultText,
 			LegendTextSize = 16
 		};
@@ -108,7 +108,7 @@ public abstract class SkiaChart
 			MaxLimit = YAxisMax
 		};
 
-	protected static LineSeries<ObservablePoint> LineSeries(string name, IReadOnlyCollection<ObservablePoint> values, SKColor color)
+	protected static LineSeries<ObservablePoint> LineSeries(string name, ObservablePoint[] values, SKColor color)
 		=> new()
 		{
 			Name = name,

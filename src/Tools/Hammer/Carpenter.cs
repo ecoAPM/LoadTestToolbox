@@ -11,7 +11,7 @@ public sealed class Carpenter : Wielder<Hammer, Stats>
 		_tool = new Hammer(http, () => Factory.Message(settings), () => task.Increment(1), strengths);
 	}
 
-	public static IReadOnlyList<uint> GetStrengths(uint min, uint max)
+	public static uint[] GetStrengths(uint min, uint max)
 	{
 		var list = new List<uint>();
 		var minOrder = (uint)Math.Log10(min);
@@ -30,6 +30,6 @@ public sealed class Carpenter : Wielder<Hammer, Stats>
 		if (list.Last() < max)
 			list.Add(max);
 
-		return list;
+		return list.ToArray();
 	}
 }
