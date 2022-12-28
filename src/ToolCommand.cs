@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using SkiaSharp;
+using Spectre.Console;
 using Spectre.Console.Cli;
 
 namespace LoadTestToolbox;
@@ -56,7 +57,12 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 
 	private async Task SaveChart(SkiaChart chart, string filename)
 	{
+		var chartData = chart.GetChart();
+		using var image = chartData.GetImage();
+		using var imageData = image.Encode(SKEncodedImageFormat.Png, 100);
+		var imageArray = imageData.ToArray();
+		using var stream = new MemoryStream(imageArray);
 		await using var output = _fileWriter(filename);
-		await chart.Save(output);
+		await stream.CopyToAsync(output);
 	}
 }

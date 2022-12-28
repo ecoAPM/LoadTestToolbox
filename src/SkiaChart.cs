@@ -9,14 +9,12 @@ namespace LoadTestToolbox;
 
 public abstract class SkiaChart
 {
-	protected abstract string Description { get; }
+	protected abstract IReadOnlyCollection<LineSeries<ObservablePoint>> Series { get; }
+	protected abstract uint MinXAxis { get; }
+	protected abstract uint MaxXAxis { get; }
+	protected abstract double YAxisMax { get; }
 
-	public async Task Save(Stream output)
-	{
-		var imageData = GetChart().GetImage().Encode(SKEncodedImageFormat.Png, 100).ToArray();
-		var stream = new MemoryStream(imageData);
-		await stream.CopyToAsync(output);
-	}
+	protected abstract string Description { get; }
 
 	private static readonly object chartLock = new();
 
@@ -38,8 +36,6 @@ public abstract class SkiaChart
 		}
 	}
 
-	protected abstract IReadOnlyCollection<LineSeries<ObservablePoint>> Series { get; }
-
 	private Axis XAxis
 		=> new()
 		{
@@ -49,7 +45,8 @@ public abstract class SkiaChart
 			LabelsPaint = new SolidColorPaint(SKColors.Black) { FontFamily = FontManager.DefaultFont },
 			SeparatorsPaint = new SolidColorPaint(new SKColor(0, 0, 0, 24), 1),
 			MinLimit = MinXAxis,
-			MaxLimit = MaxXAxis
+			MaxLimit = MaxXAxis,
+			MinStep = 1
 		};
 
 	private Axis YAxis
@@ -76,12 +73,6 @@ public abstract class SkiaChart
 			GeometryStroke = null,
 			GeometryFill = null
 		};
-
-	protected abstract uint MinXAxis { get; }
-
-	protected abstract uint MaxXAxis { get; }
-
-	protected abstract double YAxisMax { get; }
 
 	protected static double GetYAxisMax(double max)
 	{

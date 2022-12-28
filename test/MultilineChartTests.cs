@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Text;
 using LiveChartsCore.Defaults;
 using Xunit;
 
@@ -86,27 +85,5 @@ public sealed class MultilineChartTests
 		//assert
 		Assert.Equal(0, chart.XAxes.First().MinLimit);
 		Assert.Equal(4, chart.XAxes.First().MaxLimit);
-	}
-
-	[Fact]
-	public async Task CanSaveChartToStream()
-	{
-		//arrange
-		var results = new Dictionary<uint, Stats>
-		{
-			{ 2, new Stats(new ConcurrentDictionary<uint, double>()) },
-			{ 3, new Stats(new ConcurrentDictionary<uint, double>()) },
-			{ 5, new Stats(new ConcurrentDictionary<uint, double>()) }
-		}.AsConcurrent();
-
-		var chart = new MultilineChart(results, string.Empty);
-		var stream = new MemoryStream();
-
-		//act
-		await chart.Save(stream);
-
-		//assert
-		var data = Encoding.UTF8.GetString(stream.GetBuffer());
-		Assert.NotEmpty(data);
 	}
 }

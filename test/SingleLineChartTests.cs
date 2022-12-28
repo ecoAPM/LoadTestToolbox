@@ -1,4 +1,3 @@
-using System.Text;
 using LiveChartsCore.Defaults;
 using Xunit;
 
@@ -85,27 +84,5 @@ public sealed class SingleLineChartTests
 		//assert
 		Assert.Equal(0, chart.XAxes.First().MinLimit);
 		Assert.Equal(4, chart.XAxes.First().MaxLimit);
-	}
-
-	[Fact]
-	public async Task CanSaveChartToStream()
-	{
-		//arrange
-		var results = new Dictionary<uint, double>
-		{
-			{ 2, 1.23 },
-			{ 3, 2.34 },
-			{ 5, 3.45 }
-		}.AsConcurrent();
-
-		var chart = new SingleLineChart(results, string.Empty);
-		var stream = new MemoryStream();
-
-		//act
-		await chart.Save(stream);
-
-		//assert
-		var data = Encoding.UTF8.GetString(stream.GetBuffer());
-		Assert.NotEmpty(data);
 	}
 }
