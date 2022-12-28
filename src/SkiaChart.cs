@@ -11,14 +11,6 @@ public abstract class SkiaChart
 {
 	protected abstract string Description { get; }
 
-	private static readonly IReadOnlyCollection<string> _fonts = SKFontManager.Default.FontFamilies.ToArray();
-	private static readonly IReadOnlyCollection<string> _defaultOrder = new[] { "Noto Sans", "Open Sans", "Roboto", "Segoe UI", "Arial", "San Francisco", "Helvetica Neue", "Helvetica" };
-
-	private static readonly string DefaultFont
-		= _defaultOrder.FirstOrDefault(name => _fonts.Any(f => f == name))
-		  ?? _fonts.FirstOrDefault(name => name.Contains("Sans") && !name.Contains("Fallback"))
-		  ?? _fonts.First();
-
 	public async Task Save(Stream output)
 	{
 		var imageData = GetChart().GetImage().Encode(SKEncodedImageFormat.Png, 100).ToArray();
@@ -37,7 +29,7 @@ public abstract class SkiaChart
 			YAxes = new[] { YAxis },
 			Series = Series,
 			LegendPosition = Series.Count > 1 ? LegendPosition.Bottom : LegendPosition.Hidden,
-			LegendTextPaint = new SolidColorPaint { FontFamily = DefaultFont, Color = SKColors.Black },
+			LegendTextPaint = new SolidColorPaint { FontFamily = FontManager.DefaultFont, Color = SKColors.Black },
 		};
 		return chart;
 	}
@@ -49,8 +41,8 @@ public abstract class SkiaChart
 		{
 			Name = "Requests",
 			Position = AxisPosition.Start,
-			NamePaint = new SolidColorPaint(SKColors.Black) { FontFamily = DefaultFont },
-			LabelsPaint = new SolidColorPaint(SKColors.Black) { FontFamily = DefaultFont },
+			NamePaint = new SolidColorPaint(SKColors.Black) { FontFamily = FontManager.DefaultFont },
+			LabelsPaint = new SolidColorPaint(SKColors.Black) { FontFamily = FontManager.DefaultFont },
 			SeparatorsPaint = new SolidColorPaint(new SKColor(0, 0, 0, 24), 1),
 			MinLimit = MinXAxis,
 			MaxLimit = MaxXAxis
@@ -61,8 +53,8 @@ public abstract class SkiaChart
 		{
 			Name = "Response Time (ms)",
 			Position = AxisPosition.Start,
-			NamePaint = new SolidColorPaint(SKColors.Black) { FontFamily = DefaultFont },
-			LabelsPaint = new SolidColorPaint(SKColors.Black) { FontFamily = DefaultFont },
+			NamePaint = new SolidColorPaint(SKColors.Black) { FontFamily = FontManager.DefaultFont },
+			LabelsPaint = new SolidColorPaint(SKColors.Black) { FontFamily = FontManager.DefaultFont },
 			SeparatorsPaint = new SolidColorPaint(new SKColor(0, 0, 0, 24), 1),
 			MinLimit = 0,
 			MaxLimit = YAxisMax
