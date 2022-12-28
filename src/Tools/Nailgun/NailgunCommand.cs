@@ -15,7 +15,7 @@ public sealed class NailgunCommand : ToolCommand<NailgunSettings>
 		var results = nailer.Run();
 		WaitForProgressBarToCatchUp(task);
 
-		var description = $"Nailgun {settings.URL} with {settings.Requests} requests";
+		var description = $"Nailgun {settings.URL} with {settings.Requests} request{(settings.Requests != 1 ? "s" : string.Empty)}";
 		return new SingleLineChart(results, description);
 	}
 }
