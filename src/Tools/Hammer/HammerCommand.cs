@@ -5,7 +5,7 @@ namespace LoadTestToolbox.Tools.Hammer;
 
 public sealed class HammerCommand : ToolCommand<HammerSettings>
 {
-	public HammerCommand(HttpClient httpClient, Func<string, Stream> fileWriter, IAnsiConsole console) : base(httpClient, fileWriter, console)
+	public HammerCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console) : base(httpClient, io, console)
 	{
 	}
 

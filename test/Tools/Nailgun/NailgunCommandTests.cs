@@ -1,5 +1,6 @@
-﻿using System.Text;
+﻿using LoadTestToolbox.Charts;
 using LoadTestToolbox.Tools.Nailgun;
+using NSubstitute;
 using Spectre.Console.Testing;
 using Xunit;
 
@@ -12,10 +13,9 @@ public sealed class NailgunCommandTests
 	{
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
+		var io = Substitute.For<ChartIO>();
 		var console = new TestConsole();
-		var stream = new MemoryStream();
-		Stream writer(string s) => stream;
-		var command = new NailgunCommand(http, writer, console);
+		var command = new NailgunCommand(http, io, console);
 		var settings = new NailgunSettings
 		{
 			URL = new Uri("http://localhost"),
@@ -27,10 +27,9 @@ public sealed class NailgunCommandTests
 		var result = await command.ExecuteAsync(null!, settings);
 
 		//assert
-		var contents = Encoding.UTF8.GetString(stream.GetBuffer());
 		Assert.Empty(console.Output);
 		Assert.Equal(0, result);
-		Assert.NotEmpty(contents);
+		await io.Received().SaveChart(Arg.Any<SkiaChart>(), "test.png");
 	}
 
 	[Fact]

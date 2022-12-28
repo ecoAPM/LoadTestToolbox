@@ -5,7 +5,7 @@ namespace LoadTestToolbox.Tools.Nailgun;
 
 public sealed class NailgunCommand : ToolCommand<NailgunSettings>
 {
-	public NailgunCommand(HttpClient httpClient, Func<string, Stream> fileWriter, IAnsiConsole console) : base(httpClient, fileWriter, console)
+	public NailgunCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console) : base(httpClient, io, console)
 	{
 	}
 

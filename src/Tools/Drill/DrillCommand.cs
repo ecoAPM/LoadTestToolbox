@@ -5,7 +5,7 @@ namespace LoadTestToolbox.Tools.Drill;
 
 public sealed class DrillCommand : ToolCommand<DrillSettings>
 {
-	public DrillCommand(HttpClient httpClient, Func<string, Stream> fileWriter, IAnsiConsole console) : base(httpClient, fileWriter, console)
+	public DrillCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console) : base(httpClient, io, console)
 	{
 	}
 

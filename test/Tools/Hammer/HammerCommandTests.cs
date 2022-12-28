@@ -1,5 +1,6 @@
-﻿using System.Text;
+﻿using LoadTestToolbox.Charts;
 using LoadTestToolbox.Tools.Hammer;
+using NSubstitute;
 using Spectre.Console.Testing;
 using Xunit;
 
@@ -12,10 +13,9 @@ public sealed class HammerCommandTests
 	{
 		//arrange
 		using var http = new HttpClient(new MockHttpMessageHandler());
+		var io = Substitute.For<ChartIO>();
 		using var console = new TestConsole();
-		using var stream = new MemoryStream();
-		Stream writer(string s) => stream;
-		var command = new HammerCommand(http, writer, console);
+		var command = new HammerCommand(http, io, console);
 		var settings = new HammerSettings
 		{
 			URL = new Uri("http://localhost"),
@@ -28,10 +28,9 @@ public sealed class HammerCommandTests
 		var result = await command.ExecuteAsync(null!, settings);
 
 		//assert
-		var contents = Encoding.UTF8.GetString(stream.GetBuffer());
 		Assert.Empty(console.Output);
 		Assert.Equal(0, result);
-		Assert.NotEmpty(contents);
+		await io.Received().SaveChart(Arg.Any<SkiaChart>(), "test.png");
 	}
 
 	[Fact]

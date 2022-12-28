@@ -1,5 +1,4 @@
 ﻿using LoadTestToolbox.Charts;
-using SkiaSharp;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -8,13 +7,13 @@ namespace LoadTestToolbox.Tools;
 public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 {
 	protected readonly HttpClient _httpClient;
-	private readonly Func<string, Stream> _fileWriter;
 	private readonly IAnsiConsole _console;
+	private readonly ChartIO _io;
 
-	protected ToolCommand(HttpClient httpClient, Func<string, Stream> fileWriter, IAnsiConsole console)
+	protected ToolCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console)
 	{
 		_httpClient = httpClient;
-		_fileWriter = fileWriter;
+		_io = io;
 		_console = console;
 	}
 
@@ -42,7 +41,7 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 		{
 			var task = context.AddTask("Sending/receiving requests");
 			var chart = WieldTool(task, settings);
-			await SaveChart(chart, settings.Filename);
+			await _io.SaveChart(chart, settings.Filename);
 
 			context.Refresh();
 			return 0;
@@ -55,15 +54,4 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 	}
 
 	protected abstract SkiaChart WieldTool(ProgressTask task, T settings);
-
-	private async Task SaveChart(SkiaChart chart, string filename)
-	{
-		var chartData = chart.GetChart();
-		using var image = chartData.GetImage();
-		using var imageData = image.Encode(SKEncodedImageFormat.Png, 100);
-		var imageArray = imageData.ToArray();
-		using var stream = new MemoryStream(imageArray);
-		await using var output = _fileWriter(filename);
-		await stream.CopyToAsync(output);
-	}
 }

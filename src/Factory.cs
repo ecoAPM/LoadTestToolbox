@@ -1,4 +1,5 @@
-﻿using LoadTestToolbox.Tools;
+﻿using LoadTestToolbox.Charts;
+using LoadTestToolbox.Tools;
 using LoadTestToolbox.Tools.Drill;
 using LoadTestToolbox.Tools.Hammer;
 using LoadTestToolbox.Tools.Nailgun;
@@ -20,6 +21,7 @@ public static class Factory
 	{
 		var services = new ServiceCollection();
 		services.AddSingleton<HttpClient>();
+		services.AddSingleton<ChartIO, StreamIO>();
 		services.AddSingleton<Func<string, Stream>>(filename => new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write));
 		return new TypeRegistrar(services);
 	}
