@@ -13,6 +13,7 @@ public sealed class NailgunCommand : ToolCommand<NailgunSettings>
 	{
 		var nailer = new Nailer(_httpClient, task, settings);
 		var results = nailer.Run();
+		WaitForProgressBarToCatchUp(task);
 
 		var description = $"Nailgun {settings.URL} with {settings.Requests} requests";
 		return new SingleLineChart(results, description);

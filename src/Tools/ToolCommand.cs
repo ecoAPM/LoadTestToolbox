@@ -54,4 +54,12 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 	}
 
 	protected abstract SkiaChart WieldTool(ProgressTask task, T settings);
+
+	protected void WaitForProgressBarToCatchUp(ProgressTask task)
+	{
+		while (!task.IsFinished)
+		{
+			Thread.Sleep(1);
+		}
+	}
 }

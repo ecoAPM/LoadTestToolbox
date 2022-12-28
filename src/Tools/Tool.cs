@@ -12,7 +12,7 @@ public abstract class Tool<T>
 	protected Tool(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify)
 	{
 		_notify = notify;
-		_worker = new Worker(http, newMessage, addResult);
+		_worker = new Worker(http, newMessage, addResult, Console.WriteLine);
 		Prime(http, newMessage().RequestUri!).GetAwaiter().GetResult();
 	}
 
