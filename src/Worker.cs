@@ -17,7 +17,7 @@ public sealed class Worker
 
 	public async Task Run(uint request)
 	{
-		var message = _newMessage();
+		using var message = _newMessage();
 
 		var timer = Stopwatch.StartNew();
 		await _httpClient.SendAsync(message);

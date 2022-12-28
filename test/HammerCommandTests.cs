@@ -10,9 +10,9 @@ public sealed class HammerCommandTests
 	public async Task WritesFileOnSuccess()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
-		var console = new TestConsole();
-		var stream = new MemoryStream();
+		using var http = new HttpClient(new MockHttpMessageHandler());
+		using var console = new TestConsole();
+		using var stream = new MemoryStream();
 		Stream writer(string s) => stream;
 		var command = new HammerCommand(http, writer, console);
 		var settings = new HammerSettings
@@ -37,8 +37,8 @@ public sealed class HammerCommandTests
 	public async Task ShowsExceptionOnFailure()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
-		var console = new TestConsole();
+		using var http = new HttpClient(new MockHttpMessageHandler());
+		using var console = new TestConsole();
 		var command = new HammerCommand(http, null!, console);
 		var settings = new HammerSettings();
 
@@ -54,8 +54,8 @@ public sealed class HammerCommandTests
 	public void CannotHammerInReverse()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
-		var console = new TestConsole();
+		using var http = new HttpClient(new MockHttpMessageHandler());
+		using var console = new TestConsole();
 		var settings = new HammerSettings
 		{
 			URL = new Uri("http://localhost"),

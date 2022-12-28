@@ -25,7 +25,7 @@ public sealed class CarpenterTests
 	public void CanHammer()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
+		using var http = new HttpClient(new MockHttpMessageHandler());
 		var task = new ProgressTask(123, "test", 0, false);
 		var options = new HammerSettings
 		{

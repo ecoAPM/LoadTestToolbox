@@ -10,9 +10,9 @@ public sealed class DrillCommandTests
 	public async Task WritesFileOnSuccess()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
-		var console = new TestConsole();
-		var stream = new MemoryStream();
+		using var http = new HttpClient(new MockHttpMessageHandler());
+		using var console = new TestConsole();
+		using var stream = new MemoryStream();
 		Stream writer(string s) => stream;
 		var command = new DrillCommand(http, writer, console);
 		var settings = new DrillSettings
@@ -37,8 +37,8 @@ public sealed class DrillCommandTests
 	public async Task ShowsExceptionOnFailure()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
-		var console = new TestConsole();
+		using var http = new HttpClient(new MockHttpMessageHandler());
+		using var console = new TestConsole();
 		var command = new DrillCommand(http, null!, console);
 		var settings = new DrillSettings();
 
