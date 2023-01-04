@@ -13,13 +13,9 @@ public abstract class Tool<T>
 	{
 		_notify = notify;
 		_worker = new Worker(http, newMessage, addResult, Console.WriteLine);
-		Prime(http, newMessage().RequestUri!).GetAwaiter().GetResult();
 	}
 
 	public abstract ConcurrentDictionary<uint, T> Run();
-
-	private static async Task Prime(HttpClient httpClient, Uri url)
-		=> await httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
 
 	protected Thread[] CreateThreads(uint total)
 	{

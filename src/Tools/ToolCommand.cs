@@ -35,10 +35,14 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 		new LabelProgressColumn("remaining ]]")
 	};
 
+	private async Task Prime(Uri url)
+		=> await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
+
 	private async Task<int> Run(ProgressContext context, T settings)
 	{
 		try
 		{
+			await Prime(settings.URL!);
 			var task = context.AddTask("Sending/receiving requests");
 			var chart = WieldTool(task, settings);
 			await _io.SaveChart(chart, settings.Filename);
