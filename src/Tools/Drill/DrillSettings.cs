@@ -7,11 +7,11 @@ namespace LoadTestToolbox.Tools.Drill;
 public sealed class DrillSettings : ToolSettings
 {
 	[CommandOption("-r|--rps")]
-	[Description("The number of requests per second to send")]
+	[Description("<required> The number of requests per second to send")]
 	public ushort RPS { get; init; }
 
 	[CommandOption("-d|--duration")]
-	[Description("The duration (in seconds) to send requests for")]
+	[Description("<required> The duration (in seconds) to send requests for")]
 	public byte Duration { get; init; }
 
 	public override ValidationResult Validate()

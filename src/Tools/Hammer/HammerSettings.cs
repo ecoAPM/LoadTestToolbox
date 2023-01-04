@@ -7,11 +7,11 @@ namespace LoadTestToolbox.Tools.Hammer;
 public sealed class HammerSettings : ToolSettings
 {
 	[CommandOption("--min")]
-	[Description("The minimum number of simultaneous requests to send")]
+	[Description("<required> The minimum number of simultaneous requests to send")]
 	public ushort Min { get; init; }
 
 	[CommandOption("--max")]
-	[Description("The maximum number of simultaneous requests to send")]
+	[Description("<required> The maximum number of simultaneous requests to send")]
 	public ushort Max { get; init; }
 
 	public override ValidationResult Validate()

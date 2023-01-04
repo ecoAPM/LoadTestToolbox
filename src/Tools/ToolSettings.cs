@@ -7,23 +7,23 @@ namespace LoadTestToolbox.Tools;
 public abstract class ToolSettings : CommandSettings
 {
 	[CommandOption("-u|--url")]
-	[Description("the URL to send requests to")]
+	[Description("<required> The URL to send requests to")]
 	public Uri? URL { get; init; }
 
 	[CommandOption("-f|--filename")]
-	[Description("the file to write the chart to")]
+	[Description("<required> The file to write the chart to")]
 	public string Filename { get; init; } = null!;
 
 	[CommandOption("-m|--method")]
-	[Description("the HTTP method to use")]
+	[Description("The HTTP method to use")]
 	public string Method { get; init; } = HttpMethod.Get.Method;
 
 	[CommandOption("-H|--header")]
-	[Description("the HTTP header(s) to add to the request")]
+	[Description("The HTTP header(s) to add to the request")]
 	public string[] Headers { get; init; } = Array.Empty<string>();
 
 	[CommandOption("-b|--body")]
-	[Description("the body of the HTTP request")]
+	[Description("The body of the HTTP request")]
 	public string Body { get; init; } = string.Empty;
 
 	public override ValidationResult Validate()

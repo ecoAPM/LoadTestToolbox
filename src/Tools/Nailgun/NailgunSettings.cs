@@ -7,7 +7,7 @@ namespace LoadTestToolbox.Tools.Nailgun;
 public sealed class NailgunSettings : ToolSettings
 {
 	[CommandOption("-r|--requests")]
-	[Description("the number of requests to send")]
+	[Description("<required> The number of requests to send")]
 	public ushort Requests { get; init; }
 
 	public override ValidationResult Validate()
