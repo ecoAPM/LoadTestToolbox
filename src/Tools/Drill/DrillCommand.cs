@@ -15,7 +15,7 @@ public sealed class DrillCommand : ToolCommand<DrillSettings>
 		var results = driller.Run();
 		WaitForProgressBarToCatchUp(task);
 
-		var description = $"Drill {settings.URL} @ {settings.RPS} request{(settings.RPS > 1 ? "s" : string.Empty)} per second for {settings.Duration} second{(settings.Duration != 1 ? "s" : string.Empty)}";
+		var description = $"Drill {settings.URL} with {settings.RPS} request{(settings.RPS > 1 ? "s" : string.Empty)} per second for {settings.Duration} second{(settings.Duration != 1 ? "s" : string.Empty)}";
 		return new SingleLineChart(results, description);
 	}
 }
