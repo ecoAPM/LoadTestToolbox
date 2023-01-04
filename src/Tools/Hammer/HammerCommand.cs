@@ -20,7 +20,7 @@ public sealed class HammerCommand : ToolCommand<HammerSettings>
 		var results = carpenter.Run();
 		WaitForProgressBarToCatchUp(task);
 
-		var description = $"Hammer {settings.URL} from {settings.Min} to {settings.Max} simultaneous requests";
+		var description = $"Hammer {settings.URL} with {settings.Min} to {settings.Max} simultaneous requests";
 		return new MultilineChart(results, description);
 	}
 }
