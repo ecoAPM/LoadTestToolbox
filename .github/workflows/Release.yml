@@ -1,0 +1,57 @@
+name: Release
+on:
+  push:
+    tags:
+      - '*'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      targets: linux-x64 linux-arm64 linux-arm osx-x64 osx-arm64 win-x64 win-arm64 win-arm
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.ref }}
+
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Run tests
+      run: dotnet test
+
+    - name: Publish binaries
+      run: |
+        for target in $targets
+        do
+          dotnet publish src -c Release -r $target -o publish/$target -p:PublishTrimmed=true,PublishReadyToRun=true,PublishReadyToRunComposite=true,PublishSingleFile=true,TieredCompilation=false
+        done
+
+    - name: Create release files
+      working-directory: publish
+      run: |
+        for target in $targets
+        do
+          cd $target
+          zip -9 ../LoadTestToolbox_$(echo ${{ github.ref }} | sed 's/refs\/tags\///')_$target.zip *
+          cd ..
+        done
+
+    - name: Create release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: publish/LoadTestToolbox_*.zip
+
+    - name: Build NuGet Package
+      run: dotnet pack -c Release -p:ContinuousIntegrationBuild=true
+
+    - name: Push NuGet Package
+      run: dotnet nuget push src/bin/Release/LoadTestToolbox.$(echo ${{ github.ref }} | sed 's/refs\/tags\///').nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
