@@ -22,5 +22,6 @@ public static class FontManager
 	public static readonly string DefaultFont
 		= _defaultOrder.FirstOrDefault(name => _fonts.Any(f => f == name))
 		  ?? _fonts.FirstOrDefault(name => name.Contains("Sans") && !name.Contains("Fallback"))
-		  ?? _fonts.First();
+		  ?? _fonts.FirstOrDefault()
+		  ?? throw new SystemException("No fonts installed");
 }
