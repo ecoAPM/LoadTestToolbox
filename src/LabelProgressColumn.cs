@@ -10,6 +10,6 @@ public sealed class LabelProgressColumn : ProgressColumn
 	public LabelProgressColumn(string text)
 		=> _text = text;
 
-	public override IRenderable Render(RenderContext context, ProgressTask task, TimeSpan deltaTime)
+	public override IRenderable Render(RenderOptions context, ProgressTask task, TimeSpan deltaTime)
 		=> new Markup(_text);
 }

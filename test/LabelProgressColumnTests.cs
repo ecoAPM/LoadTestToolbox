@@ -15,7 +15,7 @@ public class LabelProgressColumnTests
 
 		var console = new TestConsole();
 		var capabilities = new TestCapabilities();
-		var context = new RenderContext(capabilities);
+		var context = new RenderOptions(capabilities, new Size());
 		var task = new ProgressTask(123, "test", 0, false);
 
 		//act
