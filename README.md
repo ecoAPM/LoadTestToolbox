@@ -12,16 +12,14 @@ Lightweight tools for load testing web applications, written in C#
 
 **These tools should only be used on applications that you own or have permission to test against**
 
-## Requirements
-
-- .NET SDK 6.0
-
-Linux:
-- `libgdiplus`
-
 ## Installation
 
-`~$ dotnet tool install --global LoadTestToolbox`
+1. Download the latest release for your operating system and architecture
+1. Extract the archive to the directory of your choosing
+
+### Install as a .NET Global Tool
+
+`~$ dotnet tool install --global LoadTestToolbox` (requires .NET 6 SDK)
 
 ## Usage
 
