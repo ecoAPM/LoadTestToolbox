@@ -51,7 +51,7 @@ public sealed class HammerCommandTests
 	}
 
 	[Fact]
-	public void CannotHammerInReverse()
+	public async Task CannotHammerInReverse()
 	{
 		//arrange
 		using var http = new HttpClient(new MockHttpMessageHandler());
@@ -65,8 +65,10 @@ public sealed class HammerCommandTests
 
 		//act
 		var command = new HammerCommand(http, null!, console);
+		var result = await command.ExecuteAsync(null!, settings);
+
 
 		//assert
-		Assert.ThrowsAsync<ArgumentException>(async () => await command.ExecuteAsync(null!, settings));
+		Assert.Equal(1, result);
 	}
 }
