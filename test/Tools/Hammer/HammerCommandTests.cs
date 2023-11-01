@@ -65,8 +65,9 @@ public sealed class HammerCommandTests
 
 		//act
 		var command = new HammerCommand(http, null!, console);
+		async Task task() => await command.ExecuteAsync(null!, settings);
 
 		//assert
-		Assert.ThrowsAsync<ArgumentException>(async () => await command.ExecuteAsync(null!, settings));
+		Assert.ThrowsAsync<ArgumentException>(task);
 	}
 }
