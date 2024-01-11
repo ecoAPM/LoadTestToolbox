@@ -27,7 +27,7 @@
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all" />
 		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.0-beta.700" />
 		<PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="7.3.0" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.6" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.7" />
 		<PackageReference Include="Spectre.Console.Cli" Version="0.48.0" />
 		<None Include="../README.md" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="." />
 	</ItemGroup>
