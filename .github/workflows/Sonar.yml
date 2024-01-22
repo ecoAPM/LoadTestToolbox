@@ -17,6 +17,12 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+    - name: Install Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: microsoft
+        java-version: 21
+
     - name: Install Sonar Scanner
       run: dotnet tool install --global dotnet-sonarscanner
 
