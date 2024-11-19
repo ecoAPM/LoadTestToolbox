@@ -19,7 +19,7 @@ Lightweight tools for load testing web applications, written in C#
 
 ### Install as a .NET Global Tool
 
-`~$ dotnet tool install --global LoadTestToolbox` (requires .NET 8 SDK)
+`~$ dotnet tool install --global LoadTestToolbox` (requires .NET SDK)
 
 ## Usage
 

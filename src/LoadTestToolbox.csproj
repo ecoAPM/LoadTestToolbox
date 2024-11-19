@@ -4,7 +4,7 @@
 		<OutputType>Exe</OutputType>
 		<PackAsTool>true</PackAsTool>
 		<AssemblyName>ltt</AssemblyName>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<Description>Lightweight tools for load testing web applications</Description>
 		<Authors>ecoAPM LLC</Authors>
 		<Company>ecoAPM LLC</Company>
