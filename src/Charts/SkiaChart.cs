@@ -23,11 +23,11 @@ public abstract class SkiaChart
 	private static readonly SolidColorPaint DefaultText = new(SKColors.Black) { FontFamily = FontManager.DefaultFont };
 	private static readonly SolidColorPaint PaleGreyLine = new(SKColors.Black.WithAlpha(24), 1);
 
-	private static readonly object chartLock = new();
+	private static readonly Lock ChartLock = new();
 
 	public SKCartesianChart GetChart()
 	{
-		lock (chartLock)
+		lock (ChartLock)
 			return CreateChart();
 	}
 
@@ -38,8 +38,8 @@ public abstract class SkiaChart
 			Width = 1280,
 			Height = 720,
 			Background = SKColors.White,
-			XAxes = new[] { XAxis },
-			YAxes = new[] { YAxis },
+			XAxes = [XAxis],
+			YAxes = [YAxis],
 			Series = Series,
 			LegendPosition = Series.Length > 1 ? LegendPosition.Bottom : LegendPosition.Hidden,
 			LegendTextPaint = DefaultText,

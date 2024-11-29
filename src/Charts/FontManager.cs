@@ -4,11 +4,11 @@ namespace LoadTestToolbox.Charts;
 
 public static class FontManager
 {
-	private static readonly string[] _fonts
+	private static readonly string[] Fonts
 		= SKFontManager.Default.FontFamilies.ToArray();
 
-	private static readonly string[] _defaultOrder =
-	{
+	private static readonly string[] DefaultOrder =
+	[
 		"Noto Sans",
 		"Open Sans",
 		"Roboto",
@@ -17,11 +17,11 @@ public static class FontManager
 		"San Francisco",
 		"Helvetica Neue",
 		"Helvetica"
-	};
+	];
 
 	public static readonly string DefaultFont
-		= _defaultOrder.FirstOrDefault(name => _fonts.Any(f => f == name))
-		  ?? _fonts.FirstOrDefault(name => name.Contains("Sans") && !name.Contains("Fallback"))
-		  ?? _fonts.FirstOrDefault()
-		  ?? throw new SystemException("No fonts installed");
+		= DefaultOrder.FirstOrDefault(name => Fonts.Any(f => f == name))
+		  ?? Fonts.FirstOrDefault(name => name.Contains("Sans") && !name.Contains("Fallback"))
+		  ?? Fonts.FirstOrDefault()
+		  ?? throw new FileNotFoundException("No fonts installed");
 }

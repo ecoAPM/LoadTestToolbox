@@ -17,7 +17,7 @@ public static class Factory
 		return app;
 	}
 
-	private static ITypeRegistrar DI()
+	private static TypeRegistrar DI()
 	{
 		var services = new ServiceCollection();
 		services.AddSingleton<HttpClient>();

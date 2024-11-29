@@ -6,7 +6,7 @@ public sealed record Stats
 {
 	public Stats(ConcurrentDictionary<uint, double> results)
 	{
-		if (!results.Any())
+		if (results.IsEmpty)
 		{
 			return;
 		}
@@ -14,13 +14,10 @@ public sealed record Stats
 		var ordered = results.Select(r => r.Value)
 			.OrderBy(v => v).ToArray();
 
-		Min = ordered.First();
-
+		Min = ordered[0];
 		Mean = ordered.Average();
-
 		Median = GetMedian(ordered);
-
-		Max = ordered.Last();
+		Max = ordered[^1];
 	}
 
 	private static double GetMedian(double[] values)

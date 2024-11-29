@@ -19,11 +19,11 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 
 	public override async Task<int> ExecuteAsync(CommandContext context, T settings)
 		=> await _console.Progress()
-			.Columns(Columns)
+			.Columns(_columns)
 			.StartAsync(async ctx => await Run(ctx, settings));
 
-	private readonly ProgressColumn[] Columns =
-	{
+	private readonly ProgressColumn[] _columns =
+	[
 		new SpinnerColumn(),
 		new TaskDescriptionColumn(),
 		new ProgressBarColumn(),
@@ -33,7 +33,7 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 		new LabelProgressColumn("elapsed /"),
 		new RemainingTimeColumn(),
 		new LabelProgressColumn("remaining ]]")
-	};
+	];
 
 	private async Task Prime(Uri url)
 		=> await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
@@ -59,7 +59,7 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 
 	protected abstract SkiaChart WieldTool(ProgressTask task, T settings);
 
-	protected void WaitForProgressBarToCatchUp(ProgressTask task)
+	protected static void WaitForProgressBarToCatchUp(ProgressTask task)
 	{
 		while (!task.IsFinished)
 		{

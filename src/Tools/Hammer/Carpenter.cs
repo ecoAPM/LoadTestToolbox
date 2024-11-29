@@ -27,7 +27,7 @@ public sealed class Carpenter : Wielder<Hammer, Stats>
 				list.Add(x);
 		}
 
-		if (list.Last() < max)
+		if (list[^1] < max)
 			list.Add(max);
 
 		return list.ToArray();
