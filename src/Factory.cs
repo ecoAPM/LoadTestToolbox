@@ -40,11 +40,27 @@ public static class Factory
 			Content = new StringContent(settings.Body)
 		};
 
-		foreach (var header in settings.Headers)
+		var contentHeaders = settings.Headers.Where(h => h == "Allow" || h.StartsWith("Content")).ToArray();
+		foreach (var header in contentHeaders)
 		{
 			var split = header.Split(':');
 			var name = split[0].Trim();
 			var value = split[1].Trim();
+
+			if (message.Content.Headers.Any(h => h.Key == name))
+				message.Content.Headers.Remove(name);
+			message.Content.Headers.Add(name, value);
+		}
+
+		var requestHeaders = settings.Headers.Except(contentHeaders).ToArray();
+		foreach (var header in requestHeaders)
+		{
+			var split = header.Split(':');
+			var name = split[0].Trim();
+			var value = split[1].Trim();
+
+			if (message.Headers.Any(h => h.Key == name))
+				message.Headers.Remove(name);
 			message.Headers.Add(name, value);
 		}
 
