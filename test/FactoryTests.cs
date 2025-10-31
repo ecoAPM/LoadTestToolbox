@@ -25,8 +25,8 @@ public sealed class FactoryTests
 		{
 			URL = new Uri("http://localhost"),
 			Method = HttpMethod.Post.Method,
-			Headers = new[] { "Authorization: Basic a1b2c3d4e5f6" },
-			Body = $@"{{""key123"":""value456""}}"
+			Headers = ["Authorization: Basic a1b2c3d4e5f6"],
+			Body = """{"key123":"value456"}"""
 		};
 
 		//act

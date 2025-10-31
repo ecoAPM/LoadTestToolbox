@@ -20,7 +20,7 @@ public abstract class ToolSettings : CommandSettings
 
 	[CommandOption("-H|--header")]
 	[Description("The HTTP header(s) to add to the request")]
-	public string[] Headers { get; init; } = Array.Empty<string>();
+	public string[] Headers { get; init; } = [];
 
 	[CommandOption("-b|--body")]
 	[Description("The body of the HTTP request")]

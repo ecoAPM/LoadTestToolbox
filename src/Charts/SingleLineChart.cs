@@ -13,7 +13,7 @@ public sealed class SingleLineChart : LineChart<double>
 	}
 
 	protected override LineSeries<ObservablePoint>[] Series
-		=> new[] { SingleLine };
+		=> [SingleLine];
 
 	private LineSeries<ObservablePoint> SingleLine
 		=> LineSeries("Response Time (ms)", _results.OrderBy(r => r.Key).Select(r => new ObservablePoint(r.Key, r.Value)).ToArray(), SKColors.DodgerBlue);
