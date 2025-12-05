@@ -9,11 +9,11 @@ public sealed class NailgunCommand : ToolCommand<NailgunSettings>
 	{
 	}
 
-	protected override SkiaChart WieldTool(ProgressTask task, NailgunSettings settings)
+	protected override async Task<SkiaChart> WieldTool(ProgressTask task, NailgunSettings settings)
 	{
-		var nailer = new Nailer(_httpClient, task, settings);
+		var nailer = new Nailer(HttpClient, task, settings);
 		var results = nailer.Run();
-		WaitForProgressBarToCatchUp(task);
+		await ProgressBarCompletion(task);
 
 		var description = $"Nailgun {settings.URL} with {settings.Requests} request{(settings.Requests != 1 ? "s" : string.Empty)}";
 		return new SingleLineChart(results, description);

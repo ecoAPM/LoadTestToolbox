@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace LoadTestToolbox.Tools.Drill;
 
-public sealed class Drill : Tool<double>
+public sealed class Drill : Tool<Result>
 {
 	private readonly uint _totalRequests;
 	private readonly long _delay;
@@ -14,7 +14,7 @@ public sealed class Drill : Tool<double>
 		_delay = delay;
 	}
 
-	public override ConcurrentDictionary<uint, double> Run()
+	public override ConcurrentDictionary<uint, Result> Run()
 	{
 		var threads = CreateThreads(_totalRequests);
 
@@ -33,12 +33,12 @@ public sealed class Drill : Tool<double>
 		}
 
 		WaitFor(threads);
-		return _results;
+		return Results;
 	}
 
-	protected override void addResult(uint request, double ms)
+	protected override void AddResult(uint request, Result result)
 	{
-		_results.TryAdd(request, ms);
-		_notify();
+		Results.TryAdd(request, result);
+		Notify();
 	}
 }

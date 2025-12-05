@@ -4,8 +4,8 @@ namespace LoadTestToolbox.Tools;
 
 public abstract class Wielder<T, R> where T : Tool<R>
 {
-	protected T _tool = null!;
+	protected T Tool = null!;
 
 	public ConcurrentDictionary<uint, R> Run()
-		=> _tool.Run();
+		=> Tool.Run();
 }

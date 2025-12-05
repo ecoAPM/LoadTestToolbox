@@ -5,9 +5,9 @@ using SkiaSharp;
 
 namespace LoadTestToolbox.Charts;
 
-public sealed class SingleLineChart : LineChart<double>
+public sealed class SingleLineChart : LineChart<Result>
 {
-	public SingleLineChart(ConcurrentDictionary<uint, double> results, string description)
+	public SingleLineChart(ConcurrentDictionary<uint, Result> results, string description)
 		: base(results, description)
 	{
 	}
@@ -16,8 +16,8 @@ public sealed class SingleLineChart : LineChart<double>
 		=> [SingleLine];
 
 	private LineSeries<ObservablePoint> SingleLine
-		=> LineSeries("Response Time (ms)", _results.OrderBy(r => r.Key).Select(r => new ObservablePoint(r.Key, r.Value)).ToArray(), SKColors.DodgerBlue);
+		=> LineSeries("Response Time (ms)", _results.OrderBy(r => r.Key).Select(r => new ObservablePoint(r.Key, r.Value.Duration)).ToArray(), SKColors.DodgerBlue);
 
 	protected override double YAxisMax
-		=> GetYAxisMax(_results.Max(r => r.Value));
+		=> GetYAxisMax(_results.Max(r => r.Value.Duration));
 }

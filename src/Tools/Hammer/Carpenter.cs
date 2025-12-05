@@ -8,7 +8,7 @@ public sealed class Carpenter : Wielder<Hammer, Stats>
 	{
 		var strengths = GetStrengths(settings.Min, settings.Max);
 		task.MaxValue(strengths.Sum(s => s));
-		_tool = new Hammer(http, () => Factory.Message(settings), () => task.Increment(1), strengths);
+		Tool = new Hammer(http, () => Factory.Message(settings), () => task.Increment(1), strengths);
 	}
 
 	public static uint[] GetStrengths(uint min, uint max)

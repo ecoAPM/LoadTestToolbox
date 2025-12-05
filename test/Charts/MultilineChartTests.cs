@@ -13,9 +13,9 @@ public sealed class MultilineChartTests
 		//arrange
 		var results = new Dictionary<uint, Stats>
 		{
-			{ 1, new Stats(new ConcurrentDictionary<uint, double>()) },
-			{ 2, new Stats(new ConcurrentDictionary<uint, double>()) },
-			{ 3, new Stats(new ConcurrentDictionary<uint, double>()) }
+			{ 1, new Stats(new ConcurrentDictionary<uint, Result>()) },
+			{ 2, new Stats(new ConcurrentDictionary<uint, Result>()) },
+			{ 3, new Stats(new ConcurrentDictionary<uint, Result>()) }
 		}.AsConcurrent();
 
 		var skia = new MultilineChart(results, string.Empty);
@@ -36,7 +36,7 @@ public sealed class MultilineChartTests
 		//arrange
 		var results = new Dictionary<uint, Stats>
 		{
-			{ 1, new Stats(new Dictionary<uint, double> { { 1, max } }.AsConcurrent()) }
+			{ 1, new Stats(new Dictionary<uint, Result> { { 1, new Result(200, max) } }.AsConcurrent()) }
 		}.AsConcurrent();
 
 		var skia = new MultilineChart(results, string.Empty);
@@ -54,9 +54,9 @@ public sealed class MultilineChartTests
 		//arrange
 		var results = new Dictionary<uint, Stats>
 		{
-			{ 3, new Stats(new ConcurrentDictionary<uint, double>()) },
-			{ 5, new Stats(new ConcurrentDictionary<uint, double>()) },
-			{ 2, new Stats(new ConcurrentDictionary<uint, double>()) }
+			{ 3, new Stats(new ConcurrentDictionary<uint, Result>()) },
+			{ 5, new Stats(new ConcurrentDictionary<uint, Result>()) },
+			{ 2, new Stats(new ConcurrentDictionary<uint, Result>()) }
 		}.AsConcurrent();
 
 		var skia = new MultilineChart(results, string.Empty);
@@ -75,7 +75,7 @@ public sealed class MultilineChartTests
 		//arrange
 		var results = new Dictionary<uint, Stats>
 		{
-			{ 3, new Stats(new ConcurrentDictionary<uint, double>()) }
+			{ 3, new Stats(new ConcurrentDictionary<uint, Result>()) }
 		}.AsConcurrent();
 
 		var skia = new MultilineChart(results, string.Empty);

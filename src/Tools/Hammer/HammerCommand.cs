@@ -9,16 +9,16 @@ public sealed class HammerCommand : ToolCommand<HammerSettings>
 	{
 	}
 
-	protected override SkiaChart WieldTool(ProgressTask task, HammerSettings settings)
+	protected override async Task<SkiaChart> WieldTool(ProgressTask task, HammerSettings settings)
 	{
 		if (settings.Min > settings.Max)
 		{
 			throw new ArgumentException("Minimum cannot be greater than maximum", nameof(settings));
 		}
 
-		var carpenter = new Carpenter(_httpClient, task, settings);
+		var carpenter = new Carpenter(HttpClient, task, settings);
 		var results = carpenter.Run();
-		WaitForProgressBarToCatchUp(task);
+		await ProgressBarCompletion(task);
 
 		var description = $"Hammer {settings.URL} with {settings.Min} to {settings.Max} simultaneous requests";
 		return new MultilineChart(results, description);

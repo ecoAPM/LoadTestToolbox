@@ -6,13 +6,13 @@ namespace LoadTestToolbox.Tools;
 
 public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 {
-	protected readonly HttpClient _httpClient;
+	protected readonly HttpClient HttpClient;
 	private readonly IAnsiConsole _console;
 	private readonly ChartIO _io;
 
 	protected ToolCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console)
 	{
-		_httpClient = httpClient;
+		HttpClient = httpClient;
 		_io = io;
 		_console = console;
 	}
@@ -38,16 +38,16 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 		new LabelProgressColumn("remaining ]]")
 	];
 
-	private async Task Prime(Uri url)
-		=> await _httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url));
+	private void Prime(Uri url)
+		=> HttpClient.Send(new HttpRequestMessage(HttpMethod.Head, url));
 
 	private async Task<int> Run(ProgressContext context, T settings)
 	{
 		try
 		{
-			await Prime(settings.URL!);
+			Prime(settings.URL!);
 			var task = context.AddTask("Sending/receiving requests");
-			var chart = WieldTool(task, settings);
+			var chart = await WieldTool(task, settings);
 			await _io.SaveChart(chart, settings.Filename);
 
 			context.Refresh();
@@ -60,13 +60,13 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 		}
 	}
 
-	protected abstract SkiaChart WieldTool(ProgressTask task, T settings);
+	protected abstract Task<SkiaChart> WieldTool(ProgressTask task, T settings);
 
-	protected static void WaitForProgressBarToCatchUp(ProgressTask task)
+	protected static async Task ProgressBarCompletion(ProgressTask task)
 	{
 		while (!task.IsFinished)
 		{
-			Thread.Sleep(1);
+			await Task.Delay(0);
 		}
 	}
 }

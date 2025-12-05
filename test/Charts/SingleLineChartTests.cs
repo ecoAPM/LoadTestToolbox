@@ -10,11 +10,11 @@ public sealed class SingleLineChartTests
 	public void ChartContainsAllResults()
 	{
 		//arrange
-		var results = new Dictionary<uint, double>
+		var results = new Dictionary<uint, Result>
 		{
-			{ 1, 1.23 },
-			{ 2, 2.34 },
-			{ 3, 3.45 }
+			{ 1, new Result(200, 1.23) },
+			{ 2, new Result(200, 2.34) },
+			{ 3, new Result(200, 3.45) }
 		}.AsConcurrent();
 
 		var skia = new SingleLineChart(results, string.Empty);
@@ -33,9 +33,9 @@ public sealed class SingleLineChartTests
 	public void YAxisRangeIsRounded(double max, double expected)
 	{
 		//arrange
-		var results = new Dictionary<uint, double>
+		var results = new Dictionary<uint, Result>
 		{
-			{ 1, max }
+			{ 1, new Result(200, max) }
 		}.AsConcurrent();
 
 		var skia = new SingleLineChart(results, string.Empty);
@@ -51,11 +51,11 @@ public sealed class SingleLineChartTests
 	public void XAxisIsSortedAndBoundByValues()
 	{
 		//arrange
-		var results = new Dictionary<uint, double>
+		var results = new Dictionary<uint, Result>
 		{
-			{ 3, 2.34 },
-			{ 5, 3.45 },
-			{ 2, 1.23 }
+			{ 3, new Result(200, 2.34) },
+			{ 5, new Result(200, 3.45) },
+			{ 2, new Result(200, 1.23) }
 		}.AsConcurrent();
 
 		var skia = new SingleLineChart(results, string.Empty);
@@ -72,9 +72,9 @@ public sealed class SingleLineChartTests
 	public void XAxisCanHandleSingleValues()
 	{
 		//arrange
-		var results = new Dictionary<uint, double>
+		var results = new Dictionary<uint, Result>
 		{
-			{ 3, 2.34 }
+			{ 3, new Result(200, 2.34) }
 		}.AsConcurrent();
 
 		var skia = new SingleLineChart(results, string.Empty);

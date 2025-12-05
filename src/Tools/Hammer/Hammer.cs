@@ -5,7 +5,7 @@ namespace LoadTestToolbox.Tools.Hammer;
 public sealed class Hammer : Tool<Stats>
 {
 	private readonly uint[] _strengths;
-	private readonly ConcurrentDictionary<uint, double> _singleResults = new();
+	private readonly ConcurrentDictionary<uint, Result> _singleResults = new();
 
 	public Hammer(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint[] strengths) : base(http, newMessage, notify)
 		=> _strengths = strengths;
@@ -17,13 +17,13 @@ public sealed class Hammer : Tool<Stats>
 		{
 			var results = RunOnce(x);
 			totals[x] = new Stats(results);
-			_results.TryAdd(x, totals[x]);
+			Results.TryAdd(x, totals[x]);
 		}
 
-		return _results;
+		return Results;
 	}
 
-	private ConcurrentDictionary<uint, double> RunOnce(uint requests)
+	private ConcurrentDictionary<uint, Result> RunOnce(uint requests)
 	{
 		var threads = CreateThreads(requests);
 
@@ -37,9 +37,9 @@ public sealed class Hammer : Tool<Stats>
 		return _singleResults;
 	}
 
-	protected override void addResult(uint request, double ms)
+	protected override void AddResult(uint request, Result result)
 	{
-		_singleResults.TryAdd(request, ms);
-		_notify();
+		_singleResults.TryAdd(request, result);
+		Notify();
 	}
 }

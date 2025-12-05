@@ -9,11 +9,11 @@ public sealed class DrillCommand : ToolCommand<DrillSettings>
 	{
 	}
 
-	protected override SkiaChart WieldTool(ProgressTask task, DrillSettings settings)
+	protected override async Task<SkiaChart> WieldTool(ProgressTask task, DrillSettings settings)
 	{
-		var driller = new Driller(_httpClient, task, settings);
+		var driller = new Driller(HttpClient, task, settings);
 		var results = driller.Run();
-		WaitForProgressBarToCatchUp(task);
+		await ProgressBarCompletion(task);
 
 		var description = $"Drill {settings.URL} with {settings.RPS} request{(settings.RPS > 1 ? "s" : string.Empty)} per second for {settings.Duration} second{(settings.Duration != 1 ? "s" : string.Empty)}";
 		return new SingleLineChart(results, description);

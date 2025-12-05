@@ -6,10 +6,10 @@ public sealed class Worker
 {
 	private readonly HttpClient _httpClient;
 	private readonly Func<HttpRequestMessage> _newMessage;
-	private readonly Action<uint, double> _report;
+	private readonly Action<uint, Result> _report;
 	private readonly Action<string> _warn;
 
-	public Worker(HttpClient httpClient, Func<HttpRequestMessage> newMessage, Action<uint, double> report, Action<string> warn)
+	public Worker(HttpClient httpClient, Func<HttpRequestMessage> newMessage, Action<uint, Result> report, Action<string> warn)
 	{
 		_httpClient = httpClient;
 		_newMessage = newMessage;
@@ -17,22 +17,22 @@ public sealed class Worker
 		_warn = warn;
 	}
 
-	public async Task Run(uint request)
+	public void Run(uint request)
 	{
-		var timer = Stopwatch.StartNew();
 		try
 		{
 			using var message = _newMessage();
-			await _httpClient.SendAsync(message);
+			var timer = Stopwatch.StartNew();
+			var response = _httpClient.Send(message);
+			timer.Stop();
+
+			var result = new Result { ResponseCode = (int)response.StatusCode, Duration = timer.Elapsed.TotalMilliseconds };
+			_report(request, result);
 		}
 		catch(Exception e)
 		{
 			_warn(e.Message);
-		}
-		finally
-		{
-			timer.Stop();
-			_report(request, timer.Elapsed.TotalMilliseconds);
+			_report(request, new Result());
 		}
 	}
 }

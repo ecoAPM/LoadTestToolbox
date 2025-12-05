@@ -4,15 +4,15 @@ namespace LoadTestToolbox.Tools;
 
 public abstract class Tool<T>
 {
-	protected readonly Action _notify;
-	protected readonly ConcurrentDictionary<uint, T> _results = new();
+	protected readonly Action Notify;
+	protected readonly ConcurrentDictionary<uint, T> Results = new();
 
 	private readonly Worker _worker;
 
 	protected Tool(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify)
 	{
-		_notify = notify;
-		_worker = new Worker(http, newMessage, addResult, Console.WriteLine);
+		Notify = notify;
+		_worker = new Worker(http, newMessage, AddResult, Console.WriteLine);
 	}
 
 	public abstract ConcurrentDictionary<uint, T> Run();
@@ -30,16 +30,12 @@ public abstract class Tool<T>
 	}
 
 	private Thread CreateThread(uint request)
-	{
-#pragma warning disable 4014
-		return new Thread(() => _worker.Run(request))
-#pragma warning restore 4014
+		=> new(() => _worker.Run(request))
 		{
 			Priority = ThreadPriority.Highest
 		};
-	}
 
-	protected abstract void addResult(uint request, double ms);
+	protected abstract void AddResult(uint request, Result result);
 
 	protected static void WaitFor(IEnumerable<Thread> threads)
 	{

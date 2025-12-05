@@ -9,13 +9,13 @@ public class StatsTests
 	public void CanGetStatsForOddNumberedList()
 	{
 		//arrange
-		var results = new Dictionary<uint, double>
+		var results = new Dictionary<uint, Result>
 		{
-			{ 1, 0.1 },
-			{ 2, 0.5 },
-			{ 3, 0.9 },
-			{ 4, 0.7 },
-			{ 5, 0.8 }
+			{ 1, new Result(200, 0.1) },
+			{ 2, new Result(200, 0.5) },
+			{ 3, new Result(200, 0.9) },
+			{ 4, new Result(200, 0.7) },
+			{ 5, new Result(200, 0.8) }
 		}.AsConcurrent();
 
 		//act
@@ -32,14 +32,14 @@ public class StatsTests
 	public void CanGetStatsForEvenNumberedList()
 	{
 		//arrange
-		var results = new Dictionary<uint, double>
+		var results = new Dictionary<uint, Result>
 		{
-			{ 1, 0.1 },
-			{ 2, 0.5 },
-			{ 3, 0.9 },
-			{ 4, 0.7 },
-			{ 5, 0.6 },
-			{ 6, 0.2 }
+			{ 1, new Result(200, 0.1) },
+			{ 2, new Result(200, 0.5) },
+			{ 3, new Result(200, 0.9) },
+			{ 4, new Result(200, 0.7) },
+			{ 5, new Result(200, 0.6) },
+			{ 6, new Result(200, 0.2) }
 		}.AsConcurrent();
 
 		//act
@@ -56,7 +56,7 @@ public class StatsTests
 	public void CanHandleEmptyList()
 	{
 		//arrange
-		var results = new ConcurrentDictionary<uint, double>();
+		var results = new ConcurrentDictionary<uint, Result>();
 
 		//act
 		var stats = new Stats(results);

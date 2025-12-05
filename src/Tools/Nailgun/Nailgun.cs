@@ -2,14 +2,14 @@
 
 namespace LoadTestToolbox.Tools.Nailgun;
 
-public sealed class Nailgun : Tool<double>
+public sealed class Nailgun : Tool<Result>
 {
 	private readonly uint _totalRequests;
 
 	public Nailgun(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint totalRequests) : base(http, newMessage, notify)
 		=> _totalRequests = totalRequests;
 
-	public override ConcurrentDictionary<uint, double> Run()
+	public override ConcurrentDictionary<uint, Result> Run()
 	{
 		var threads = CreateThreads(_totalRequests);
 
@@ -19,12 +19,12 @@ public sealed class Nailgun : Tool<double>
 		}
 
 		WaitFor(threads);
-		return _results;
+		return Results;
 	}
 
-	protected override void addResult(uint request, double ms)
+	protected override void AddResult(uint request, Result result)
 	{
-		_results.TryAdd(request, ms);
-		_notify();
+		Results.TryAdd(request, result);
+		Notify();
 	}
 }

@@ -11,13 +11,13 @@ public class StreamIOTests
 	{
 		//arrange
 		var stream = new MemoryStream();
-		Stream writer(string filename) => stream;
-		var io = new StreamIO(writer);
-		var data = new Dictionary<uint, double>
+		Stream Writer(string filename) => stream;
+		var io = new StreamIO(Writer);
+		var data = new Dictionary<uint, Result>
 		{
-			{ 1, 2 },
-			{ 2, 4 },
-			{ 3, 3 }
+			{ 1, new Result(200, 2) },
+			{ 2, new Result(200, 4) },
+			{ 3, new Result(200, 3) }
 		}.AsConcurrent();
 		var chart = new SingleLineChart(data, "test");
 
