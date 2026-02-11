@@ -54,4 +54,6 @@ jobs:
       run: dotnet pack -c Release -p:ContinuousIntegrationBuild=true
 
     - name: Push NuGet Package
-      run: dotnet nuget push src/bin/Release/LoadTestToolbox.$(echo ${{ github.ref }} | sed 's/refs\/tags\///').nupkg -k ${{ secrets.NUGET_TOKEN }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push src/bin/Release/LoadTestToolbox.$(echo ${{ github.ref }} | sed 's/refs\/tags\///').nupkg -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
+      env:
+        NUGET_TOKEN: ${{secrets.NUGET_TOKEN}}
