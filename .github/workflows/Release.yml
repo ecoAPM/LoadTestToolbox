@@ -46,7 +46,7 @@ jobs:
         done
 
     - name: Create release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2.5.0
       with:
         files: publish/LoadTestToolbox_*.zip
 
