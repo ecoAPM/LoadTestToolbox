@@ -1,23 +1,25 @@
 name: CI
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 jobs:
   Build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 10.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
 
-    - name: Restore
-      run: dotnet restore
+      - name: Restore
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore
+      - name: Build
+        run: dotnet build --no-restore
 
-    - name: Test
-      run: dotnet test --no-build
+      - name: Test
+        run: dotnet test --no-build

@@ -7,46 +7,47 @@ jobs:
     if: github.actor != 'dependabot[bot]'
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 10.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
 
-    - name: Install Java
-      uses: actions/setup-java@v4
-      with:
-        distribution: microsoft
-        java-version: 21
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: microsoft
+          java-version: 21
 
-    - name: Install Sonar Scanner
-      run: dotnet tool install --global dotnet-sonarscanner
+      - name: Install Sonar Scanner
+        run: dotnet tool install --global dotnet-sonarscanner
 
-    - name: Install dependencies
-      run: dotnet restore
+      - name: Install dependencies
+        run: dotnet restore
 
-    - name: Start Sonar Analysis
-      run: dotnet-sonarscanner begin /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="$SONAR_TOKEN" /o:"ecoapm" /k:"ecoAPM_LoadTestToolbox" /d:sonar.cs.vstest.reportsPaths="test/TestResults/results.trx" /d:sonar.cs.opencover.reportsPaths="test/TestResults/coverage.opencover.xml"
-      env:
-        SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+      - name: Start Sonar Analysis
+        run: dotnet-sonarscanner begin /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="$SONAR_TOKEN" /o:"ecoapm" /k:"ecoAPM_LoadTestToolbox" /d:sonar.cs.vstest.reportsPaths="test/TestResults/results.trx" /d:sonar.cs.opencover.reportsPaths="test/TestResults/coverage.opencover.xml"
+        env:
+          SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
 
-    - name: Build
-      run: dotnet build --no-restore
-      env:
-        SONAR_DOTNET_ENABLE_CONCURRENT_EXECUTION: true
+      - name: Build
+        run: dotnet build --no-restore
+        env:
+          SONAR_DOTNET_ENABLE_CONCURRENT_EXECUTION: true
 
-    - name: Test
-      run: dotnet test --no-build --logger "trx;LogFileName=results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+      - name: Test
+        run: dotnet test --no-build --logger "trx;LogFileName=results.trx" --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
-    - name: Move Code Coverage
-      run: mv test/TestResults/**/*.xml test/TestResults
+      - name: Move Code Coverage
+        run: mv test/TestResults/**/*.xml test/TestResults
 
-    - name: Finish Sonar Analysis
-      run: dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
-      env:
-        SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - name: Finish Sonar Analysis
+        run: dotnet-sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+        env:
+          SONAR_TOKEN: ${{secrets.SONAR_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
