@@ -2,12 +2,10 @@ using LiveChartsCore.Defaults;
 using LiveChartsCore.Drawing;
 using LiveChartsCore.Measure;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Drawing;
 using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.SKCharts;
 using LiveChartsCore.SkiaSharpView.VisualElements;
-using LiveChartsCore.VisualElements;
 using SkiaSharp;
 
 namespace LoadTestToolbox.Charts;
@@ -20,23 +18,32 @@ public abstract class SkiaChart
 	protected abstract uint MaxXAxis { get; }
 	protected abstract double YAxisMax { get; }
 
-	private static readonly SolidColorPaint DefaultText = new(SKColors.Black) { FontFamily = FontManager.DefaultFont };
+	private const int Width = 1280;
+	private const int Height = 720;
+
+	private static readonly SKTypeface DefaultTypeface = SKTypeface.FromFamilyName(FontManager.DefaultFont);
+	private static readonly SolidColorPaint DefaultText = new(SKColors.Black) { SKTypeface = DefaultTypeface };
 	private static readonly SolidColorPaint PaleGreyLine = new(SKColors.Black.WithAlpha(24), 1);
 
 	private static readonly Lock ChartLock = new();
 
+
 	public SKCartesianChart GetChart()
 	{
 		lock (ChartLock)
-			return CreateChart();
+		{
+			var chart = CreateChart();
+			chart.Sections = chart.Sections.Append(new DrawnLabelVisual(Subtitle(Title)));
+			return chart;
+		}
 	}
 
 	private SKCartesianChart CreateChart()
 		=> new()
 		{
-			Title = TitlePanel,
-			Width = 1280,
-			Height = 720,
+			Title = new DrawnLabelVisual(Title),
+			Width = Width,
+			Height = Height,
 			Background = SKColors.White,
 			XAxes = [XAxis],
 			YAxes = [YAxis],
@@ -46,38 +53,31 @@ public abstract class SkiaChart
 			LegendTextSize = 16
 		};
 
-	private static readonly Padding HeaderPadding = new(4);
-	private static readonly Padding TitlePadding = new(4);
-	private static readonly Padding SubtitlePadding = new(8);
+	private static readonly Padding TitlePadding = new(0, 8, 0, 32);
 
-	private static readonly LabelVisual Title = new()
+	private static readonly LabelGeometry Title = new()
 	{
 		Text = "LoadTestToolbox by ecoAPM",
 		TextSize = 24,
 		Paint = DefaultText,
-		HorizontalAlignment = Align.Start,
-		VerticalAlignment = Align.Start,
-		Padding = TitlePadding,
+		HorizontalAlign = Align.Start,
+		VerticalAlign = Align.Start,
+		Padding = TitlePadding
 	};
 
-	private LabelVisual Subtitle
+	private LabelGeometry Subtitle(LabelGeometry title)
 		=> new()
 		{
 			Text = Description,
 			TextSize = 18,
 			Paint = DefaultText,
-			HorizontalAlignment = Align.Start,
-			VerticalAlignment = Align.Start,
-			Padding = SubtitlePadding
+			HorizontalAlign = Align.Middle,
+			VerticalAlign = Align.Middle,
+			Padding = TitlePadding,
+			X = Width / 2f,
+			Y = title.Y + title.Padding.Top + title.TextSize + title.Padding.Bottom + 2
 		};
 
-	private StackPanel<RectangleGeometry, SkiaSharpDrawingContext> TitlePanel
-		=> new()
-		{
-			Orientation = ContainerOrientation.Vertical,
-			Children = { Title, Subtitle },
-			Padding = HeaderPadding
-		};
 
 	private Axis XAxis
 		=> new()
