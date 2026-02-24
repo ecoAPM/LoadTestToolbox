@@ -4,19 +4,23 @@ namespace LoadTestToolbox.Tests;
 
 public sealed class WorkerTests
 {
+	private static HttpRequestMessage GoodResponse()
+	{
+		Task.Delay(1).GetAwaiter().GetResult();
+		return new HttpRequestMessage(HttpMethod.Get, new Uri("http://localhost"));
+	}
+
+	private static HttpRequestMessage BadResponse() => throw new Exception();
+
+
 	[Fact]
 	public void ReportsDurationFromTimer()
 	{
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
-		HttpRequestMessage NewMessage()
-		{
-			Thread.Sleep(1);
-			return new HttpRequestMessage(HttpMethod.Get, new Uri("http://localhost"));
-		}
 
 		double result = 0;
-		var worker = new Worker(http, NewMessage, (_, r) => result = r.Duration, _ => {});
+		var worker = new Worker(http, GoodResponse, (_, r) => result = r.Duration, _ => { });
 
 		//act
 		worker.Run(0);
@@ -30,12 +34,11 @@ public sealed class WorkerTests
 	{
 		//arrange
 		var http = new HttpClient(new MockHttpMessageHandler());
-		HttpRequestMessage NewMessage() => throw new Exception();
 
 		double result = 0;
 		var warning = string.Empty;
 
-		var worker = new Worker(http, NewMessage, (_, r) => result = r.Duration,s => warning = s);
+		var worker = new Worker(http, BadResponse, (_, r) => result = r.Duration, s => warning = s);
 
 		//act
 		worker.Run(0);
