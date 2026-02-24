@@ -20,7 +20,7 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 	public async Task<int> ExecuteAsync(CommandContext context, T settings)
 		=> await ExecuteAsync(context, settings, CancellationToken.None);
 
-	public override async Task<int> ExecuteAsync(CommandContext context, T settings, CancellationToken cancelToken)
+	public override async Task<int> ExecuteAsync(CommandContext context, T settings, CancellationToken cancellationToken)
 		=> await _console.Progress()
 			.Columns(_columns)
 			.StartAsync(async ctx => await Run(ctx, settings));
