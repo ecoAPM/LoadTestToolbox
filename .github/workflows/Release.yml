@@ -17,7 +17,7 @@ jobs:
       targets: linux-x64 linux-arm64 linux-arm osx-x64 osx-arm64 win-x64 win-arm64
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
           ref: ${{ github.ref }}
