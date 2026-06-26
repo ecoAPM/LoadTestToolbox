@@ -22,7 +22,7 @@ jobs:
           persist-credentials: false
           ref: ${{ github.ref }}
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
 
