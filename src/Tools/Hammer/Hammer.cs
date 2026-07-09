@@ -2,18 +2,15 @@ using System.Collections.Concurrent;
 
 namespace LoadTestToolbox.Tools.Hammer;
 
-public sealed class Hammer : Tool<Stats>
+public sealed class Hammer(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint[] strengths)
+	: Tool<Stats>(http, newMessage, notify)
 {
-	private readonly uint[] _strengths;
 	private readonly ConcurrentDictionary<uint, Result> _singleResults = new();
-
-	public Hammer(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint[] strengths) : base(http, newMessage, notify)
-		=> _strengths = strengths;
 
 	public override ConcurrentDictionary<uint, Stats> Run()
 	{
 		var totals = new ConcurrentDictionary<uint, Stats>();
-		foreach (var x in _strengths)
+		foreach (var x in strengths)
 		{
 			var results = RunOnce(x);
 			totals[x] = new Stats(results);

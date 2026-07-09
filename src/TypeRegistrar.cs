@@ -3,22 +3,17 @@ using Spectre.Console.Cli;
 
 namespace LoadTestToolbox;
 
-public sealed class TypeRegistrar : ITypeRegistrar
+public sealed class TypeRegistrar(IServiceCollection services) : ITypeRegistrar
 {
-	private readonly IServiceCollection _services;
-
-	public TypeRegistrar(IServiceCollection services)
-		=> _services = services;
-
 	public ITypeResolver Build()
-		=> new TypeResolver(_services.BuildServiceProvider());
+		=> new TypeResolver(services.BuildServiceProvider());
 
 	public void Register(Type service, Type implementation)
-		=> _services.AddSingleton(service, implementation);
+		=> services.AddSingleton(service, implementation);
 
 	public void RegisterInstance(Type service, object implementation)
-		=> _services.AddSingleton(service, implementation);
+		=> services.AddSingleton(service, implementation);
 
 	public void RegisterLazy(Type service, Func<object> factory)
-		=> _services.AddSingleton(service, (_) => factory());
+		=> services.AddSingleton(service, (_) => factory());
 }

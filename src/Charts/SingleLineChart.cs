@@ -5,13 +5,8 @@ using SkiaSharp;
 
 namespace LoadTestToolbox.Charts;
 
-public sealed class SingleLineChart : LineChart<Result>
+public sealed class SingleLineChart(ConcurrentDictionary<uint, Result> results, string description) : LineChart<Result>(results, description)
 {
-	public SingleLineChart(ConcurrentDictionary<uint, Result> results, string description)
-		: base(results, description)
-	{
-	}
-
 	protected override LineSeries<ObservablePoint>[] Series
 		=> [SingleLine];
 

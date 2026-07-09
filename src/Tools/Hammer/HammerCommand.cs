@@ -3,12 +3,8 @@ using Spectre.Console;
 
 namespace LoadTestToolbox.Tools.Hammer;
 
-public sealed class HammerCommand : ToolCommand<HammerSettings>
+public sealed class HammerCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console) : ToolCommand<HammerSettings>(httpClient, io, console)
 {
-	public HammerCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console) : base(httpClient, io, console)
-	{
-	}
-
 	protected override async Task<SkiaChart> WieldTool(ProgressTask task, HammerSettings settings)
 	{
 		if (settings.Min > settings.Max)

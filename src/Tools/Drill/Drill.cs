@@ -3,30 +3,22 @@ using System.Diagnostics;
 
 namespace LoadTestToolbox.Tools.Drill;
 
-public sealed class Drill : Tool<Result>
+public sealed class Drill(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint requests, long delay)
+	: Tool<Result>(http, newMessage, notify)
 {
-	private readonly uint _totalRequests;
-	private readonly long _delay;
-
-	public Drill(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint requests, long delay) : base(http, newMessage, notify)
-	{
-		_totalRequests = requests;
-		_delay = delay;
-	}
-
 	public override ConcurrentDictionary<uint, Result> Run()
 	{
-		var threads = CreateThreads(_totalRequests);
+		var threads = CreateThreads(requests);
 
 		uint started = 0;
 		var timer = Stopwatch.StartNew();
 
-		while (started < _totalRequests)
+		while (started < requests)
 		{
 			threads[started].Start();
-			var nextStart = ++started * _delay;
+			var nextStart = ++started * delay;
 
-			if (started < _totalRequests)
+			if (started < requests)
 			{
 				SpinWait.SpinUntil(() => timer.ElapsedTicks > nextStart);
 			}

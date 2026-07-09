@@ -2,16 +2,12 @@
 
 namespace LoadTestToolbox.Tools.Nailgun;
 
-public sealed class Nailgun : Tool<Result>
+public sealed class Nailgun(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint totalRequests)
+	: Tool<Result>(http, newMessage, notify)
 {
-	private readonly uint _totalRequests;
-
-	public Nailgun(HttpClient http, Func<HttpRequestMessage> newMessage, Action notify, uint totalRequests) : base(http, newMessage, notify)
-		=> _totalRequests = totalRequests;
-
 	public override ConcurrentDictionary<uint, Result> Run()
 	{
-		var threads = CreateThreads(_totalRequests);
+		var threads = CreateThreads(totalRequests);
 
 		foreach (var thread in threads)
 		{

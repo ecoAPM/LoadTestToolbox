@@ -4,24 +4,16 @@ using Spectre.Console.Cli;
 
 namespace LoadTestToolbox.Tools;
 
-public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
+public abstract class ToolCommand<T>(HttpClient httpClient, ChartIO io, IAnsiConsole console) : AsyncCommand<T>
+	where T : ToolSettings
 {
-	protected readonly HttpClient HttpClient;
-	private readonly IAnsiConsole _console;
-	private readonly ChartIO _io;
-
-	protected ToolCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console)
-	{
-		HttpClient = httpClient;
-		_io = io;
-		_console = console;
-	}
+	protected readonly HttpClient HttpClient = httpClient;
 
 	public async Task<int> ExecuteAsync(CommandContext context, T settings)
 		=> await ExecuteAsync(context, settings, CancellationToken.None);
 
 	protected override async Task<int> ExecuteAsync(CommandContext context, T settings, CancellationToken cancellationToken)
-		=> await _console.Progress()
+		=> await console.Progress()
 			.Columns(_columns)
 			.StartAsync(async ctx => await Run(ctx, settings));
 
@@ -48,14 +40,14 @@ public abstract class ToolCommand<T> : AsyncCommand<T> where T : ToolSettings
 			Prime(settings.URL!);
 			var task = context.AddTask("Sending/receiving requests");
 			var chart = await WieldTool(task, settings);
-			await _io.SaveChart(chart, settings.Filename);
+			await io.SaveChart(chart, settings.Filename);
 
 			context.Refresh();
 			return 0;
 		}
 		catch (Exception e)
 		{
-			_console.WriteException(e, ExceptionFormats.ShortenEverything);
+			console.WriteException(e, ExceptionFormats.ShortenEverything);
 			return 1;
 		}
 	}

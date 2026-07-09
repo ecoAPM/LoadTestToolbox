@@ -5,13 +5,8 @@ using SkiaSharp;
 
 namespace LoadTestToolbox.Charts;
 
-public sealed class MultilineChart : LineChart<Stats>
+public sealed class MultilineChart(ConcurrentDictionary<uint, Stats> results, string description) : LineChart<Stats>(results, description)
 {
-	public MultilineChart(ConcurrentDictionary<uint, Stats> results, string description)
-		: base(results, description)
-	{
-	}
-
 	protected override LineSeries<ObservablePoint>[] Series
 		=>
 		[

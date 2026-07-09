@@ -3,12 +3,8 @@ using Spectre.Console;
 
 namespace LoadTestToolbox.Tools.Nailgun;
 
-public sealed class NailgunCommand : ToolCommand<NailgunSettings>
+public sealed class NailgunCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console) : ToolCommand<NailgunSettings>(httpClient, io, console)
 {
-	public NailgunCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console) : base(httpClient, io, console)
-	{
-	}
-
 	protected override async Task<SkiaChart> WieldTool(ProgressTask task, NailgunSettings settings)
 	{
 		var nailer = new Nailer(HttpClient, task, settings);
