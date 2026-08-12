@@ -30,6 +30,6 @@ public sealed class Carpenter : Wielder<Hammer, Stats>
 		if (list[^1] < max)
 			list.Add(max);
 
-		return list.ToArray();
+		return [.. list];
 	}
 }

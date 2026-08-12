@@ -29,7 +29,7 @@ public sealed class NailgunCommandTests
 		//assert
 		Assert.Empty(console.Output);
 		Assert.Equal(0, result);
-		await io.Received().SaveChart(Arg.Any<SkiaChart>(), "test.png");
+		await io.Received().SaveChart(Arg.Any<PlotChart>(), "test.png");
 	}
 
 	[Fact]

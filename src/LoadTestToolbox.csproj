@@ -25,10 +25,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.400" PrivateAssets="all" />
-		<PackageReference Include="LiveChartsCore.SkiaSharpView" Version="2.0.2" />
-		<PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="14.2.1.2" />
-		<PackageReference Include="SkiaSharp" Version="3.119.4" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.4" />
+		<PackageReference Include="ScottPlot" Version="5.1.59" />
 		<PackageReference Include="Spectre.Console.Cli" Version="0.55.0" />
 		<None Include="../README.md" CopyToOutputDirectory="PreserveNewest" Pack="true" PackagePath="." />
 	</ItemGroup>

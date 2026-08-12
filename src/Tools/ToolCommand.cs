@@ -52,7 +52,7 @@ public abstract class ToolCommand<T>(HttpClient httpClient, ChartIO io, IAnsiCon
 		}
 	}
 
-	protected abstract Task<SkiaChart> WieldTool(ProgressTask task, T settings);
+	protected abstract Task<PlotChart> WieldTool(ProgressTask task, T settings);
 
 	protected static async Task ProgressBarCompletion(ProgressTask task)
 	{

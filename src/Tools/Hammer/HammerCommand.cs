@@ -5,7 +5,7 @@ namespace LoadTestToolbox.Tools.Hammer;
 
 public sealed class HammerCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console) : ToolCommand<HammerSettings>(httpClient, io, console)
 {
-	protected override async Task<SkiaChart> WieldTool(ProgressTask task, HammerSettings settings)
+	protected override async Task<PlotChart> WieldTool(ProgressTask task, HammerSettings settings)
 	{
 		if (settings.Min > settings.Max)
 		{

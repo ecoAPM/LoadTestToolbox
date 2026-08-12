@@ -1,5 +1,5 @@
-using LiveChartsCore.Defaults;
 using LoadTestToolbox.Charts;
+using ScottPlot.Plottables;
 using Xunit;
 
 namespace LoadTestToolbox.Tests.Charts;
@@ -17,13 +17,13 @@ public sealed class SingleLineChartTests
 			{ 3, new Result(200, 3.45) }
 		}.AsConcurrent();
 
-		var skia = new SingleLineChart(results, string.Empty);
+		var chart = new SingleLineChart(results, string.Empty);
 
 		//act
-		var chart = skia.GetChart();
+		var plot = chart.GetChart();
 
 		//assert
-		Assert.Equal(3, chart.Series.First().Values?.Cast<ObservablePoint>().Count());
+		Assert.Equal(3, plot.GetPlottables().Cast<Scatter>().First().Data.GetScatterPoints().Count);
 	}
 
 	[Theory]
@@ -38,13 +38,13 @@ public sealed class SingleLineChartTests
 			{ 1, new Result(200, max) }
 		}.AsConcurrent();
 
-		var skia = new SingleLineChart(results, string.Empty);
+		var chart = new SingleLineChart(results, string.Empty);
 
 		//act
-		var chart = skia.GetChart();
+		var plot = chart.GetChart();
 
 		//assert
-		Assert.Equal(expected, chart.YAxes.First().MaxLimit);
+		Assert.Equal(expected, plot.Axes.Left.Max);
 	}
 
 	[Fact]
@@ -58,14 +58,14 @@ public sealed class SingleLineChartTests
 			{ 2, new Result(200, 1.23) }
 		}.AsConcurrent();
 
-		var skia = new SingleLineChart(results, string.Empty);
+		var chart = new SingleLineChart(results, string.Empty);
 
 		//act
-		var chart = skia.GetChart();
+		var plot = chart.GetChart();
 
 		//assert
-		Assert.Equal(2, chart.XAxes.First().MinLimit);
-		Assert.Equal(5, chart.XAxes.First().MaxLimit);
+		Assert.Equal(2, plot.Axes.Bottom.Min);
+		Assert.Equal(5, plot.Axes.Bottom.Max);
 	}
 
 	[Fact]
@@ -77,13 +77,13 @@ public sealed class SingleLineChartTests
 			{ 3, new Result(200, 2.34) }
 		}.AsConcurrent();
 
-		var skia = new SingleLineChart(results, string.Empty);
+		var chart = new SingleLineChart(results, string.Empty);
 
 		//act
-		var chart = skia.GetChart();
+		var plot = chart.GetChart();
 
 		//assert
-		Assert.Equal(0, chart.XAxes.First().MinLimit);
-		Assert.Equal(4, chart.XAxes.First().MaxLimit);
+		Assert.Equal(0, plot.Axes.Bottom.Min);
+		Assert.Equal(4, plot.Axes.Bottom.Max);
 	}
 }

@@ -5,7 +5,7 @@ namespace LoadTestToolbox.Tools.Drill;
 
 public sealed class DrillCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console) : ToolCommand<DrillSettings>(httpClient, io, console)
 {
-	protected override async Task<SkiaChart> WieldTool(ProgressTask task, DrillSettings settings)
+	protected override async Task<PlotChart> WieldTool(ProgressTask task, DrillSettings settings)
 	{
 		var driller = new Driller(HttpClient, task, settings);
 		var results = driller.Run();

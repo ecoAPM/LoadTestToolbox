@@ -2,7 +2,7 @@
 
 namespace LoadTestToolbox.Charts;
 
-public abstract class LineChart<T>(ConcurrentDictionary<uint, T> results, string description) : SkiaChart
+public abstract class LineChart<T>(ConcurrentDictionary<uint, T> results, string description) : PlotChart
 {
 	protected override string Description { get; } = description;
 	protected readonly ConcurrentDictionary<uint, T> _results = results;

@@ -5,7 +5,7 @@ namespace LoadTestToolbox.Tools.Nailgun;
 
 public sealed class NailgunCommand(HttpClient httpClient, ChartIO io, IAnsiConsole console) : ToolCommand<NailgunSettings>(httpClient, io, console)
 {
-	protected override async Task<SkiaChart> WieldTool(ProgressTask task, NailgunSettings settings)
+	protected override async Task<PlotChart> WieldTool(ProgressTask task, NailgunSettings settings)
 	{
 		var nailer = new Nailer(HttpClient, task, settings);
 		var results = nailer.Run();

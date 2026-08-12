@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
-using LiveChartsCore.Defaults;
 using LoadTestToolbox.Charts;
+using ScottPlot.Plottables;
 using Xunit;
 
 namespace LoadTestToolbox.Tests.Charts;
@@ -18,13 +18,13 @@ public sealed class MultilineChartTests
 			{ 3, new Stats(new ConcurrentDictionary<uint, Result>()) }
 		}.AsConcurrent();
 
-		var skia = new MultilineChart(results, string.Empty);
+		var chart = new MultilineChart(results, string.Empty);
 
 		//act
-		var chart = skia.GetChart();
+		var plot = chart.GetChart();
 
 		//assert
-		Assert.Equal(3, chart.Series.First().Values?.Cast<ObservablePoint>().Count());
+		Assert.Equal(3, plot.GetPlottables().Cast<Scatter>().First().Data.GetScatterPoints().Count);
 	}
 
 	[Theory]
@@ -39,13 +39,13 @@ public sealed class MultilineChartTests
 			{ 1, new Stats(new Dictionary<uint, Result> { { 1, new Result(200, max) } }.AsConcurrent()) }
 		}.AsConcurrent();
 
-		var skia = new MultilineChart(results, string.Empty);
+		var chart = new MultilineChart(results, string.Empty);
 
 		//act
-		var chart = skia.GetChart();
+		var plot = chart.GetChart();
 
 		//assert
-		Assert.Equal(expected, chart.YAxes.First().MaxLimit);
+		Assert.Equal(expected, plot.Axes.Left.Max);
 	}
 
 	[Fact]
@@ -59,14 +59,14 @@ public sealed class MultilineChartTests
 			{ 2, new Stats(new ConcurrentDictionary<uint, Result>()) }
 		}.AsConcurrent();
 
-		var skia = new MultilineChart(results, string.Empty);
+		var chart = new MultilineChart(results, string.Empty);
 
 		//act
-		var chart = skia.GetChart();
+		var plot = chart.GetChart();
 
 		//assert
-		Assert.Equal(2, chart.XAxes.First().MinLimit);
-		Assert.Equal(5, chart.XAxes.First().MaxLimit);
+		Assert.Equal(2, plot.Axes.Bottom.Min);
+		Assert.Equal(5, plot.Axes.Bottom.Max);
 	}
 
 	[Fact]
@@ -78,13 +78,13 @@ public sealed class MultilineChartTests
 			{ 3, new Stats(new ConcurrentDictionary<uint, Result>()) }
 		}.AsConcurrent();
 
-		var skia = new MultilineChart(results, string.Empty);
+		var chart = new MultilineChart(results, string.Empty);
 
 		//act
-		var chart = skia.GetChart();
+		var plot = chart.GetChart();
 
 		//assert
-		Assert.Equal(0, chart.XAxes.First().MinLimit);
-		Assert.Equal(4, chart.XAxes.First().MaxLimit);
+		Assert.Equal(0, plot.Axes.Bottom.Min);
+		Assert.Equal(4, plot.Axes.Bottom.Max);
 	}
 }

@@ -2,5 +2,5 @@
 
 public interface ChartIO
 {
-	Task SaveChart(SkiaChart chart, string filename);
+	Task SaveChart(PlotChart chart, string filename);
 }

@@ -12,11 +12,8 @@ public sealed class NailgunSettings : ToolSettings
 
 	public override ValidationResult Validate()
 	{
-		if (Requests == 0)
-		{
-			return ValidationResult.Error("Value for number of requests is required");
-		}
-
-		return base.Validate();
+		return Requests == 0
+			? ValidationResult.Error("Value for number of requests is required")
+			: base.Validate();
 	}
 }

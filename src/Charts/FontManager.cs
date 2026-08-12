@@ -5,7 +5,7 @@ namespace LoadTestToolbox.Charts;
 public static class FontManager
 {
 	private static readonly string[] Fonts
-		= SKFontManager.Default.FontFamilies.ToArray();
+		= [.. SKFontManager.Default.FontFamilies];
 
 	private static readonly string[] DefaultOrder =
 	[
