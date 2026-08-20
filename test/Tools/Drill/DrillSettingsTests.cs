@@ -95,4 +95,44 @@ public sealed class DrillSettingsTests
 		//assert
 		Assert.True(result.Successful);
 	}
+
+	[Fact]
+	public void InvalidResolutionIsNotValid()
+	{
+		//arrange
+		var settings = new DrillSettings
+		{
+			URL = new Uri("http://localhost"),
+			RPS = 1,
+			Duration = 1,
+			Filename = "test.png",
+			ImageSize = "WxH"
+		};
+
+		//act
+		var result = settings.Validate();
+
+		//assert
+		Assert.False(result.Successful);
+	}
+
+	[Fact]
+	public void ResolutionShorthandNotSupportedYet()
+	{
+		//arrange
+		var settings = new DrillSettings
+		{
+			URL = new Uri("http://localhost"),
+			RPS = 1,
+			Duration = 1,
+			Filename = "test.png",
+			ImageSize = "1080p"
+		};
+
+		//act
+		var result = settings.Validate();
+
+		//assert
+		Assert.False(result.Successful);
+	}
 }

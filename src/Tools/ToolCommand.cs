@@ -40,7 +40,7 @@ public abstract class ToolCommand<T>(HttpClient httpClient, ChartIO io, IAnsiCon
 			Prime(settings.URL!);
 			var task = context.AddTask("Sending/receiving requests");
 			var chart = await WieldTool(task, settings);
-			await io.SaveChart(chart, settings.Filename);
+			await io.SaveChart(chart, settings);
 
 			context.Refresh();
 			return 0;

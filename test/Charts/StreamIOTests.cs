@@ -1,5 +1,7 @@
 ﻿using System.Text;
 using LoadTestToolbox.Charts;
+using LoadTestToolbox.Tools;
+using NSubstitute;
 using Xunit;
 
 namespace LoadTestToolbox.Tests.Charts;
@@ -13,6 +15,7 @@ public class StreamIOTests
 		var stream = new MemoryStream();
 		Stream Writer(string filename) => stream;
 		var io = new StreamIO(Writer);
+
 		var data = new Dictionary<uint, Result>
 		{
 			{ 1, new Result(200, 2) },
@@ -21,8 +24,10 @@ public class StreamIOTests
 		}.AsConcurrent();
 		var chart = new SingleLineChart(data, "test");
 
+		var settings = Substitute.For<ToolSettings>();
+
 		//act
-		await io.SaveChart(chart, "test.png");
+		await io.SaveChart(chart, settings);
 
 		//assert
 		var image = Encoding.UTF8.GetString(stream.GetBuffer());

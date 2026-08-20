@@ -1,6 +1,8 @@
 using System.ComponentModel;
+using LoadTestToolbox.Charts;
 using Spectre.Console;
 using Spectre.Console.Cli;
+using Dimensions = (ushort X, ushort Y);
 
 namespace LoadTestToolbox.Tools;
 
@@ -11,11 +13,15 @@ public abstract class ToolSettings : CommandSettings
 	public Uri? URL { get; init; }
 
 	[CommandOption("-f|--filename")]
-	[Description("<required> The file to write the chart to")]
+	[Description("<required> The PNG file to write the chart to")]
 	public string Filename { get; init; } = null!;
 
+	[CommandOption("-i|--image-size")]
+	[Description($"The dimensions of the chart image (default: {PlotChart.DefaultSize}")]
+	public string ImageSize { get; init; } = PlotChart.DefaultSize;
+
 	[CommandOption("-m|--method")]
-	[Description("The HTTP method to use")]
+	[Description("The HTTP method to use (default: GET)")]
 	public string Method { get; init; } = HttpMethod.Get.Method;
 
 	[CommandOption("-H|--header")]
@@ -38,6 +44,21 @@ public abstract class ToolSettings : CommandSettings
 			return ValidationResult.Error("Filename is required");
 		}
 
+		if (!ImageSize.Contains('x') || GetDimensions() is (0, 0))
+		{
+			return ValidationResult.Error("Image dimensions must be in the format WxH");
+		}
+
 		return base.Validate();
+	}
+
+	public Dimensions GetDimensions()
+	{
+		var split = ImageSize.Split('x');
+		if (!ushort.TryParse(split[0], out var width)
+		    || !ushort.TryParse(split[1], out var height))
+			return (0, 0);
+
+		return (width, height);
 	}
 }

@@ -30,7 +30,7 @@ public sealed class HammerCommandTests
 		//assert
 		Assert.Empty(console.Output);
 		Assert.Equal(0, result);
-		await io.Received().SaveChart(Arg.Any<PlotChart>(), "test.png");
+		await io.Received().SaveChart(Arg.Any<PlotChart>(), settings);
 	}
 
 	[Fact]

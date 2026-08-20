@@ -16,8 +16,9 @@ public abstract class PlotChart
 
 	protected abstract Scatter[] Series { get; }
 
-	public const int Width = 1280;
-	public const int Height = 720;
+	private const string DefaultWidth = "1280";
+	private const string DefaultHeight = "720";
+	public const string DefaultSize = $"{DefaultWidth}x{DefaultHeight}";
 
 	private const int TitleSize = 24;
 	private const int SubtitleSize = TitleSize * 3 / 4;
