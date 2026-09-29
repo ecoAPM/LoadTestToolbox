@@ -12,7 +12,7 @@ public abstract class ToolCommand<T>(HttpClient httpClient, ChartIO io, IAnsiCon
 	public async Task<int> ExecuteAsync(CommandContext context, T settings)
 		=> await ExecuteAsync(context, settings, CancellationToken.None);
 
-	protected override async Task<int> ExecuteAsync(CommandContext context, T settings, CancellationToken cancellationToken)
+	public override async Task<int> ExecuteAsync(CommandContext context, T settings, CancellationToken cancellationToken)
 		=> await console.Progress()
 			.Columns(_columns)
 			.StartAsync(async ctx => await Run(ctx, settings));
