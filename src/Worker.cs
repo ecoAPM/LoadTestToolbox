@@ -10,13 +10,13 @@ public sealed class Worker(HttpClient httpClient, Func<HttpRequestMessage> newMe
 		{
 			using var message = newMessage();
 			var timer = Stopwatch.StartNew();
-			var response = httpClient.Send(message);
+			using var response = httpClient.Send(message);
 			timer.Stop();
 
 			var result = new Result { ResponseCode = (int)response.StatusCode, Duration = timer.Elapsed.TotalMilliseconds };
 			report(request, result);
 		}
-		catch(Exception e)
+		catch (Exception e)
 		{
 			warn(e.Message);
 			report(request, new Result());

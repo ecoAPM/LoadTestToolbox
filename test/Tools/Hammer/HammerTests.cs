@@ -8,7 +8,7 @@ public sealed class HammerTests
 	public void NumberOfResultsMatchRequests()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
+		using var http = new HttpClient(new MockHttpMessageHandler());
 		HttpRequestMessage NewMessage() => new(HttpMethod.Get, new Uri("http://localhost"));
 		var hammer = new LoadTestToolbox.Tools.Hammer.Hammer(http, NewMessage, () => { }, [1, 2, 3, 4, 5]);
 

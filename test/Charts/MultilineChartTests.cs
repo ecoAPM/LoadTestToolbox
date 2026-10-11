@@ -21,7 +21,7 @@ public sealed class MultilineChartTests
 		var chart = new MultilineChart(results, string.Empty);
 
 		//act
-		var plot = chart.GetChart();
+		using var plot = chart.GetChart();
 
 		//assert
 		Assert.Equal(3, plot.GetPlottables().Cast<Scatter>().First().Data.GetScatterPoints().Count);
@@ -42,7 +42,7 @@ public sealed class MultilineChartTests
 		var chart = new MultilineChart(results, string.Empty);
 
 		//act
-		var plot = chart.GetChart();
+		using var plot = chart.GetChart();
 
 		//assert
 		Assert.Equal(expected, plot.Axes.Left.Max);
@@ -62,7 +62,7 @@ public sealed class MultilineChartTests
 		var chart = new MultilineChart(results, string.Empty);
 
 		//act
-		var plot = chart.GetChart();
+		using var plot = chart.GetChart();
 
 		//assert
 		Assert.Equal(2, plot.Axes.Bottom.Min);
@@ -81,7 +81,7 @@ public sealed class MultilineChartTests
 		var chart = new MultilineChart(results, string.Empty);
 
 		//act
-		var plot = chart.GetChart();
+		using var plot = chart.GetChart();
 
 		//assert
 		Assert.Equal(0, plot.Axes.Bottom.Min);

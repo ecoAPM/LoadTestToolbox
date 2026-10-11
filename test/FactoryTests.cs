@@ -30,7 +30,7 @@ public sealed class FactoryTests
 		};
 
 		//act
-		var message = Factory.Message(settings);
+		using var message = Factory.Message(settings);
 
 		//assert
 		Assert.Equal(HttpMethod.Post, message.Method);

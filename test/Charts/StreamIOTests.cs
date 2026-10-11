@@ -12,7 +12,7 @@ public class StreamIOTests
 	public async Task CanSaveChartAsPNG()
 	{
 		//arrange
-		var stream = new MemoryStream();
+		using var stream = new MemoryStream();
 		Stream Writer(string filename) => stream;
 		var io = new StreamIO(Writer);
 

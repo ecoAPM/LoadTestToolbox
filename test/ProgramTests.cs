@@ -10,7 +10,7 @@ public sealed class ProgramTests
 		var args = new[] { "drill" };
 
 		//act
-		var task = Program.Main(args);
+		using var task = Program.Main(args);
 
 		//assert
 		await task;
@@ -24,7 +24,7 @@ public sealed class ProgramTests
 		var args = new[] { "hammer" };
 
 		//act
-		var task = Program.Main(args);
+		using var task = Program.Main(args);
 
 		//assert
 		await task;
@@ -38,7 +38,7 @@ public sealed class ProgramTests
 		var args = new[] { "nailgun" };
 
 		//act
-		var task = Program.Main(args);
+		using var task = Program.Main(args);
 
 		//assert
 		await task;

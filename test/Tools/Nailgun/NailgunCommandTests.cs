@@ -12,9 +12,9 @@ public sealed class NailgunCommandTests
 	public async Task WritesFileOnSuccess()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
+		using var http = new HttpClient(new MockHttpMessageHandler());
 		var io = Substitute.For<ChartIO>();
-		var console = new TestConsole();
+		using var console = new TestConsole();
 		var command = new NailgunCommand(http, io, console);
 		var settings = new NailgunSettings
 		{
@@ -36,8 +36,8 @@ public sealed class NailgunCommandTests
 	public async Task ShowsExceptionOnFailure()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
-		var console = new TestConsole();
+		using var http = new HttpClient(new MockHttpMessageHandler());
+		using var console = new TestConsole();
 		var command = new NailgunCommand(http, null!, console);
 		var settings = new NailgunSettings();
 

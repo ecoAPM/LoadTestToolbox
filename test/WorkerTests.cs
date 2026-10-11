@@ -17,7 +17,7 @@ public sealed class WorkerTests
 	public void ReportsDurationFromTimer()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
+		using var http = new HttpClient(new MockHttpMessageHandler());
 
 		double result = 0;
 		var worker = new Worker(http, GoodResponse, (_, r) => result = r.Duration, _ => { });
@@ -33,7 +33,7 @@ public sealed class WorkerTests
 	public void ReportsAndWarnsWhenFailed()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
+		using var http = new HttpClient(new MockHttpMessageHandler());
 
 		double result = 0;
 		var warning = string.Empty;

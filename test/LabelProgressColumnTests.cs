@@ -13,7 +13,7 @@ public class LabelProgressColumnTests
 		//arrange
 		var column = new LabelProgressColumn("[[ test ]]");
 
-		var console = new TestConsole();
+		using var console = new TestConsole();
 		var capabilities = new TestCapabilities();
 		var context = new RenderOptions(capabilities, new Size());
 		var task = new ProgressTask(123, "test", 0, false);

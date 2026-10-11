@@ -8,7 +8,7 @@ public sealed class NailgunTests
 	public void NumberOfResultsMatchRequests()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
+		using var http = new HttpClient(new MockHttpMessageHandler());
 		HttpRequestMessage newMessage() => new(HttpMethod.Get, new Uri("http://localhost"));
 		var nailgun = new LoadTestToolbox.Tools.Nailgun.Nailgun(http, newMessage, () => { }, 5);
 

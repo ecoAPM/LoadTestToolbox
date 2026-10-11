@@ -10,7 +10,7 @@ public sealed class DrillerTests
 	public void CanDrill()
 	{
 		//arrange
-		using var http = new HttpClient(new MockHttpMessageHandler());
+		var http = new HttpClient(new MockHttpMessageHandler());
 		var task = new ProgressTask(123, "test", 0, false);
 		var options = new DrillSettings
 		{

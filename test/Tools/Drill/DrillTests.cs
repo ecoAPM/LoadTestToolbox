@@ -8,7 +8,7 @@ public sealed class DrillTests
 	public void NumberOfResultsMatchRequests()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
+		using var http = new HttpClient(new MockHttpMessageHandler());
 		HttpRequestMessage newMessage() => new(HttpMethod.Get, new Uri("http://localhost"));
 		var drill = new LoadTestToolbox.Tools.Drill.Drill(http, newMessage, () => { }, 5, 0);
 

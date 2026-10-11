@@ -10,7 +10,7 @@ public sealed class NailerTests
 	public void CanNail()
 	{
 		//arrange
-		var http = new HttpClient(new MockHttpMessageHandler());
+		using var http = new HttpClient(new MockHttpMessageHandler());
 		var task = new ProgressTask(123, "test", 0, false);
 		var options = new NailgunSettings()
 		{
